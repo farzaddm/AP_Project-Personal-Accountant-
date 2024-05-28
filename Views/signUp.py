@@ -6,20 +6,17 @@ class Ui_SignUp(object):
     """ It's a class for seting up the signup. """
     def setupUi(self, MainWindow) -> None:
         """ set up signup page elements. """
-        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 600)
         MainWindow.setMinimumSize(QtCore.QSize(1000, 600))
         MainWindow.setMaximumSize(QtCore.QSize(1000, 600))
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
 
         self.lbl_signup_pic = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_signup_pic.setGeometry(QtCore.QRect(320, 60, 661, 491))
         self.lbl_signup_pic.setText("")
         self.lbl_signup_pic.setPixmap(QtGui.QPixmap("pictures/sign_up.png"))
         self.lbl_signup_pic.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lbl_signup_pic.setObjectName("lbl_signup_pic")
 
         self.lbl_signup = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_signup.setGeometry(QtCore.QRect(10, 10, 281, 41))
@@ -30,41 +27,32 @@ class Ui_SignUp(object):
 
         self.lbl_signup.setFont(font)
         self.lbl_signup.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lbl_signup.setObjectName("lbl_signup")
 
         self.widget = QtWidgets.QWidget(parent=self.centralwidget)
         self.widget.setGeometry(QtCore.QRect(10, 60, 281, 491))
-        self.widget.setObjectName("widget")
 
         self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
 
         self.le_fname = QtWidgets.QLineEdit(parent=self.widget)
-        self.le_fname.setObjectName("le_fname")
         self.verticalLayout.addWidget(self.le_fname)
 
         self.le_lname = QtWidgets.QLineEdit(parent=self.widget)
-        self.le_lname.setObjectName("le_lname")
         self.verticalLayout.addWidget(self.le_lname)
 
         self.le_phone = QtWidgets.QLineEdit(parent=self.widget)
-        self.le_phone.setObjectName("le_phone")
         self.verticalLayout.addWidget(self.le_phone)
 
         self.le_username = QtWidgets.QLineEdit(parent=self.widget)
-        self.le_username.setObjectName("le_username")
         self.verticalLayout.addWidget(self.le_username)
 
         self.le_password = QtWidgets.QLineEdit(parent=self.widget)
         self.le_password.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-        self.le_password.setObjectName("le_password")
         self.verticalLayout.addWidget(self.le_password)
 
         self.le_repeat_password = QtWidgets.QLineEdit(parent=self.widget)
         self.le_repeat_password.setEchoMode(
             QtWidgets.QLineEdit.EchoMode.Password)
-        self.le_repeat_password.setObjectName("le_repeat_password")
         self.verticalLayout.addWidget(self.le_repeat_password)
 
         self.le_city = QtWidgets.QLineEdit()
@@ -72,25 +60,21 @@ class Ui_SignUp(object):
                   "Qom", "Ahvaz", "Kermanshah", "Urmia", "Yazd", "Bushehr", "Semnan"]
         completer = QtWidgets.QCompleter(cities)
         self.le_city.setCompleter(completer)
-        self.le_city.setObjectName("le_city")
         self.verticalLayout.addWidget(self.le_city)
 
         self.le_email = QtWidgets.QLineEdit(parent=self.widget)
         font = QtGui.QFont()
         font.setPointSize(11)
         self.le_email.setFont(font)
-        self.le_email.setObjectName("le_email")
         self.verticalLayout.addWidget(self.le_email)
 
         self.le_birthday = QtWidgets.QDateEdit(parent=self.widget)
         self.le_birthday.setCalendarPopup(True)
         self.le_birthday.setDisplayFormat("yyyy-MM-dd")
-        self.le_birthday.setObjectName("le_birthday")
         self.verticalLayout.addWidget(self.le_birthday)
 
         self.le_security_q = QtWidgets.QLineEdit(parent=self.widget)
         self.le_security_q.setText("")
-        self.le_security_q.setObjectName("le_security_q")
         self.verticalLayout.addWidget(self.le_security_q)
 
         self.btn_signup = QtWidgets.QPushButton(parent=self.widget)
@@ -99,30 +83,23 @@ class Ui_SignUp(object):
         font.setBold(False)
         font.setItalic(True)
         self.btn_signup.setFont(font)
-        self.btn_signup.setObjectName("btn_signup")
         self.btn_signup.clicked.connect(self.submit_btn_clicked)
         self.verticalLayout.addWidget(self.btn_signup)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 22))
-        self.menubar.setObjectName("menubar")
 
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
-        self.menuFile.setObjectName("menuFile")
 
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
-        self.menuHelp.setObjectName("menuHelp")
 
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
-        self.statusbar.setObjectName("statusbar")
 
         MainWindow.setStatusBar(self.statusbar)
         self.actionExit = QtGui.QAction(parent=MainWindow)
-        self.actionExit.setObjectName("actionExit")
         self.actionHelp = QtGui.QAction(parent=MainWindow)
-        self.actionHelp.setObjectName("actionHelp")
 
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
