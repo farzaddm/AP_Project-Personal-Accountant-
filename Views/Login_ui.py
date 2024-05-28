@@ -7,18 +7,22 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Login import *
-from forgetpassword import *
+from Views.forgetpassword import *
+from Controlers.user_controller import UserController
 
+class Ui_Login(object):
 
-class Ui_MainWindow2(object):
+    def open_window_forgetpage(self):
 
-    def open_window(self):
+        class Forgetpage(QtWidgets.QMainWindow, ForgetPassword):
 
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
-        self.window.show()
+            def __init__(self):
+                super().__init__()
+
+                self.setupUi(self)
+        self.ui = Forgetpage()
+        self.ui.show()
+        self.ui.setWindowTitle("Forget Password Page")
         self.close()
 
     def setupUi(self, MainWindow):
@@ -147,8 +151,8 @@ class Ui_MainWindow2(object):
             if self.check_count == 3:
                 self.ban=True
                 self.time=QtCore.QTime.currentTime().addSecs(60)
-            result = Login().valid(self.username, self.password)
-            if result:
+            login_check = UserController(self)
+            if login_check.login(self.username,self.password):
                 pass
             else:
                 self.username.setStyleSheet("border: 1px solid red")
@@ -156,7 +160,7 @@ class Ui_MainWindow2(object):
                 self.check_count += 1
 
     def forget_password_clicked(self):
-        self.open_window()
+        self.open_window_forgetpage()
 
     def username_changed(self):
         self.username.setStyleSheet("")

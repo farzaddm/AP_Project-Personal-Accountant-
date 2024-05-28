@@ -7,18 +7,31 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Login_ui import Ui_MainWindow2
+from Views.Login_ui import *
+from Views import signUp
 
 
-class Ui_MainWindow(object):
-    def open_window(self):
-        class MainWindow2(QtWidgets.QMainWindow, Ui_MainWindow2):
+class Signupandlogin(object):
+    def open_window_login(self):
+        class LoginPage(QtWidgets.QMainWindow, Ui_Login):
 
             def __init__(self):
                 super().__init__()
 
                 self.setupUi(self)
-        self.ui = MainWindow2()
+        self.ui = LoginPage()
+        self.ui.setWindowTitle("Login Page")
+        self.ui.show()
+        self.hide()
+    def open_window_signup(self):
+        class SignupPage(QtWidgets.QMainWindow, signUp.Ui_SignUp):
+
+            def __init__(self):
+                super().__init__()
+
+                self.setupUi(self)
+        self.ui = SignupPage()
+        self.ui.setWindowTitle("SignUp Page")
         self.ui.show()
         self.hide()
     def setupUi(self, MainWindow):
@@ -68,6 +81,7 @@ class Ui_MainWindow(object):
                 """)
         self.signup.setGeometry(QtCore.QRect(80, 550, 341, 31))
         self.signup.setObjectName("signup")
+        self.signup.clicked.connect(self.signup_btn_clicked)
         self.login = QtWidgets.QPushButton(parent=self.centralwidget)
         self.login.setGeometry(QtCore.QRect(80, 600, 341, 31))
         self.login.setObjectName("login")
@@ -112,4 +126,6 @@ class Ui_MainWindow(object):
         self.signup.setText(_translate("MainWindow", "Sign Up"))
         self.login.setText(_translate("MainWindow", "Login"))
     def login_btn_clicked(self):
-        self.open_window()
+        self.open_window_login()
+    def signup_btn_clicked(self):
+        self.open_window_signup()

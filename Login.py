@@ -8,15 +8,16 @@ class Login:
     def valid(self,user_le,pass_le):
         username=user_le.text()
         password=pass_le.text()
-        with open("user.json","r") as file:
+        with open("users_data.json","r") as file:
             data=json.load(file)
-            if username in data:
-                if password == data[username]["password"]:
-                    return True
+            for users in data["people"]:
+                if users["username"] == username:
+                    if users["password"]==password:
+                        return True
+                    else:
+                        return False
                 else:
                     return False
-            else:
-                return False
 
 
 
