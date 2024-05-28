@@ -98,8 +98,24 @@ class Ui_SignUp(object):
         font.setPointSize(14)
         font.setBold(False)
         font.setItalic(True)
+        
         self.btn_signup.setFont(font)
         self.btn_signup.setObjectName("btn_signup")
+        self.btn_signup.setStyleSheet("""
+                    QPushButton {
+                        background-color: #0763e5;
+                        color: #ffffff;
+                        border-radius: 15px;
+                        border: 2px #1AA7EC;
+                        font-size: 12px;
+                    }
+                    QPushButton:hover {
+                        background-color:#1AA7EC ;
+                    }
+                    QPushButton:pressed {
+                        background-color: #1AA7EC;
+                    }
+                """)
         self.btn_signup.clicked.connect(self.submit_btn_clicked)
         self.verticalLayout.addWidget(self.btn_signup)
 

@@ -1,5 +1,5 @@
 import re
-
+import json
 class Validation:
     """ All the functions for signup validation. """
     @staticmethod
@@ -33,5 +33,20 @@ class Validation:
     @staticmethod
     def validate_birthday(date) -> bool:
         return True
+    
+    @staticmethod
+    def valid_login(username_le,password_le):
+        username=username_le.text()
+        password=password_le.text()
+        with open("users_data.json","r") as file:
+            data=json.load(file)
+            for users in data["people"]:
+                if users["username"] == username:
+                    if users["password"]==password:
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
     
     
