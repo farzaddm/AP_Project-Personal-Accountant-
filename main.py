@@ -1,6 +1,8 @@
 import sys
 from PyQt6 import QtWidgets, uic
 from Views.signUp import Ui_SignUp
+from Views.recordIncome import Ui_RecordIncome
+from Views.recordCost import Ui_RecordCost
 from Controlers.user_controller import UserController
 from Views.SignuporLogin import *
 class MainWindow(QtWidgets.QMainWindow, Signupandlogin):
