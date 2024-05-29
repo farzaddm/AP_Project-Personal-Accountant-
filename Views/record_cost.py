@@ -3,13 +3,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 class Ui_RecordCost(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(300, 448)
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
         MainWindow.setMaximumSize(QtCore.QSize(300, 448))
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
 
         self.le_cost = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.le_cost.setGeometry(QtCore.QRect(10, 30, 271, 31))
@@ -28,7 +26,6 @@ class Ui_RecordCost(object):
 
         self.dateEdit = QtWidgets.QDateEdit(parent=self.centralwidget)
         self.dateEdit.setGeometry(QtCore.QRect(10, 90, 271, 31))
-        self.dateEdit.setObjectName("dateEdit")
         self.dateEdit.setCalendarPopup(True)
 
         self.date_lbl = QtWidgets.QLabel(parent=self.centralwidget)
