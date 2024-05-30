@@ -11,6 +11,12 @@ class Ui_SignUp(object):
         MainWindow.setMaximumSize(QtCore.QSize(1000, 600))
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("""
+        QLineEdit{
+            border:none;
+            border-radius: 8px;
+        }
+        """)
 
         self.lbl_signup_pic = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_signup_pic.setGeometry(QtCore.QRect(320, 60, 661, 491))

@@ -35,7 +35,7 @@ class Validation:
         return True
     
     @staticmethod
-    def valid_login(username_le,password_le):
+    def valid_login(username_le,password_le) -> bool:
         username=username_le.text()
         password=password_le.text()
         with open("users_data.json","r") as file:
@@ -48,5 +48,16 @@ class Validation:
                         return False
                 else:
                     return False
+
+    @staticmethod
+    def valid_price(price : str) -> bool:
+        pattern=r"[0-9]+"
+        return True if re.search(pattern,price) and price.isnumeric() else False
+
+    @staticmethod
+    def valid_description(description) -> bool:
+        return True if 0<=len(description)<=100 and isinstance(description,str) else False
+    
+
     
     

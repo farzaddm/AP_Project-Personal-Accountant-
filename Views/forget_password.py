@@ -9,8 +9,22 @@ class ForgetPassword(object):
         font = QtGui.QFont()
         font.setFamily("Lalezar")
         font.setPointSize(25)
-
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("""
+                    QPushButton {
+                        background-color: #0763e5;
+                        color: #000000;
+                        border-radius: 15px;
+                        border: 2px #1AA7EC;
+                        font-size: 12px;
+                    }
+                    QPushButton:hover {
+                        background-color:#1AA7EC ;
+                    }
+                    QPushButton:pressed {
+                        background-color: #1AA7EC;
+                    }
+                """)
 
         self.background = QtWidgets.QLabel(parent=self.centralwidget)
         self.background.setGeometry(QtCore.QRect(5, 10, 821, 561))
@@ -35,21 +49,7 @@ class ForgetPassword(object):
         
         self.next_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.next_btn.setGeometry(QtCore.QRect(290, 470, 231, 31))
-        self.next_btn.setStyleSheet("""
-                    QPushButton {
-                        background-color: #0763e5;
-                        color: #000000;
-                        border-radius: 15px;
-                        border: 2px #1AA7EC;
-                        font-size: 12px;
-                    }
-                    QPushButton:hover {
-                        background-color:#1AA7EC ;
-                    }
-                    QPushButton:pressed {
-                        background-color: #1AA7EC;
-                    }
-                """)
+        
         
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)

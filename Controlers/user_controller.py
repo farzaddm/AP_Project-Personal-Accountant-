@@ -1,6 +1,30 @@
 from Utils.validation import Validation
 from Models.user import User
+class Record:
+    def __init__(self,type,ui):
+        self.type=type
+        self.ui=ui
 
+    def record(self,le_price,le_description):
+        record_v = Validation()
+        price = le_price.text()
+        description = le_description.text()
+
+        if not record_v.valid_price(price):
+            le_price.setStyleSheet("border: 1px solid red")
+            le_price.textChanged.connect(lambda: self.change_styles_price(le_price))
+            self.ui.show_error("Invalid cost . It should be Postive Number.")
+            return
+
+        if not record_v.valid_description(description):
+            le_discription.setStyleSheet("border: 1px solid red")
+            le_discription.textChanged.connect(self.change_styles_description)
+            self.ui.show_error("Invalid income . It should be lesser than 100.")
+            return
+
+        return True
+    def change_styles_price(self,le_price):
+       le_price.setStyleSheet("")
 class UserController():
     """ It's to connect ui to program logic. """
     def __init__(self, ui) -> None:
@@ -73,6 +97,11 @@ class UserController():
         login_v=Validation.valid_login(username,password)
         return login_v
 
+    def record_income(self):
+        Record("income",self.ui).record(self.ui.le_Income,self.ui.le_discription)
+    def record_cost(self):
+        Record("cost",self.ui).record(self.ui.le_cost,self.ui.le_discription)
+         
     def change_styles_fname(self):
         self.ui.le_fname.setStyleSheet("")
         
@@ -96,3 +125,7 @@ class UserController():
     
     def change_styles_city(self):
         self.ui.le_city.setStyleSheet("")
+
+    
+    def change_styles_description(self):
+        self.ui.le_discription.setStyleSheet("")

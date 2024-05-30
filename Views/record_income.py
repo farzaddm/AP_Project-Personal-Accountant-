@@ -1,13 +1,19 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from Controlers.user_controller import UserController
 
 class Ui_RecordIncome(object):
     def setupUi(self, MainWindow):
-        MainWindow.resize(300, 448)
+        MainWindow.resize(310, 448)
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
         MainWindow.setMaximumSize(QtCore.QSize(300, 448))
-
+        
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("""
+        QLineEdit{
+            border:none;
+            border-radius: 8px;
+        }
+        """)
 
         self.le_Income = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.le_Income.setGeometry(QtCore.QRect(10, 30, 271, 31))
@@ -18,6 +24,7 @@ class Ui_RecordIncome(object):
 
         self.sumbit_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.sumbit_btn.setGeometry(QtCore.QRect(10, 370, 271, 31))
+        self.sumbit_btn.clicked.connect(self.btn_submit_clicked)
 
         self.line = QtWidgets.QFrame(parent=self.centralwidget)
         self.line.setGeometry(QtCore.QRect(10, 350, 271, 16))
@@ -90,3 +97,19 @@ class Ui_RecordIncome(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
+
+        self.conttroller=UserController(self)
+    
+    def btn_submit_clicked(self):
+        self.conttroller.record_income()
+    def show_error(self, message: str) -> None:
+        """make a messagebox to show errors to user.
+
+        Args:
+            message (str): It's an error message that when inputs are invalid throw.
+        """
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.exec()
