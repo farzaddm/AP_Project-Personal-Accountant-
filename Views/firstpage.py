@@ -13,10 +13,11 @@ class Pics(QtWidgets.QLabel):
         self.setPixmap(QtGui.QPixmap(pic))
 
 class OpeningWindow:
-    def __init__(self,current_page,next_page,title):
+    def __init__(self,current_page,next_page,title,username):
         class MainWindow(QtWidgets.QMainWindow,next_page):
             def __init__(self):
                 super().__init__()
+                self.username=username
                 self.setupUi(self)
         self.ui=MainWindow()
         self.ui.show()
@@ -24,11 +25,13 @@ class OpeningWindow:
         current_page.close()
 
 class Ui_Firstpage(object):
+    def __init__(self):
+        self.username="name"
     def open_window_incomepage(self):
-        window=OpeningWindow(self,Ui_RecordIncome,"Income Page")
+        window=OpeningWindow(self,Ui_RecordIncome,"Income Page",self.username)
 
     def open_window_costpage(self):
-        window=OpeningWindow(self,Ui_RecordCost,"Cost Page")
+        window=OpeningWindow(self,Ui_RecordCost,"Cost Page",self.username)
 
     def setupUi(self, MainWindow):
         MainWindow.resize(1000, 600)

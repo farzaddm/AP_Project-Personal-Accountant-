@@ -1,14 +1,19 @@
 from Utils.validation import Validation
 from Models.user import User
+from Utils.email_sender import email_sender
+from Database.database import database
 class Record:
     def __init__(self,type,ui):
         self.type=type
         self.ui=ui
 
-    def record(self,le_price,le_description):
+    def record(self,username,le_price,le_description,combo_price_type,combo_price_source):
+        username=username
         record_v = Validation()
         price = le_price.text()
         description = le_description.text()
+        type_of_price=combo_price_type.currentText()
+        source_of_price=combo_price_source.currentText()
 
         if not record_v.valid_price(price):
             le_price.setStyleSheet("border: 1px solid red")
@@ -21,6 +26,12 @@ class Record:
             le_discription.textChanged.connect(self.change_styles_description)
             self.ui.show_error("Invalid income . It should be lesser than 100.")
             return
+        if not record_v.valid_type_of_price(type_of_price):
+            self.ui.show_error("Invalid income . Choose one of the type of income")
+            return
+        if not record_v.valid_source_of_price(source_of_price):
+            self.ui.show_error("Invalid income . Choose one of the source of income")
+            return
 
         return True
     def change_styles_price(self,le_price):
@@ -29,9 +40,10 @@ class UserController():
     """ It's to connect ui to program logic. """
     def __init__(self, ui) -> None:
         self.ui = ui
+        self.validation = Validation()
         
     def sign_up(self) -> None:
-        v = Validation()
+        """ Check the validations of inputs and if every thing is ok save it to database. """
         fname = self.ui.le_fname.text()
         lname = self.ui.le_lname.text() 
         phone = self.ui.le_phone.text()
@@ -42,25 +54,25 @@ class UserController():
         username = self.ui.le_username.text()
         security_q = self.ui.le_security_q.text()
         
-        if not v.validate_name(fname):
+        if not self.validation.validate_name(fname):
             self.ui.le_fname.setStyleSheet("border: 1px solid red")
             self.ui.le_fname.textChanged.connect(self.change_styles_fname)
             self.ui.show_error("Invalid firstname. Only English letters are allowed.")
             return
 
-        if not v.validate_name(lname):
+        if not self.validation.validate_name(lname):
             self.ui.le_lname.setStyleSheet("border: 1px solid red")
             self.ui.le_lname.textChanged.connect(self.change_styles_lname)
             self.ui.show_error("Invalid lastname. Only English letters are allowed.")
             return
         
-        if not v.validate_phone(phone):
+        if not self.validation.validate_phone(phone):
             self.ui.le_phone.setStyleSheet("border: 1px solid red")
             self.ui.le_phone.textChanged.connect(self.change_styles_phone)
             self.ui.show_error("Invalid phone number. It should start with 09 and be 11 digits long.")
             return
 
-        if not v.validate_password(password):
+        if not self.validation.validate_password(password):
             self.ui.le_password.setStyleSheet("border: 1px solid red")
             self.ui.le_password.textChanged.connect(self.change_styles_password)
             self.ui.show_error("Invalid password. It must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.")
@@ -72,35 +84,51 @@ class UserController():
             self.ui.show_error("Passwords do not match.")
             return
 
-        if not v.validate_email(email):
+        if not self.validation.validate_email(email):
             self.ui.le_email.setStyleSheet("border: 1px solid red")
             self.ui.le_email.textChanged.connect(self.change_styles_email)
             self.ui.show_error("Invalid email format. Only gmail.com or yahoo.com domains are allowed.")
             return
 
-        if not v.validate_birthday(birthday):
+        if not self.validation.validate_birthday(birthday):
             self.ui.le_birthday.setStyleSheet("border: 1px solid red")
             self.ui.le_birthday.textChanged.connect(self.change_styles_birthday)
             self.ui.show_error("Invalid date of birth. Year must be between 1920 and 2005.")
             return
         
         
-        if not v.validate_city(city):
+        if not self.validation.validate_city(city):
             self.ui.le_city.setStyleSheet("border: 1px solid red")
             self.ui.le_city.textChanged.connect(self.change_styles_city)
             self.ui.show_error("Invalid city.")
             return
         
         user = User(fname, lname,username,phone,password,email,city,birthday,security_q)
-        user.save()
+        user.save(self.ui)
+        self.ui.open_login()
+        
     def login(self,username,password):
-        login_v=Validation.valid_login(username,password)
-        return login_v
+        return self.validation.validate_login(username,password)
+    
+    def forget_password(self,username,security_q):
+        return self.validation.validate_forget_password(username,security_q)
 
-    def record_income(self):
-        Record("income",self.ui).record(self.ui.le_Income,self.ui.le_discription)
+    def get_password(self,username):
+        db=database()
+        password=db.find_user_password(username)
+        return password
+
+    def send_email(self,email):
+        email_send=email_sender(self.ui)
+        password=email_send.send_password(email)
+        return password
+    def get_email(self,username):
+        email_database=database()
+        user_email=email_database.find_user_email(username)
+        return user_email
+
     def record_cost(self):
-        Record("cost",self.ui).record(self.ui.le_cost,self.ui.le_discription)
+        Record("cost",self.ui).record(self.ui.le_cost,self.ui.le_discription,self.ui.combo_cost_type,self.ui.combo_source)
          
     def change_styles_fname(self):
         self.ui.le_fname.setStyleSheet("")

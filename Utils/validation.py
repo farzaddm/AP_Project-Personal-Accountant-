@@ -1,5 +1,6 @@
 import re
-import json
+from Database.database import database
+
 class Validation:
     """ All the functions for signup validation. """
     @staticmethod
@@ -28,36 +29,40 @@ class Validation:
 
     @staticmethod
     def validate_password(password: str) -> bool:
-        return True if (len(password) >= 6 and re.search(r"[a-z]",password) and re.search(r"[A-Z]",password) and re.search(r"\d",password) and re.search(r"[!@#$%^&*(),.?|<>]",password)) else False
+        return True if (len(password) >= 6 and re.search(r"[a-z]",password) and re.search(r"[A-Z]",password) and re.search(r"\d",password) and re.search(r"[!@#$%^&-*(),.?|<>]",password)) else False
 
     @staticmethod
     def validate_birthday(date) -> bool:
-        return True
+        year = date.split("-")[0]
+        return True if 1920 < int(year) <= 2005 else False
     
     @staticmethod
-    def valid_login(username_le,password_le) -> bool:
-        username=username_le.text()
-        password=password_le.text()
-        with open("users_data.json","r") as file:
-            data=json.load(file)
-            for users in data["people"]:
-                if users["username"] == username:
-                    if users["password"]==password:
-                        return True
-                    else:
-                        return False
-                else:
-                    return False
-
+    def validate_login(username: str,password: str) -> bool:
+        db = database()
+        return db.check_user(username, password)
     @staticmethod
+    def validate_forget_password(username: str,security_q: str) -> bool:
+        db = database()
+        return db.check_security_question(username, security_q)
+
+    @staticmethod 
     def valid_price(price : str) -> bool:
         pattern=r"[0-9]+"
         return True if re.search(pattern,price) and price.isnumeric() else False
+    @staticmethod
+    def valid_type_of_price(type_of_price : str) -> bool:
+        return True if type_of_price != "" else False
+    
+    @staticmethod
+    def valid_source_of_price(source_of_price : str) -> bool:
+        return True if source_of_price != "" else False
 
     @staticmethod
     def valid_description(description) -> bool:
         return True if 0<=len(description)<=100 and isinstance(description,str) else False
     
-
+     
+    
+        
     
     

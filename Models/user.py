@@ -1,48 +1,22 @@
-import json
-import os
+from Database.database import database
 
 
 class User:
-    def __init__(self, name: str, lastname: str, username: str, phone: int, password: str, email: str, city: str, birthday, question: str):
+    def __init__(self, name: str, lastname: str, username: str, phone: str, password: str, email: str, city: str, birthday: str, question: str):
         self.first_name: str = name
         self.last_name: str = lastname
         self.username: str = username
-        self.phone: int = phone
+        self.phone: str = phone
         self.password: str = password
         self.email: str = email
         self.city: str = city
-        self.birthday = birthday
+        self.birthday: str = birthday
         self.question: str = question
 
-        self.file_path = 'users_data.json'
+        self.db = database()
 
-    def save(self):
-        new_user = {
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "username": self.username,
-            "phone": self.phone,
-            "password": self.password,
-            "email": self.email,
-            "city": self.city,
-            "birthday": self.birthday,
-            "security_qustion": self.question
-        }
-
-        data = self.read_json_file()
-        data["people"].append(new_user)
-        self.write_json_file(data)
-
-    def read_json_file(self):
-        if os.path.exists(self.file_path):
-            with open(self.file_path, 'r', encoding='utf-8') as json_file:
-                try:
-                    return json.load(json_file)
-                except:
-                    return {"people": []}
-        else:
-            return {"people": []}
-
-    def write_json_file(self, data):
-        with open(self.file_path, 'w', encoding='utf-8') as json_file:
-            json.dump(data, json_file, ensure_ascii=False, indent=4)
+    def save(self, ui):
+        """ Save user informations to database. """
+        new_user = [self.first_name, self.last_name, self.username, self.phone,
+                    self.password, self.email, self.city, self.birthday, self.question]
+        self.db.save_new_user(new_user, ui)

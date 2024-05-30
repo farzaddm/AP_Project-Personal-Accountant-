@@ -1,7 +1,9 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Controlers.user_controller import UserController
+from Controlers.transaction_controllet import TransactionController
 
 class Ui_RecordCost(object):
+    def __init__(self):
+        self.username="name"
     def setupUi(self, MainWindow):
         MainWindow.resize(300, 448)
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
@@ -72,7 +74,7 @@ class Ui_RecordCost(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.controller=UserController(self)
+        self.controller=TransactionController(self)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
