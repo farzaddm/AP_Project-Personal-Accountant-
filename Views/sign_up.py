@@ -89,8 +89,6 @@ class Ui_SignUp(object):
                     QPushButton {
                         background-color: #0763e5;
                         color: #ffffff;
-                        border-radius: 15px;
-                        border: 2px #1AA7EC;
                         font-size: 12px;
                     }
                     QPushButton:hover {
@@ -128,7 +126,7 @@ class Ui_SignUp(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         
-        
+        # for connecting ui to controller.
         self.controller = UserController(self)
 
 

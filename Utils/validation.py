@@ -32,7 +32,9 @@ class Validation:
 
     @staticmethod
     def validate_birthday(date) -> bool:
-        return True
+        print(type(date))
+        year = date.split("-")[0]
+        return True if 1920 < int(year) <= 2005 else False
     
     @staticmethod
     def valid_login(username_le,password_le):
