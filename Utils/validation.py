@@ -1,5 +1,6 @@
 import re
 from Database.database import database
+
 class Validation:
     """ All the functions for signup validation. """
     @staticmethod
@@ -39,6 +40,29 @@ class Validation:
     def validate_login(username: str,password: str) -> bool:
         db = database()
         return db.check_user(username, password)
+    @staticmethod
+    def validate_forget_password(username: str,security_q: str) -> bool:
+        db = database()
+        return db.check_security_question(username, security_q)
+
+    @staticmethod 
+    def valid_price(price : str) -> bool:
+        pattern=r"[0-9]+"
+        return True if re.search(pattern,price) and price.isnumeric() else False
+    @staticmethod
+    def valid_type_of_price(type_of_price : str) -> bool:
+        return True if type_of_price != "" else False
+    
+    @staticmethod
+    def valid_source_of_price(source_of_price : str) -> bool:
+        return True if source_of_price != "" else False
+
+    @staticmethod
+    def valid_description(description) -> bool:
+        return True if 0<=len(description)<=100 and isinstance(description,str) else False
+    
+     
+    
         
     
     

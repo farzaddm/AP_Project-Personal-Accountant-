@@ -1,7 +1,9 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from Controlers.transaction_controllet import TransactionController
 
 class Ui_RecordCost(object):
+    def __init__(self):
+        self.username="name"
     def setupUi(self, MainWindow):
         MainWindow.resize(300, 448)
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
@@ -17,6 +19,7 @@ class Ui_RecordCost(object):
         self.le_discription.setMaxLength(100)
 
         self.sumbit_btn = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.sumbit_btn.clicked.connect(self.btn_submit_clicked)
         self.sumbit_btn.setGeometry(QtCore.QRect(10, 370, 271, 31))
 
         self.line = QtWidgets.QFrame(parent=self.centralwidget)
@@ -71,6 +74,8 @@ class Ui_RecordCost(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.controller=TransactionController(self)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("RecordIncome", "RecordCost"))
@@ -90,3 +95,16 @@ class Ui_RecordCost(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
+    def btn_submit_clicked(self):
+        self.controller.record_cost()
+    def show_error(self, message: str) -> None:
+        """make a messagebox to show errors to user.
+
+        Args:
+            message (str): It's an error message that when inputs are invalid throw.
+        """
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.exec()

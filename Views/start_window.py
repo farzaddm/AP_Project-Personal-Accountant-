@@ -29,6 +29,21 @@ class Signupandlogin(object):
     def setupUi(self, MainWindow):
         MainWindow.resize(480, 800)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("""
+                    QPushButton {
+                        background-color: #ffffff;
+                        color: #000000;
+                        border-radius: 15px;
+                        border: 2px #1AA7EC;
+                        font-size: 12px;
+                    }
+                    QPushButton:hover {
+                        background-color:#1AA7EC ;
+                    }
+                    QPushButton:pressed {
+                        background-color: #1AA7EC;
+                    }
+                """)
         font = QtGui.QFont()
         font.setFamily("Lalezar")
         font.setPointSize(38)
@@ -54,40 +69,12 @@ class Signupandlogin(object):
         self.signup_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.signup_btn.setGeometry(QtCore.QRect(80, 550, 341, 31))
         self.signup_btn.clicked.connect(self.signup_btn_clicked)
-        self.signup_btn.setStyleSheet("""
-                    QPushButton {
-                        background-color: #ffffff;
-                        color: #000000;
-                        border-radius: 15px;
-                        border: 2px #1AA7EC;
-                        font-size: 12px;
-                    }
-                    QPushButton:hover {
-                        background-color: #0763e5;
-                    }
-                    QPushButton:pressed {
-                        background-color: #1AA7EC;
-                    }
-                """)
+
 
         self.login_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.login_btn.setGeometry(QtCore.QRect(80, 600, 341, 31))
         self.login_btn.clicked.connect(self.login_btn_clicked)
-        self.login_btn.setStyleSheet("""
-                    QPushButton {
-                        background-color: #ffffff;
-                        color: #000000;
-                        border-radius: 15px;
-                        border: 2px #1AA7EC;
-                        font-size: 12px;
-                    }
-                    QPushButton:hover {
-                        background-color: #0763e5;
-                    }
-                    QPushButton:pressed {
-                        background-color: #1AA7EC;
-                    }
-                """)
+
 
         self.Pic_lbl.raise_()
         self.Welcome_lbl.raise_()
