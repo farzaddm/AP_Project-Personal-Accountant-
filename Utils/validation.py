@@ -1,5 +1,5 @@
 import re
-import json
+from Database.database import database
 class Validation:
     """ All the functions for signup validation. """
     @staticmethod
@@ -28,27 +28,17 @@ class Validation:
 
     @staticmethod
     def validate_password(password: str) -> bool:
-        return True if (len(password) >= 6 and re.search(r"[a-z]",password) and re.search(r"[A-Z]",password) and re.search(r"\d",password) and re.search(r"[!@#$%^&*(),.?|<>]",password)) else False
+        return True if (len(password) >= 6 and re.search(r"[a-z]",password) and re.search(r"[A-Z]",password) and re.search(r"\d",password) and re.search(r"[!@#$%^&-*(),.?|<>]",password)) else False
 
     @staticmethod
     def validate_birthday(date) -> bool:
-        print(type(date))
         year = date.split("-")[0]
         return True if 1920 < int(year) <= 2005 else False
     
     @staticmethod
-    def valid_login(username_le,password_le):
-        username=username_le.text()
-        password=password_le.text()
-        with open("users_data.json","r") as file:
-            data=json.load(file)
-            for users in data["people"]:
-                if users["username"] == username:
-                    if users["password"]==password:
-                        return True
-                    else:
-                        return False
-                else:
-                    return False
+    def validate_login(username: str,password: str) -> bool:
+        db = database()
+        return db.check_user(username, password)
+        
     
     

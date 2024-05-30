@@ -18,4 +18,12 @@ class database:
             # show error message because username is our PRIMARY KEY and should be unique.
             ui.show_error("This username is already chosen.")
         self.conn.commit()
-        self.conn.close()
+        # self.conn.close()
+    
+    def check_user(self, username: str, password: str) -> bool:
+        self.cur.execute("SELECT * From user WHERE username=? AND password=?;", (username, password))
+        result = self.cur.fetchone()
+        
+        return True if result else False
+    
+

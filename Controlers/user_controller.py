@@ -70,9 +70,10 @@ class UserController():
         
         user = User(fname, lname,username,phone,password,email,city,birthday,security_q)
         user.save(self.ui)
+        self.ui.open_login()
         
     def login(self,username,password):
-        return self.validation.valid_login(username,password)
+        return self.validation.validate_login(username,password)
 
     def change_styles_fname(self):
         self.ui.le_fname.setStyleSheet("")

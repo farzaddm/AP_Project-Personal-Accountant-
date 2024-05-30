@@ -137,18 +137,23 @@ class Ui_Login(object):
             second = QtCore.QTime.currentTime().second() == self.time.second()
             minutes = QtCore.QTime.currentTime().minute() == self.time.minute()
             hour = QtCore.QTime.currentTime().hour() == self.time.hour()
+            
             self.error_lbl.show()
+            
             if hour and minutes and second:
                 self.ban = False
         else:
             self.username_lbl.setStyleSheet(" ")
             self.password_lbl.setStyleSheet(" ")
+            
             if self.check_count == 3:
                 self.ban = True
                 self.time = QtCore.QTime.currentTime().addSecs(60)
-            login_check = UserController(self)
-            if login_check.login(self.username_lbl, self.password_lbl):
-                pass
+            
+            controller = UserController(self)
+            
+            if controller.login(self.username_lbl.text(), self.password_lbl.text()):
+                print("Done!")
             else:
                 self.username_lbl.setStyleSheet("border: 1px solid red")
                 self.password_lbl.setStyleSheet("border: 1px solid red")

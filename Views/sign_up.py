@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.user_controller import UserController
+from Views.login_ui import Ui_Login
 
 
 class Ui_SignUp(object):
@@ -170,3 +171,14 @@ class Ui_SignUp(object):
         msg.setText(message)
         msg.setWindowTitle("Error")
         msg.exec()
+        
+    def open_login(self) -> None:
+        class Forgetpage(QtWidgets.QMainWindow, Ui_Login):
+            def __init__(self):
+                super().__init__()
+                self.setupUi(self)
+
+        self.ui = Forgetpage()
+        self.ui.show()
+        self.ui.setWindowTitle("Login")
+        self.close()
