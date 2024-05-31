@@ -8,7 +8,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.user_controller import UserController
-from Views.firstpage import Ui_Firstpage
+from Views.first_page import Ui_Firstpage
 
 class ForgetPassword(object):
     def __init__(self):
