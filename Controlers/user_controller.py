@@ -150,10 +150,6 @@ class UserController():
         user_email = email_database.find_user_email(username)
         return user_email
 
-    def record_cost(self):
-        Record("cost", self.ui).record(self.ui.le_cost, self.ui.le_discription,
-                                       self.ui.combo_cost_type, self.ui.combo_source)
-
     # ---------change style ---------------
 
     def change_styles_fname(self):

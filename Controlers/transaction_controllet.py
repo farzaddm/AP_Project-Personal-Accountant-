@@ -8,6 +8,7 @@ class Record:
         self.type = type
         self.ui = ui
 
+    
     def record(self, username, le_date, le_price, le_description, combo_price_type, combo_price_source):
         username = username
         record_validation = Validation()
@@ -38,7 +39,7 @@ class Record:
             self.ui.show_error(
                 "Invalid income . Choose one of the source of income")
             return
-        record = Transacation(username, self.type, date,
+        record = Transacation(username, self.type,price, date,
                               source_of_price, description, type_of_price)
         record.save(self.ui)
 
@@ -63,3 +64,7 @@ class TransactionController:
     def add_category(self, category: str) -> None:
         if self.validation.validate_category(category):
             self.db.add_category(self.ui.username, category)
+
+    def get_source_of_price(self,username):
+        source_of_price=self.db.get_source_of_price(username)
+        return source_of_price

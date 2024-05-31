@@ -1,5 +1,5 @@
 from Database.database import database
-from save import ISave
+from Models.save import ISave
 
 class User(ISave):
     def __init__(self, name: str, lastname: str, username: str, phone: str, password: str, email: str, city: str, birthday: str, question: str):
@@ -17,7 +17,7 @@ class User(ISave):
         self.db = database()
 
     def save(self, ui):
-        super().save()
+        super().save(ui)
         """ Save user informations to database. """
         new_user = [self.first_name, self.last_name, self.username, self.phone,
                     self.password, self.email, self.city, self.birthday, self.question]

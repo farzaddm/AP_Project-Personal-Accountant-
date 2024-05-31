@@ -144,7 +144,7 @@ class Ui_Login(object):
             self.check_count += 1
             self.username_lbl.setStyleSheet(" ")
             self.password_le.setStyleSheet(" ")
-            if self.check_count == 2:
+            if self.check_count == 3:
                 self.ban = True
 
             controller = UserController(self)
