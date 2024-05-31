@@ -23,9 +23,9 @@ class database:
     def save_new_transaction(self, transaction_data: list[str]) -> None:
         """ Save user information in db file. """
         # create table if it's not already created.
-        self.cur.execute("CREATE TABLE IF NOT EXISTS transaction(username TEXT NOT NULL,type TEXT NOT NULL, price TEXT NOT NULL,date TEXT NOT NULL,source_of_price TEXT NOT NULL,description TEXT NOT NULL,type_of_price TEXT NOT NULL,FOREIGN KEY('username') REFERENCES 'user'('username'));")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS 'transaction'(username TEXT NOT NULL,type TEXT NOT NULL, price TEXT NOT NULL,date TEXT NOT NULL,source_of_price TEXT NOT NULL,description TEXT NOT NULL,type_of_price TEXT NOT NULL,FOREIGN KEY('username') REFERENCES 'user'('username'));")
         self.cur.execute(
-            "INSERT INTO transaction(username, type, price, date, source_of_price, description, type_of_price) VALUES (?,?,?,?,?,?,?);", transaction_data,)
+            "INSERT INTO 'transaction'(username, type, price, date, source_of_price, description, type_of_price) VALUES (?,?,?,?,?,?,?);", transaction_data,)
         self.conn.commit()
 
     def check_user(self, username: str, password: str) -> bool:
@@ -67,5 +67,19 @@ class database:
             print(1)
         else:
             print(0)
+            
+    def search(self, query: str, filter_search: str) -> None:
+        for i in filter_search:
+            if filter_search[i] == "":
+                del filter_search[i]
+        
+        x = ""
+        if filter_search:
+            for i in filter_search:
+                x += f"{i}={filter_search[i]} AND "
+        x = x[:-4]
+        
+        print(x)
+        self.cur.execute(f"SELECT * FROM 'transaction' WHERE {x};")
 
         

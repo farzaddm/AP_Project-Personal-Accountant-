@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QHeaderView
+from Controlers.transaction_controllet import TransactionController
 
 
 class Ui_Search(object):
@@ -186,6 +187,7 @@ class Ui_Search(object):
 
 
     def btn_search_clicked(self):
+        self.controller = TransactionController()
         search_text = self.le_search.text().lower()
         
         filter_search = {
@@ -219,4 +221,8 @@ class Ui_Search(object):
             filter_search["max_amount"] = self.le_max_amount.text()
         if self.le_min_amount.text():
             filter_search["min_amount"] = self.le_min_amount.text()
+            
+        self.controller.search(search_text, filter_search)
+            
+        
         

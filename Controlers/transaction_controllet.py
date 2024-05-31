@@ -63,3 +63,6 @@ class TransactionController:
     def add_category(self, category: str) -> None:
         if self.validation.validate_category(category):
             self.db.add_category(self.ui.username, category)
+            
+    def search(self, query: str, filter_search: str) -> None:
+        self.db.search(query, filter_search)
