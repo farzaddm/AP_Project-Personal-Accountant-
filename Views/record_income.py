@@ -1,14 +1,17 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
 
+
 class Ui_RecordIncome(object):
     def __init__(self):
-        self.username="name"
+        self.username = "name"
+        
+
     def setupUi(self, MainWindow):
         MainWindow.resize(310, 448)
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
         MainWindow.setMaximumSize(QtCore.QSize(300, 448))
-        
+
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setStyleSheet("""
         QLineEdit{
@@ -50,7 +53,7 @@ class Ui_RecordIncome(object):
         self.type_lbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.type_lbl.setGeometry(QtCore.QRect(10, 190, 108, 17))
 
-        self.combo_incom_type = QtWidgets.QComboBox(parent=self.centralwidget)       
+        self.combo_incom_type = QtWidgets.QComboBox(parent=self.centralwidget)
         self.combo_incom_type.setGeometry(QtCore.QRect(10, 210, 271, 31))
         self.combo_incom_type.setAutoFillBackground(False)
         self.combo_incom_type.setDuplicatesEnabled(False)
@@ -77,7 +80,7 @@ class Ui_RecordIncome(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        self.conttroller=TransactionController(self)
+        self.conttroller = TransactionController(self)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -101,10 +104,9 @@ class Ui_RecordIncome(object):
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
-
-    
     def btn_submit_clicked(self):
         self.conttroller.record_income()
+
     def show_error(self, message: str) -> None:
         """make a messagebox to show errors to user.
 

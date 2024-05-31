@@ -1,12 +1,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Views.record_income import *
 from Views.record_cost import *
+from Views.category import  Ui_Category
+from Views.search import Ui_Search
 
 
 class Buttons(QtWidgets.QPushButton):
     def __init__(self, parent, text):
         super().__init__(parent=parent)
         self.setText(text)
+        
 class Pics(QtWidgets.QLabel):
     def __init__(self, parent, type,pic):
         super().__init__(parent=parent)
@@ -22,18 +25,13 @@ class OpeningWindow:
         self.ui=MainWindow()
         self.ui.show()
         self.ui.setWindowTitle(title)
-        current_page.close()
+        # current_page.close()
 
 class Ui_Firstpage(object):
-    def __init__(self):
+    def __init__(self) -> None:
         self.username="name"
-    def open_window_incomepage(self):
-        window=OpeningWindow(self,Ui_RecordIncome,"Income Page",self.username)
-
-    def open_window_costpage(self):
-        window=OpeningWindow(self,Ui_RecordCost,"Cost Page",self.username)
-
-    def setupUi(self, MainWindow):
+        
+    def setupUi(self, MainWindow) -> None:
         MainWindow.resize(1000, 600)
         pics=[r"pictures/recordincome.PNG",r"pictures/costregistration.PNG",r"pictures/category.PNG",r"pictures/search.PNG",
               r"pictures/reporting.PNG",r"pictures/setting.PNG",r"pictures/exit.PNG"]
@@ -91,6 +89,7 @@ class Ui_Firstpage(object):
         self.verticalLayout_3.addWidget(self.catgory_lbl)
 
         self.category_btn = Buttons(parent=self.centralwidget, text="Category")
+        self.category_btn.clicked.connect(self.btn_category_clicked)
         self.verticalLayout_3.addWidget(self.category_btn)
 
         self.gridLayout_3.addLayout(self.verticalLayout_3, 0, 3, 1, 2)
@@ -101,6 +100,7 @@ class Ui_Firstpage(object):
         self.verticalLayout_4.addWidget(self.search_lbl)
 
         self.search_btn = Buttons(parent=self.centralwidget, text="Search")
+        self.search_btn.clicked.connect(self.btn_search_clicked)
         self.verticalLayout_4.addWidget(self.search_btn)
 
         self.gridLayout_3.addLayout(self.verticalLayout_4, 0, 5, 1, 1)
@@ -143,16 +143,62 @@ class Ui_Firstpage(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 25))
-        self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
-        self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-    def btn_recordincome_clicked(self):
-        self.open_window_incomepage()
+        
+    def btn_recordincome_clicked(self) -> None:
+        self.open_window_incomepage(self.username)
 
-    def btn_recordcost_clicked(self):
-        self.open_window_costpage()
+    def btn_recordcost_clicked(self) -> None:
+        self.open_window_costpage(self.username)
+        
+    def btn_category_clicked(self) -> None:
+        self.open_window_categorypage(self.username)
+    
+    def btn_search_clicked(self) -> None:
+        self.open_window_searchpage(self.username)
+    
+    def open_window_searchpage(self,username) -> None:
+        class MainWindow(QtWidgets.QMainWindow,Ui_Search):
+            def __init__(self):
+                super().__init__()
+                self.username=username
+                self.setupUi(self)
+        self.ui=MainWindow()
+        self.ui.show()
+        self.ui.setWindowTitle("Search Page")
+
+    def open_window_incomepage(self,username) -> None:
+        class MainWindow(QtWidgets.QMainWindow,Ui_RecordIncome):
+            def __init__(self):
+                super().__init__()
+                self.username=username
+                self.setupUi(self)
+        self.ui=MainWindow()
+        self.ui.show()
+        self.ui.setWindowTitle("Income Page")
+
+    def open_window_costpage(self, username) -> None:
+        class MainWindow(QtWidgets.QMainWindow,Ui_RecordCost):
+            def __init__(self):
+                super().__init__()
+                self.username=username
+                self.setupUi(self)
+        self.ui=MainWindow()
+        self.ui.show()
+        self.ui.setWindowTitle("Cost Page")
+    
+    def open_window_categorypage(self, username) -> None:
+        class MainWindow(QtWidgets.QMainWindow,Ui_Category):
+            def __init__(self):
+                super().__init__()
+                self.username=username
+                self.setupUi(self)
+        self.ui=MainWindow()
+        self.ui.show()
+        self.ui.setWindowTitle("Category Page")
+
 
