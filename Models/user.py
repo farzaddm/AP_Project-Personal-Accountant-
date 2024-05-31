@@ -1,5 +1,5 @@
 from Database.database import database
-from Models.save import ISave
+from Utils.save import ISave
 
 class User(ISave):
     def __init__(self, name: str, lastname: str, username: str, phone: str, password: str, email: str, city: str, birthday: str, question: str):

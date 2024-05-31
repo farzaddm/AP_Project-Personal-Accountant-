@@ -22,6 +22,7 @@ class Ui_Search(object):
 
         self.horizontalLayout.addWidget(self.chb_monthly)
         self.chb_yearly = QtWidgets.QCheckBox(parent=self.centralwidget)
+
         self.horizontalLayout.addWidget(self.chb_yearly)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.group_lbl = QtWidgets.QLabel(parent=self.centralwidget)
@@ -103,6 +104,36 @@ class Ui_Search(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        self.time_group = QtWidgets.QButtonGroup()
+        self.time_group.addButton(self.chb_daily)
+        self.time_group.addButton(self.chb_monthly)
+        self.time_group.addButton(self.chb_yearly)
+        
+        self.info_group = QtWidgets.QButtonGroup()
+        self.info_group.addButton(self.chb_description)
+        self.info_group.addButton(self.chb_source)
+        self.info_group.addButton(self.chb_category)
+        
+        self.type_group = QtWidgets.QButtonGroup()
+        self.type_group.addButton(self.chb_income)
+        self.type_group.addButton(self.chb_expense)
+        
+        
+        self.chb_daily.toggled.connect(self.uncheck)
+        
+        # self.chb_monthly.clicked.connect(self.uncheck)
+        # self.chb_yearly.clicked.connect(self.uncheck)
+        # self.chb_description.clicked.connect(self.uncheck)
+        # self.chb_source.clicked.connect(self.uncheck)
+        # self.chb_category.clicked.connect(self.uncheck)
+        # self.chb_income.clicked.connect(self.uncheck)
+        # self.chb_expense.clicked.connect(self.uncheck)
+        
+        self.last_checked = None
+
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -142,7 +173,50 @@ class Ui_Search(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
+    
+
+    # def uncheck(self, state):
+    #     if state:
+    #         self.sender().setCheckable(False)
+    #         self.sender().setCheckable(True)
+            
+        
+            
+            
 
 
     def btn_search_clicked(self):
-        pass
+        search_text = self.le_search.text().lower()
+        
+        filter_search = {
+            "type": "",
+            "group": "",
+            "time": "",
+            "min_amount": "",
+            "max_amount": ""
+        }
+        
+        if self.chb_daily.isChecked():
+            filter_search["time"] = "daily"
+        elif self.chb_monthly.isChecked():
+            filter_search["time"] = "monthly"
+        elif self.chb_yearly.isChecked():
+            filter_search["time"] = "yearly"
+            
+        if self.chb_description.isChecked():
+            filter_search["group"] = "description"
+        elif self.chb_category.isChecked():
+            filter_search["group"] = "category"
+        elif self.chb_source.isChecked():
+            filter_search["group"] = "source"
+            
+        if self.chb_income.isChecked():
+            filter_search["type"] = "income"
+        elif self.chb_expense.isChecked():
+            filter_search["time"] = "cost"
+            
+        if self.le_max_amount.text():
+            filter_search["max_amount"] = self.le_max_amount.text()
+        if self.le_min_amount.text():
+            filter_search["min_amount"] = self.le_min_amount.text()
+        
