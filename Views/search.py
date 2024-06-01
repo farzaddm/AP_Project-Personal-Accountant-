@@ -250,5 +250,3 @@ class Ui_Search(object):
         msg.setWindowTitle("Error")
         msg.exec()
     
-    # def change_table_filter(self) -> None:
-    #     self.table.setRowCount(0)

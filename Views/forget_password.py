@@ -85,8 +85,8 @@ class ForgetPassword(object):
             self.username_le.setPlaceholderText("Password")
             self.pushButton.setText("Check Password")
             self.pushButton.clicked.connect(lambda: self.check_password(self.username_le.text()))
+            
     def check_password(self,password):
-        print(password,self.user_password)
         if password == self.user_password:
             user_password=self.controller.get_password(self.username_save)
             self.show_information(f"Your Password is {user_password}")

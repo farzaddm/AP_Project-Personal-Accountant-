@@ -2,11 +2,13 @@ import sys
 from PyQt6 import QtWidgets, uic
 # from Views.sign_up import Ui_SignUp
 # from Views.record_income import Ui_RecordIncome
-from Views.record_cost import Ui_RecordCost
+# from Views.record_cost import Ui_RecordCost
 # from Controlers.user_controller import UserController
-from Views.start_window import *
-from Views.search import Ui_Search
-class MainWindow(QtWidgets.QMainWindow, Ui_Search):
+# from Views.search import Ui_Search
+# from Views.category import Ui_Category
+from Views.start_window import Signupandlogin
+
+class MainWindow(QtWidgets.QMainWindow, Signupandlogin):
     def __init__(self, *args, obj=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
