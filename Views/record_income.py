@@ -12,6 +12,7 @@ class Ui_RecordIncome(object):
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
         MainWindow.setMaximumSize(QtCore.QSize(300, 448))
 
+        self.controller = TransactionController(self)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setStyleSheet("""
         QLineEdit{
@@ -45,6 +46,7 @@ class Ui_RecordIncome(object):
 
         self.combo_source = QtWidgets.QComboBox(parent=self.centralwidget)
         self.combo_source.setGeometry(QtCore.QRect(10, 150, 271, 31))
+        self.source_of_income_update()
         self.combo_source.setCurrentIndex(-1)
 
         self.source_lbl = QtWidgets.QLabel(parent=self.centralwidget)
@@ -80,7 +82,7 @@ class Ui_RecordIncome(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        self.conttroller = TransactionController(self)
+        
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -105,7 +107,7 @@ class Ui_RecordIncome(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
     def btn_submit_clicked(self):
-        self.conttroller.record_income()
+        self.controller.record_income()
 
     def show_error(self, message: str) -> None:
         """make a messagebox to show errors to user.
@@ -118,3 +120,9 @@ class Ui_RecordIncome(object):
         msg.setText(message)
         msg.setWindowTitle("Error")
         msg.exec()
+    def source_of_income_update(self):
+        source_of_income=self.controller.get_source_of_price(self.username)
+        for sources in source_of_income:
+            self.combo_source.addItem(sources[0])
+
+        

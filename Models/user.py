@@ -17,7 +17,7 @@ class User(ISave):
         self.db = database()
 
     def save(self, ui):
-        super().save()
+        super().save(ui)
         """ Save user informations to database. """
         new_user = [self.first_name, self.last_name, self.username, self.phone,
                     self.password, self.email, self.city, self.birthday, self.question]

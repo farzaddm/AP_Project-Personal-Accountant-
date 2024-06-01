@@ -8,7 +8,7 @@ class Ui_RecordCost(object):
         MainWindow.resize(300, 448)
         MainWindow.setMinimumSize(QtCore.QSize(300, 448))
         MainWindow.setMaximumSize(QtCore.QSize(300, 448))
-
+        self.controller=TransactionController(self)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
 
         self.le_cost = QtWidgets.QLineEdit(parent=self.centralwidget)
@@ -36,6 +36,7 @@ class Ui_RecordCost(object):
 
         self.combo_source = QtWidgets.QComboBox(parent=self.centralwidget)
         self.combo_source.setGeometry(QtCore.QRect(10, 150, 271, 31))
+        self.source_of_cost_update()
         self.combo_source.setCurrentIndex(-1)
 
         self.source_lbl = QtWidgets.QLabel(parent=self.centralwidget)
@@ -74,7 +75,7 @@ class Ui_RecordCost(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.controller=TransactionController(self)
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -108,3 +109,7 @@ class Ui_RecordCost(object):
         msg.setText(message)
         msg.setWindowTitle("Error")
         msg.exec()
+    def source_of_cost_update(self):
+        source_of_cost=self.controller.get_source_of_price(self.username)
+        for sources in source_of_cost:
+            self.combo_source.addItem(sources[0])
