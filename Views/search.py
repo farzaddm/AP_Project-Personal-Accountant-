@@ -23,7 +23,12 @@ class Ui_Search(object):
         self.horizontalLayout.addWidget(self.chb_monthly)
         self.chb_yearly = QtWidgets.QCheckBox(parent=self.centralwidget)
 
+
         self.horizontalLayout.addWidget(self.chb_yearly)
+        self.chb_no_choice = QtWidgets.QCheckBox(parent=self.centralwidget)
+
+        self.horizontalLayout.addWidget(self.chb_no_choice)
+
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.group_lbl = QtWidgets.QLabel(parent=self.centralwidget)
 
@@ -109,19 +114,12 @@ class Ui_Search(object):
         self.time_group.addButton(self.chb_daily)
         self.time_group.addButton(self.chb_monthly)
         self.time_group.addButton(self.chb_yearly)
-        
-        self.info_group = QtWidgets.QButtonGroup()
-        self.info_group.addButton(self.chb_description)
-        self.info_group.addButton(self.chb_source)
-        self.info_group.addButton(self.chb_category)
-        
-        self.type_group = QtWidgets.QButtonGroup()
-        self.type_group.addButton(self.chb_income)
-        self.type_group.addButton(self.chb_expense)
+        self.time_group.addButton(self.chb_no_choice)
+    
         
         
-        self.chb_daily.toggled.connect(self.uncheck)
         
+
         # self.chb_monthly.clicked.connect(self.uncheck)
         # self.chb_yearly.clicked.connect(self.uncheck)
         # self.chb_description.clicked.connect(self.uncheck)
@@ -145,6 +143,7 @@ class Ui_Search(object):
         self.chb_daily.setText(_translate("MainWindow", "Daily"))
         self.chb_monthly.setText(_translate("MainWindow", "Monthly"))
         self.chb_yearly.setText(_translate("MainWindow", "Yearly"))
+        self.chb_no_choice.setText(_translate("MainWindow", "No Choice"))
         self.group_lbl.setText(_translate(
             "MainWindow", "Choose group (Optional):"))
         self.chb_description.setText(_translate("MainWindow", "Descripption"))
