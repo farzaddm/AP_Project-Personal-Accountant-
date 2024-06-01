@@ -68,3 +68,6 @@ class TransactionController:
     def get_source_of_price(self,username):
         source_of_price=self.db.get_source_of_price(username)
         return source_of_price
+    
+    def search(self, query: str, filter_search: str):
+        return self.db.search(query, filter_search)

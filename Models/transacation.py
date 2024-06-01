@@ -18,6 +18,6 @@ class Transacation(ISave):
     def save(self, ui):
         super().save(ui)
         """ Save user informations to database. """
-        new_transaction = [self.username, self.type, self.price, self.date,
+        new_transaction = [self.username, self.type, int(self.price), self.date,
                            self.source_of_price, self.description, self.type_of_price]
         self.db.save_new_transaction(new_transaction)
