@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         result = self.cur.fetchall()
         return result
 
-    def search(self, search_text: str, filter_search: dict) -> list:
+    def search(self, search_text: str, filter_search: dict, username: str) -> list:
         empty_part = []
         for i in filter_search:
             if filter_search[i] == "":
@@ -112,14 +112,16 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         else:
             max1 = 9999999999
 
-        query = f"SELECT * FROM 'transaction' WHERE price BETWEEN {min1} AND {max1}"
+        query = f"SELECT * FROM 'transaction' WHERE username='{username}' AND price BETWEEN {min1} AND {max1}"
         conditions = []
+        
+        if "group" in filter_search:
+            conditions.append(f'{filter_search["group"]}="{search_text}"')
+        elif search_text:
+            conditions.append(f'(description LIKE "%{search_text}%" OR source_of_price="{search_text}")')
 
         if "type" in filter_search:
             conditions.append(f'type="{filter_search["type"]}"')
-
-        if "group" in filter_search:
-            conditions.append(f'{filter_search["group"]}="{search_text}"')
 
         if "type_price" in filter_search:
             conditions.append(f'type_of_price="{filter_search["type_price"]}"')
@@ -127,6 +129,8 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         if conditions:
             query += ' AND ' + ' AND '.join(conditions)
         query += ";"
+        
+        print(query)
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -152,6 +156,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
                     date2 = today - relativedelta(days=1)
                     if date2.strftime("%Y-%m-%d") <= date.strftime("%Y-%m-%d") <= today.strftime("%Y-%m-%d"):
                         filtered_result.append(row)
+                        
         
         return filtered_result if "time" in filter_search else result
 
