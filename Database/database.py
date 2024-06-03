@@ -177,7 +177,8 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         else:
             max1 = 9999999999
                             
-        query = f"SELECT * FROM 'transaction' WHERE price BETWEEN ? AND ?"
+        query = f"SELECT * FROM 'transaction' WHERE username=? AND price BETWEEN ? AND ?"
+        parameters.append(username)
         parameters.append(min1)
         parameters.append(max1)
 

@@ -35,7 +35,7 @@ class MplCanvas(FigureCanvas):
 
 class Ui_Reporting(object):
     def __init__(self):
-        self.use="name"
+        self.username="name"
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(900, 700)
@@ -237,14 +237,27 @@ class Ui_Reporting(object):
         }
         
         if self.daily_chb.isChecked():
-            filter_search["time"].append("daily")
-            filter_search["time"].append(self.day_le.text())
+            if self.daily_le.text().isnumeric() and self.day_le.text() != "":
+                filter_search["time"].append("daily")
+                filter_search["time"].append(self.day_le.text())
+            else:
+                self.show_error("Choose the Year,It Has To Be Integer")
         elif self.monthly_chb.isChecked():
-            filter_search["time"].append("monthly")
-            filter_search["time"].append(months_in_year.index(self.month_le.text().title())+1)
+            try:
+                if self.month_le.text().isalpha() and self.month_le.text() != "":
+                    filter_search["time"].append("monthly")
+                    filter_search["time"].append(months_in_year.index(self.month_le.text().title())+1)
+                else:
+                    self.show_error("It Has To Be String And The Name Of The Month")
+            except:
+                self.show_error("Choose the Month,It Has To Be String")
         elif self.yearly_chb.isChecked():
-            filter_search["time"].append("yearly")
-            filter_search["time"].append(self.year_le.text())
+            try:
+                if self.year_le.text().isnumeric() and self.year_le.text() != "":
+                    filter_search["time"].append("yearly")
+                    filter_search["time"].append(self.year_le.text())
+            except:
+                self.show_error("Choose the Day,It Has To Be Integer")
         elif self.nochoice_chb.isChecked():
             filter_search["first_time"]=self.firstdate_dt.text()
             filter_search["end_time"]=self.enddate_dt.text()
@@ -274,7 +287,7 @@ class Ui_Reporting(object):
                 return
         result=self.controller.reporting(filter_search,self.username)
         if result == False:
-            self.show_error("You have to use some filters")
+            self.show_error("You have to username some filters")
         else:
             income=[x for x in result["income_price"].values()]
             cost=[x for x in result["cost_price"].values()]

@@ -34,6 +34,7 @@ class Ui_Firstpage(object):
         
     def setupUi(self, MainWindow) -> None:
         MainWindow.resize(1000, 600)
+        MainWindow.setStyleSheet("background-color:white;")
         pics=[r"pictures/recordincome.PNG",r"pictures/costregistration.PNG",r"pictures/category.PNG",r"pictures/search.PNG",
               r"pictures/reporting.PNG",r"pictures/setting.PNG",r"pictures/exit.PNG"]
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
@@ -43,7 +44,6 @@ class Ui_Firstpage(object):
                 border-radius: 15px;
                 color: white;
                 padding: 10px 20px;
-                margin: 5px;
                 background-color: #0763e5;
             }
             QPushButton:hover {
@@ -51,6 +51,7 @@ class Ui_Firstpage(object):
                 color: #0763e5;
                 border: 2px solid #0763e5;
             }
+
         """)
 
         font = QtGui.QFont()
@@ -64,6 +65,14 @@ class Ui_Firstpage(object):
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout = QtWidgets.QVBoxLayout()
 
+        self.usernmae_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.usernmae_lbl.setText(f"Username:{self.username}😊")
+        self.usernmae_lbl.setGeometry(20, 5, 200+len(self.username)*5, 50) 
+        username_font=QtGui.QFont()
+        username_font.setPointSize(12)
+        self.usernmae_lbl.setFont(username_font)
+  
+
         self.costregistration_lbl = Pics(parent=self.centralwidget, type="Cost Registration",pic=pics[0])
         self.verticalLayout.addWidget(self.costregistration_lbl)
 
@@ -72,6 +81,7 @@ class Ui_Firstpage(object):
 
         self.gridLayout_3.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+
 
         self.recordincome_lbl = Pics(parent=self.centralwidget, type="Record income",pic=pics[1])
         self.recordincome_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
