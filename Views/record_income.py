@@ -1,7 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
 
-
 class Ui_RecordIncome(object):
     def __init__(self):
         self.username = "name"
@@ -18,6 +17,18 @@ class Ui_RecordIncome(object):
         QLineEdit{
             border:none;
             border-radius: 8px;
+        }
+        QPushButton{
+            border=none;
+            border-radius:8px;
+            background-color: #0763e5;
+            color:white;
+        }
+        QPushButton:hover {
+                        background-color:#1AA7EC ;
+                    }
+        QPushButton:pressed {
+            background-color: #1AA7EC;
         }
         """)
 
@@ -38,6 +49,7 @@ class Ui_RecordIncome(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
 
         self.dateEdit = QtWidgets.QDateEdit(parent=self.centralwidget)
+        self.dateEdit.setDisplayFormat("yyyy-MM-dd")
         self.dateEdit.setGeometry(QtCore.QRect(10, 90, 271, 31))
         self.dateEdit.setCalendarPopup(True)
 
@@ -107,16 +119,19 @@ class Ui_RecordIncome(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
     def btn_submit_clicked(self):
-        self.controller.record_income()
+        result=self.controller.record_income()
+        if result != None:
+            self.show_error("Your Income Has Added",QtWidgets.QMessageBox.Icon.Information)
+            QtCore.QTimer.singleShot(1000,self.hide)
 
-    def show_error(self, message: str) -> None:
+    def show_error(self, message: str,type1=QtWidgets.QMessageBox.Icon.Critical) -> None:
         """make a messagebox to show errors to user.
 
         Args:
             message (str): It's an error message that when inputs are invalid throw.
         """
         msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        msg.setIcon(type1)
         msg.setText(message)
         msg.setWindowTitle("Error")
         msg.exec()

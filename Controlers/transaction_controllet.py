@@ -56,18 +56,23 @@ class TransactionController:
     def record_income(self) -> None:
         Record("income", self.ui).record(self.ui.username, self.ui.dateEdit, self.ui.le_Income,
                                          self.ui.le_discription, self.ui.combo_incom_type, self.ui.combo_source)
+        return True
 
     def record_cost(self) -> None:
         Record("cost", self.ui).record(self.ui.username, self.ui.dateEdit, self.ui.le_cost,
                                        self.ui.le_discription, self.ui.combo_cost_type, self.ui.combo_source)
+        return True
     
-    def add_category(self, category: str) -> None:
+    def add_category(self, category: str):
         if self.validation.validate_category(category):
-            self.db.add_category(self.ui.username, category)
+            return self.db.add_category(self.ui.username, category)
 
     def get_source_of_price(self,username):
         source_of_price=self.db.get_source_of_price(username)
         return source_of_price
     
-    def search(self, query: str, filter_search: str):
+    def search(self, query: str, filter_search: dict):
         return self.db.search(query, filter_search)
+    
+    def reporting(self,filter_search: dict,username: str):
+        return self.db.reporting(filter_search,username)

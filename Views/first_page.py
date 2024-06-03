@@ -3,6 +3,7 @@ from Views.record_income import *
 from Views.record_cost import *
 from Views.category import  Ui_Category
 from Views.search import Ui_Search
+from Views.reporting import Ui_Reporting
 
 
 class Buttons(QtWidgets.QPushButton):
@@ -111,6 +112,7 @@ class Ui_Firstpage(object):
         self.verticalLayout_5.addWidget(self.reporting_lbl)
 
         self.reporting_btn = Buttons(parent=self.centralwidget, text="Reporting")
+        self.reporting_btn.clicked.connect(self.btn_reporting_clicked)
         self.verticalLayout_5.addWidget(self.reporting_btn)
 
         self.gridLayout_3.addLayout(self.verticalLayout_5, 1, 0, 1, 2)
@@ -160,6 +162,8 @@ class Ui_Firstpage(object):
     
     def btn_search_clicked(self) -> None:
         self.open_window_searchpage(self.username)
+    def btn_reporting_clicked(self) -> None:
+        self.open_window_reportingpage(self.username)
     
     def open_window_searchpage(self,username) -> None:
         class MainWindow(QtWidgets.QMainWindow,Ui_Search):
@@ -200,5 +204,14 @@ class Ui_Firstpage(object):
         self.ui=MainWindow()
         self.ui.show()
         self.ui.setWindowTitle("Category Page")
+    def open_window_reportingpage(self, username) -> None:
+        class MainWindow(QtWidgets.QMainWindow,Ui_Reporting):
+            def __init__(self):
+                super().__init__()
+                self.username=username
+                self.setupUi(self)
+        self.ui=MainWindow()
+        self.ui.show()
+        self.ui.setWindowTitle("Reporting Page")
 
 

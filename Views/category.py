@@ -1,5 +1,17 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
+class Show:
+    def __init__(self,type1,message,title):
+        self.type=type1
+        self.message=message
+        self.title=title
+        self.show()
+    def show(self):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(self.type)
+        msg.setText(self.message)
+        msg.setWindowTitle(self.title)
+        msg.exec()
 
 
 class Ui_Category(object):
@@ -11,6 +23,24 @@ class Ui_Category(object):
         font.setItalic(True)
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("""
+        QLineEdit{
+            border:none;
+            border-radius: 8px;
+        }
+        QPushButton{
+            border=none;
+            border-radius:8px;
+            background-color: #0763e5;
+            color:white;
+        }
+        QPushButton:hover {
+                        background-color:#1AA7EC ;
+        }
+        QPushButton:pressed {
+            background-color: #1AA7EC;
+        }
+        """)
 
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -82,21 +112,13 @@ class Ui_Category(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
     
     def add_btn_clicked(self) -> None:
+        check=""
         if self.le_category.text():
-            self.controller.add_category(self.le_category.text())
+            check=self.controller.add_category(self.le_category.text())
+            if not check:
+                Show(QtWidgets.QMessageBox.Icon.Information,"This category alredy exist","Category Exist")
         else:
-            self.show_error("Please write name of your category")
-            
-    def show_error(self, message: str) -> None:
-        """make a messagebox to show errors to user.
-
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        
-        self.le_category.setStyleSheet("border: 1px solid red")
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Please write your category name","Error")
+        if check:
+            QtCore.QTimer.singleShot(2000,self.hide)
+            Show(QtWidgets.QMessageBox.Icon.Information,"Your Category Added","Category Added")
