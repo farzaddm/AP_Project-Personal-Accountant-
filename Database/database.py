@@ -1,7 +1,7 @@
 import sqlite3
 import datetime
 from dateutil.relativedelta import relativedelta
-
+import pandas as pd
 
 
 class database:
@@ -81,9 +81,9 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
             self.cur.execute(
                 "INSERT INTO category(username, category) VALUES (?,?);", (username, category))
             self.conn.commit()
-            print(1)
+            return True
         else:
-            print(0)
+            return False
 
     def get_source_of_price(self, username):
         self.cur.execute(
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         result = self.cur.fetchall()
         return result
 
-    def search(self, search_text: str, filter_search: str) -> list:
+    def search(self, search_text: str, filter_search: dict) -> list:
         empty_part = []
         for i in filter_search:
             if filter_search[i] == "":
@@ -145,6 +145,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
                         filtered_result.append(row)
                 if filter_search["time"] == "monthly":
                     date2 = today - relativedelta(months=1)
+                    
                     if date2.strftime("%Y-%m-%d") <= date.strftime("%Y-%m-%d") <= today.strftime("%Y-%m-%d"):
                         filtered_result.append(row)
                 if filter_search["time"] == "daily":
@@ -154,6 +155,171 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         
         return filtered_result if "time" in filter_search else result
 
+    def reporting(self,filter_search: dict,username: str):
+        parameters=[]
+        empty_part = []
+        for i in filter_search:
+            if filter_search[i] == "" or filter_search[i] == []:
+                empty_part.append(i)
+
+        for i in empty_part:
+            del filter_search[i]
+
+        if "min_amount" in filter_search:
+            min1 = filter_search["min_amount"]
+            del filter_search["min_amount"]
+        else:
+            min1 = 0
+
+        if "max_amount" in filter_search:
+            max1 = filter_search["max_amount"]
+            del filter_search["max_amount"]
+        else:
+            max1 = 9999999999
                             
+        query = f"SELECT * FROM 'transaction' WHERE price BETWEEN ? AND ?"
+        parameters.append(min1)
+        parameters.append(max1)
+
+        if "source-of-price" in filter_search:
+            query+=f" AND source_of_price=?"
+            parameters.append(filter_search["source-of-price"])
+
+        if "type_price" in filter_search:
+            query+=" AND (" + " OR ".join(["type_of_price = ?" for item in filter_search["type_price"]])+")"
+            parameters.extend(filter_search["type_price"])
+        
+        result = self.cur.execute(query,parameters)
+        filtered_result=[]
+        if not "time" in filter_search:
+            if "first_time" in filter_search:
+                first_year,first_month,first_day=filter_search["first_time"].split("-")
+                first_date=datetime.datetime(int(first_year), int(first_month), int(first_day))
+                end_year,end_month,end_day=filter_search["end_time"].split("-")
+                end_date=datetime.datetime(int(end_year), int(end_month), int(end_day))
+                for row in result:
+                    date=row[3]
+                    year, month, day = date.split("-")
+                    date = datetime.datetime(int(year), int(month), int(day))
+                    if first_date.strftime("%Y-%m-%d") <= date.strftime("%Y-%m-%d") <= end_date.strftime("%Y-%m-%d"):
+                        filtered_result.append(row)
+                limitation={
+                    "source_of_income":[],
+                    "source_of_cost":[],
+                    "income_price":{},
+                    "cost_price":{}
+                    }
+                for row in filtered_result:
+                    if row[1] == "income":
+                        if row[4] not in limitation["source_of_income"]:
+                            limitation["source_of_income"].append(row[4])
+                            limitation["income_price"][row[4]]=row[2]
+                        else:
+                            limitation["income_price"][row[4]]+=row[2]
+                    else:
+                        if row[4] not in limitation["source_of_cost"]:
+                            limitation["source_of_cost"].append(row[4])
+                            limitation["cost_price"][row[4]]=row[2]
+                        else:
+                            limitation["cost_price"][row[4]]+=row[2]
+                return limitation
+            else:
+                return False
+        else:
+            filtered_result=result.fetchall()
+
+            if filter_search["time"][0] == "yearly":
+                limitation={
+                "source_of_income":[],
+                "source_of_cost":[],
+                "income_price":{},
+                "cost_price":{}
+                }
+                
+                for row in filtered_result:
+                    date=row[3]
+                    if int(date.split("-")[0]) == int(filter_search["time"][1]):
+                        if row[1] == "income":
+                            if row[4] not in limitation["source_of_income"]:
+                                limitation["source_of_income"].append(row[4])
+                                limitation["income_price"][row[4]]=row[2]
+                            else:
+                                limitation["income_price"][row[4]]+=row[2]
+                        else:
+                            if row[4] not in limitation["source_of_cost"]:
+                                limitation["source_of_cost"].append(row[4])
+                                limitation["cost_price"][row[4]]=row[2]
+                            else:
+                                limitation["cost_price"][row[4]]+=row[2]
+            if filter_search["time"][0] == "monthly":
+                limitation={
+                "source_of_income":[],
+                "source_of_cost":[],
+                "income_price":{},
+                "cost_price":{}
+                }
+                for row in filtered_result:
+                    date=row[3]
+                    now=datetime.datetime.now()
+                    if int(date.split("-")[1]) == int(filter_search["time"][1]) and int(date.split("-")[0]) == now.year:
+                        if row[1] == "income":
+                            if row[4] not in limitation["source_of_income"]:
+                                limitation["source_of_income"].append(row[4])
+                                limitation["income_price"][row[4]]=row[2]
+                            else:
+                                limitation["income_price"][row[4]]+=row[2]
+                        else:
+                            if row[4] not in limitation["source_of_cost"]:
+                                limitation["source_of_cost"].append(row[4])
+                                limitation["cost_price"][row[4]]=row[2]
+                            else:
+                                limitation["cost_price"][row[4]]+=row[2]
+            if filter_search["time"][0] == "daily":
+                limitation={
+                "source_of_income":[],
+                "source_of_cost":[],
+                "income_price":{},
+                "cost_price":{}
+                }
+                for row in filtered_result:
+                    date=row[3].split("-")
+                    year=date[0]
+                    month=date[1]
+                    day=date[2]
+                    now=datetime.datetime.now()
+                    if int(year)==now.year and int(month) == now.month and int(day) == int(filter_search["time"][1]):
+                        if row[1] == "income":
+                            if row[4] not in limitation["source_of_income"]:
+                                limitation["source_of_income"].append(row[4])
+                                limitation["income_price"][row[4]]=row[2]
+                            else:
+                                limitation["income_price"][row[4]]+=row[2]
+                        else:
+                            if row[4] not in limitation["source_of_cost"]:
+                                limitation["source_of_cost"].append(row[4])
+                                limitation["cost_price"][row[4]]=row[2]
+                            else:
+                                limitation["cost_price"][row[4]]+=row[2]
+            return limitation
+            
+
+ 
+                            
+                            
+                    
+
+            
+
+
+
+        
+            
+       
+                
+
+
+        
+
+
 
 

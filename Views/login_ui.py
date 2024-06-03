@@ -41,7 +41,7 @@ class Ui_Login(object):
         self.centralwidget.setStyleSheet("""
                     QPushButton {
                         background-color: #0763e5;
-                        color: #000000;
+                        color: #ffffff;
                         border-radius: 15px;
                         border: 2px #1AA7EC;
                         font-size: 12px;

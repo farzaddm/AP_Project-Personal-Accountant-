@@ -8,6 +8,24 @@ class Ui_Search(object):
         MainWindow.resize(650, 571)
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget.setStyleSheet("""
+        QLineEdit{
+            border:none;
+            border-radius: 8px;
+        }
+        QPushButton{
+            border=none;
+            border-radius:8px;
+            background-color: #0763e5;
+            color:white;
+        }
+        QPushButton:hover {
+                        background-color:#1AA7EC ;
+        }
+        QPushButton:pressed {
+            background-color: #1AA7EC;
+        }
+        """)
 
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
 
@@ -26,7 +44,12 @@ class Ui_Search(object):
         self.horizontalLayout.addWidget(self.chb_monthly)
         self.chb_yearly = QtWidgets.QCheckBox(parent=self.centralwidget)
 
+
         self.horizontalLayout.addWidget(self.chb_yearly)
+        self.chb_no_choice = QtWidgets.QCheckBox(parent=self.centralwidget)
+
+        self.horizontalLayout.addWidget(self.chb_no_choice)
+
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.group_lbl = QtWidgets.QLabel(parent=self.centralwidget)
 
@@ -125,7 +148,8 @@ class Ui_Search(object):
         self.time_group.addButton(self.chb_daily)
         self.time_group.addButton(self.chb_monthly)
         self.time_group.addButton(self.chb_yearly)
-        
+        self.time_group.addButton(self.chb_no_choice)
+    
         self.info_group = QtWidgets.QButtonGroup()
         self.info_group.addButton(self.chb_description)
         self.info_group.addButton(self.chb_category)
@@ -138,8 +162,10 @@ class Ui_Search(object):
         self.price_group.addButton(self.chb_cheque)
         self.price_group.addButton(self.chb_cash)
         self.price_group.addButton(self.chb_digital_c)
+        
+        self.last_checked = None
 
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
 
 
     def retranslateUi(self, MainWindow):
@@ -150,17 +176,19 @@ class Ui_Search(object):
         self.chb_daily.setText(_translate("MainWindow", "Daily"))
         self.chb_monthly.setText(_translate("MainWindow", "Monthly"))
         self.chb_yearly.setText(_translate("MainWindow", "Yearly"))
-        self.group_lbl.setText(_translate("MainWindow", "Choose group (Optional):"))
+        self.chb_no_choice.setText(_translate("MainWindow", "No Choice"))
+        self.group_lbl.setText(_translate(
+            "MainWindow", "Choose group (Optional):"))
         self.chb_description.setText(_translate("MainWindow", "Descripption"))
         self.chb_category.setText(_translate("MainWindow", "Category"))
-        self.type_lbl.setText(_translate("MainWindow", "trpe of price (Optional):"))
+        self.type_lbl.setText(_translate("MainWindow", "type of price (Optional):"))
         self.chb_cheque.setText(_translate("MainWindow", "Cheque"))
         self.chb_cash.setText(_translate("MainWindow", "Cash"))
         self.chb_digital_c.setText(_translate("MainWindow", "Digital currencies"))
         self.le_min_amount.setPlaceholderText(_translate("MainWindow", "Min amount"))
         self.le_max_amount.setPlaceholderText(_translate("MainWindow", "Max amount"))
         self.chb_income.setText(_translate("MainWindow", "Income"))
-        self.chb_expense.setText(_translate("MainWindow", "Expense"))
+        self.chb_expense.setText(_translate("MainWindow", "Cost"))
         self.btn_search.setText(_translate("MainWindow", "Search"))
         item = self.table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Type"))
@@ -219,9 +247,17 @@ class Ui_Search(object):
             filter_search["type"] = "cost"
             
         if self.le_max_amount.text():
-            filter_search["max_amount"] = self.le_max_amount.text()
+            if self.le_max_amount.text().isnumeric():
+                filter_search["max_amount"] = self.le_max_amount.text()
+            else:
+                self.show_error("The max has to be integer")
+                return
         if self.le_min_amount.text():
-            filter_search["min_amount"] = self.le_min_amount.text()
+            if self.le_min_amount.text().isnumeric():
+                filter_search["min_amount"] = self.le_min_amount.text()
+            else:
+                self.show_error("The min has to be integer")
+                return
             
         data = self.controller.search(search_text, filter_search)
         if data:
@@ -245,7 +281,7 @@ class Ui_Search(object):
             message (str): It's an error message that when inputs are invalid throw.
         """
         msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
         msg.setText(message)
         msg.setWindowTitle("Error")
         msg.exec()
