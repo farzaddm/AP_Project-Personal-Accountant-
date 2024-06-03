@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
 
         if "max_amount" in filter_search:
             max1 = filter_search["max_amount"]
-            del filter_search["min_amount"]
+            del filter_search["max_amount"]
         else:
             max1 = 9999999999
 
