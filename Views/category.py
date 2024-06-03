@@ -26,6 +26,20 @@ class Ui_Category(object):
         self.add_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.add_btn.clicked.connect(self.add_btn_clicked)
         self.verticalLayout.addWidget(self.add_btn)
+        # self.add_btn.setStyleSheet("""
+        #     QPushButton {
+        #         background-color: #0763e5;
+        #         color: #ffffff;
+        #         font-size: 12px;
+        #     }
+        #     QPushButton:hover {
+        #         background-color:#1AA7EC ;
+        #     }
+        #     QPushButton:pressed {
+        #         background-color: #1AA7EC;
+        #     }
+        # """)
+
         
         self.verticalLayout_2.addLayout(self.verticalLayout)
         
@@ -68,4 +82,21 @@ class Ui_Category(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
     
     def add_btn_clicked(self) -> None:
-        self.controller.add_category(self.le_category.text())
+        if self.le_category.text():
+            self.controller.add_category(self.le_category.text())
+        else:
+            self.show_error("Please write name of your category")
+            
+    def show_error(self, message: str) -> None:
+        """make a messagebox to show errors to user.
+
+        Args:
+            message (str): It's an error message that when inputs are invalid throw.
+        """
+        
+        self.le_category.setStyleSheet("border: 1px solid red")
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.exec()

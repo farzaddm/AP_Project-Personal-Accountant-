@@ -1,22 +1,25 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QHeaderView
+from Controlers.transaction_controllet import TransactionController
 
 
 class Ui_Search(object):
     def setupUi(self, MainWindow):
-        MainWindow.resize(624, 471)
+        MainWindow.resize(650, 571)
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
 
         self.le_search = QtWidgets.QLineEdit(parent=self.centralwidget)
+
         self.verticalLayout.addWidget(self.le_search)
         self.time_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-
         self.verticalLayout.addWidget(self.time_lbl)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
 
         self.chb_daily = QtWidgets.QCheckBox(parent=self.centralwidget)
+
         self.horizontalLayout.addWidget(self.chb_daily)
         self.chb_monthly = QtWidgets.QCheckBox(parent=self.centralwidget)
 
@@ -41,10 +44,22 @@ class Ui_Search(object):
         self.chb_category = QtWidgets.QCheckBox(parent=self.centralwidget)
 
         self.horizontalLayout_4.addWidget(self.chb_category)
-        self.chb_source = QtWidgets.QCheckBox(parent=self.centralwidget)
-
-        self.horizontalLayout_4.addWidget(self.chb_source)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
+        self.type_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
+        self.verticalLayout.addWidget(self.type_lbl)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+
+        self.chb_cheque = QtWidgets.QCheckBox(parent=self.centralwidget)
+
+        self.horizontalLayout_5.addWidget(self.chb_cheque)
+        self.chb_cash = QtWidgets.QCheckBox(parent=self.centralwidget)
+
+        self.horizontalLayout_5.addWidget(self.chb_cash)
+        self.chb_digital_c = QtWidgets.QCheckBox(parent=self.centralwidget)
+
+        self.horizontalLayout_5.addWidget(self.chb_digital_c)
+        self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
 
         self.le_min_amount = QtWidgets.QLineEdit(parent=self.centralwidget)
@@ -64,7 +79,6 @@ class Ui_Search(object):
         self.horizontalLayout_2.addWidget(self.chb_expense)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.btn_search = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.btn_search.clicked.connect(self.btn_search_clicked)
 
         self.verticalLayout.addWidget(self.btn_search)
         self.table = QtWidgets.QTableWidget(parent=self.centralwidget)
@@ -85,14 +99,13 @@ class Ui_Search(object):
         self.table.setHorizontalHeaderItem(5, item)
         self.table.horizontalHeader().setCascadingSectionResizes(False)
         self.table.verticalHeader().setCascadingSectionResizes(False)
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-
         self.verticalLayout.addWidget(self.table)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 624, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 644, 22))
+
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
+
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
 
         MainWindow.setMenuBar(self.menubar)
@@ -100,12 +113,15 @@ class Ui_Search(object):
 
         MainWindow.setStatusBar(self.statusbar)
         self.actionexit = QtGui.QAction(parent=MainWindow)
+
         self.actionhelp = QtGui.QAction(parent=MainWindow)
 
         self.menuFile.addAction(self.actionexit)
         self.menuHelp.addAction(self.actionhelp)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
+        
+        self.btn_search.clicked.connect(self.btn_search_clicked)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -136,10 +152,8 @@ class Ui_Search(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.le_search.setPlaceholderText(
-            _translate("MainWindow", "Search..."))
-        self.time_lbl.setText(_translate(
-            "MainWindow", "Time filter (Optional):"))
+        self.le_search.setPlaceholderText(_translate("MainWindow", "Search..."))
+        self.time_lbl.setText(_translate("MainWindow", "Time filter (Optional):"))
         self.chb_daily.setText(_translate("MainWindow", "Daily"))
         self.chb_monthly.setText(_translate("MainWindow", "Monthly"))
         self.chb_yearly.setText(_translate("MainWindow", "Yearly"))
@@ -148,43 +162,36 @@ class Ui_Search(object):
             "MainWindow", "Choose group (Optional):"))
         self.chb_description.setText(_translate("MainWindow", "Descripption"))
         self.chb_category.setText(_translate("MainWindow", "Category"))
-        self.chb_source.setText(_translate("MainWindow", "Source"))
-        self.le_min_amount.setPlaceholderText(
-            _translate("MainWindow", "Min amount"))
-        self.le_max_amount.setPlaceholderText(
-            _translate("MainWindow", "Max amount"))
+        self.type_lbl.setText(_translate("MainWindow", "trpe of price (Optional):"))
+        self.chb_cheque.setText(_translate("MainWindow", "Cheque"))
+        self.chb_cash.setText(_translate("MainWindow", "Cash"))
+        self.chb_digital_c.setText(_translate("MainWindow", "Digital currencies"))
+        self.le_min_amount.setPlaceholderText(_translate("MainWindow", "Min amount"))
+        self.le_max_amount.setPlaceholderText(_translate("MainWindow", "Max amount"))
         self.chb_income.setText(_translate("MainWindow", "Income"))
         self.chb_expense.setText(_translate("MainWindow", "Expense"))
         self.btn_search.setText(_translate("MainWindow", "Search"))
         item = self.table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Type"))
         item = self.table.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Category"))
-        item = self.table.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Source"))
-        item = self.table.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Date"))
-        item = self.table.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Amount"))
-        item = self.table.horizontalHeaderItem(5)
+        item = self.table.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Date"))
+        item = self.table.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Source"))
+        item = self.table.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Description"))
+        item = self.table.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "Type of price"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
     
 
-    # def uncheck(self, state):
-    #     if state:
-    #         self.sender().setCheckable(False)
-    #         self.sender().setCheckable(True)
-            
-        
-            
-            
-
-
     def btn_search_clicked(self):
+        self.table.setRowCount(0)
+        self.controller = TransactionController(self)
         search_text = self.le_search.text().lower()
         
         filter_search = {
@@ -192,7 +199,8 @@ class Ui_Search(object):
             "group": "",
             "time": "",
             "min_amount": "",
-            "max_amount": ""
+            "max_amount": "",
+            "type_price": ""
         }
         
         if self.chb_daily.isChecked():
@@ -205,17 +213,49 @@ class Ui_Search(object):
         if self.chb_description.isChecked():
             filter_search["group"] = "description"
         elif self.chb_category.isChecked():
-            filter_search["group"] = "category"
-        elif self.chb_source.isChecked():
-            filter_search["group"] = "source"
+            filter_search["group"] = "source_of_price"
+            
+        if self.chb_digital_c.isChecked():
+            filter_search["type_price"] = "Digital currencies"
+        elif self.chb_cash.isChecked():
+            filter_search["type_price"] = "Cash"
+        elif self.chb_cheque.isChecked():
+            filter_search["type_price"] = "Cheque"
             
         if self.chb_income.isChecked():
             filter_search["type"] = "income"
         elif self.chb_expense.isChecked():
-            filter_search["time"] = "cost"
+            filter_search["type"] = "cost"
             
         if self.le_max_amount.text():
             filter_search["max_amount"] = self.le_max_amount.text()
         if self.le_min_amount.text():
             filter_search["min_amount"] = self.le_min_amount.text()
+            
+        data = self.controller.search(search_text, filter_search)
+        if data:
+            self.add_row_to_table(data)
+        else:
+            self.show_error("There was not any result.")
+            
         
+    def add_row_to_table(self, data: list) -> None:
+        self.table.setRowCount(len(data))
+        
+        for row_id, row_data in enumerate(data):
+            for item_id, item in enumerate(row_data[1:]):
+                self.table.setItem(row_id, item_id, QtWidgets.QTableWidgetItem(str(item)))
+                
+    
+    def show_error(self, message: str) -> None:
+        """make a messagebox to show errors to user.
+
+        Args:
+            message (str): It's an error message that when inputs are invalid throw.
+        """
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.exec()
+    

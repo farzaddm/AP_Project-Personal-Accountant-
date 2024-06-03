@@ -91,7 +91,6 @@ class Ui_SignUp(object):
         font.setItalic(True)
         
         self.btn_signup.setFont(font)
-        self.btn_signup.setObjectName("btn_signup")
         self.btn_signup.setStyleSheet("""
                     QPushButton {
                         background-color: #0763e5;

@@ -3,13 +3,18 @@ import string
 import random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv, dotenv_values
+from Database.database import databased
+import os
 
 
 class email_sender:
     #? should pass the ui to it.....
     def __init__(self, ui) -> None:
-        self.my_email = "dehghanfarzad2005@gmail.com"
-        self.password = "chax jteh uwhs jlou"
+        load_dotenv()
+        
+        self.my_email = os.getenv("MY_EMAIL")
+        self.password = os.getenv("MY_PASSWORD")
         
         self.ui = ui
 
@@ -24,9 +29,10 @@ class email_sender:
         return "".join(str(i) for i in password)
 
     def send_password(self, email: str):
+        #! we put our email instead of user email for debug
         self.random_password=self.random_password_generator()
         try:
-            self.connection.sendmail(from_addr=self.my_email, to_addrs="naghinjadali@gmail.com",
+            self.connection.sendmail(from_addr=self.my_email, to_addrs="farzad.d.m84@gmail.com",
                                  msg=f"Subject: Personal Accountant App\n\nHello,\nYour temporary password: {self.random_password}")
             return self.random_password
         except smtplib.SMTPRecipientsRefused:
