@@ -8,148 +8,143 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+class Pics(QtWidgets.QLabel):
+    def __init__(self, parent, type, pic, width, height):
+        super().__init__(parent=parent)
+        pixmap = QtGui.QPixmap(pic)
+        if width and height:
+            pixmap = pixmap.scaled(width, height, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.TransformationMode.SmoothTransformation)
+        self.setPixmap(pixmap)
 
-class Ui_MainWindow(object):
+class Ui_Setting(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(764, 503)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
+
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.verticalLayout_9.setObjectName("verticalLayout_9")
+
         self.verticalLayout_8 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_8.setObjectName("verticalLayout_8")
+
         self.horizontalLayout_19 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_19.setObjectName("horizontalLayout_19")
+
         self.verticalLayout_7 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
+
         self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
+
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.username_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.username_lbl.setObjectName("username_lbl")
         self.verticalLayout_3.addWidget(self.username_lbl)
-        self.pic_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.pic_lbl.setMinimumSize(QtCore.QSize(150, 150))
-        self.pic_lbl.setMaximumSize(QtCore.QSize(150, 150))
-        self.pic_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.pic_lbl.setObjectName("pic_lbl")
+
+        self.pic_lbl = Pics(self.centralwidget,"Set Pic","?",None,None)
         self.verticalLayout_3.addWidget(self.pic_lbl)
         self.verticalLayout.addLayout(self.verticalLayout_3)
+
         self.add_pic_btn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.add_pic_btn.setObjectName("add_pic_btn")
+        self.add_pic_btn.clicked.connect(self.choosing_pic)
         self.verticalLayout.addWidget(self.add_pic_btn)
         self.verticalLayout_7.addLayout(self.verticalLayout)
+
         self.line_4 = QtWidgets.QFrame(parent=self.centralwidget)
         self.line_4.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.line_4.setObjectName("line_4")
         self.verticalLayout_7.addWidget(self.line_4)
+
         self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
+
         self.theme_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.theme_lbl.setObjectName("theme_lbl")
         self.horizontalLayout.addWidget(self.theme_lbl)
+
         self.theme_combo = QtWidgets.QComboBox(parent=self.centralwidget)
-        self.theme_combo.setObjectName("theme_combo")
         self.theme_combo.addItem("")
         self.theme_combo.addItem("")
         self.horizontalLayout.addWidget(self.theme_combo)
         self.verticalLayout_7.addLayout(self.horizontalLayout)
         self.horizontalLayout_18 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_18.setObjectName("horizontalLayout_18")
+
         self.menu_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.menu_lbl.setObjectName("menu_lbl")
-        self.horizontalLayout_18.addWidget(self.menu_lbl)
+
         self.menu_combo = QtWidgets.QComboBox(parent=self.centralwidget)
-        self.menu_combo.setObjectName("menu_combo")
+
         self.horizontalLayout_18.addWidget(self.menu_combo)
         self.verticalLayout_7.addLayout(self.horizontalLayout_18)
         self.horizontalLayout_19.addLayout(self.verticalLayout_7)
         self.line_3 = QtWidgets.QFrame(parent=self.centralwidget)
         self.line_3.setFrameShape(QtWidgets.QFrame.Shape.VLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.line_3.setObjectName("line_3")
+
         self.horizontalLayout_19.addWidget(self.line_3)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
+
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.username_lbl_4 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.username_lbl_4.setObjectName("username_lbl_4")
         self.horizontalLayout_6.addWidget(self.username_lbl_4)
         self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.id_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.id_lbl.setObjectName("id_lbl")
         self.horizontalLayout_2.addWidget(self.id_lbl)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+
         self.line = QtWidgets.QFrame(parent=self.centralwidget)
         self.line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.line.setObjectName("line")
         self.verticalLayout_2.addWidget(self.line)
+
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.email_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.email_lbl.setObjectName("email_lbl")
         self.horizontalLayout_3.addWidget(self.email_lbl)
+
         self.le_email = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.le_email.setObjectName("le_email")
         self.horizontalLayout_3.addWidget(self.le_email)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.phone_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.phone_lbl.setObjectName("phone_lbl")
         self.horizontalLayout_4.addWidget(self.phone_lbl)
+
         self.le_phone = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.le_phone.setObjectName("le_phone")
         self.horizontalLayout_4.addWidget(self.le_phone)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+
         self.firstname_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.firstname_lbl.setObjectName("firstname_lbl")
         self.horizontalLayout_7.addWidget(self.firstname_lbl)
+
         self.le_firstname = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.le_firstname.setObjectName("le_firstname")
         self.horizontalLayout_7.addWidget(self.le_firstname)
         self.verticalLayout_2.addLayout(self.horizontalLayout_7)
+
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.lastname_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.lastname_lbl.setObjectName("lastname_lbl")
         self.horizontalLayout_9.addWidget(self.lastname_lbl)
+
         self.le_lastname = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.le_lastname.setObjectName("le_lastname")
         self.horizontalLayout_9.addWidget(self.le_lastname)
         self.verticalLayout_2.addLayout(self.horizontalLayout_9)
+
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
         self.password_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.password_lbl.setObjectName("password_lbl")
         self.horizontalLayout_10.addWidget(self.password_lbl)
+
         self.le_password = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.le_password.setObjectName("le_password")
+
         self.horizontalLayout_10.addWidget(self.le_password)
         self.verticalLayout_2.addLayout(self.horizontalLayout_10)
         self.line_2 = QtWidgets.QFrame(parent=self.centralwidget)
         self.line_2.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line_2.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.line_2.setObjectName("line_2")
         self.verticalLayout_2.addWidget(self.line_2)
+
         self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+
         self.city_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.city_lbl.setObjectName("city_lbl")
         self.horizontalLayout_11.addWidget(self.city_lbl)
+
         self.le_city = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.le_city.setObjectName("le_city")
         self.horizontalLayout_11.addWidget(self.le_city)
         self.verticalLayout_2.addLayout(self.horizontalLayout_11)
+
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
         self.sequrity_q_lbl = QtWidgets.QLabel(parent=self.centralwidget)
@@ -237,3 +232,16 @@ class Ui_MainWindow(object):
         self.del_user_btn.setText(_translate("MainWindow", "Delete User"))
         self.export_btn.setText(_translate("MainWindow", "Export to CSV"))
         self.pushButton_3.setText(_translate("MainWindow", "Clear Transactions"))
+    def choosing_pic(self):
+        options=QtWidgets.QFileDialog.Option.ReadOnly
+        file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select a File", "",
+                                                       "All Files (*);;Text Files (*.txt);;Python Files (*.py)",
+                                                       options=options)
+        self.verticalLayout_3.removeWidget(self.pic_lbl)
+        self.pic_lbl.deleteLater()
+
+        # Create a new Pics widget
+        self.pic_lbl = Pics(self.centralwidget, "Set Pic", r"{R}".format(R=file_name),200,200)
+
+        # Add the new Pics widget to the layout
+        self.verticalLayout_3.addWidget(self.pic_lbl)
