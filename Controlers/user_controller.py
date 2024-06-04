@@ -54,6 +54,8 @@ class UserController():
     def __init__(self, ui) -> None:
         self.ui = ui
         self.validation = Validation()
+        self.db = database()
+        
 
     def sign_up(self) -> None:
         """ Check the validations of inputs and if every thing is ok save it to database. """
@@ -136,8 +138,7 @@ class UserController():
         return self.validation.validate_forget_password(username, security_q)
 
     def get_password(self, username):
-        db = database()
-        password = db.find_user_password(username)
+        password = self.db.find_user_password(username)
         return password
 
     def send_email(self, email):
@@ -149,6 +150,71 @@ class UserController():
         email_database = database()
         user_email = email_database.find_user_email(username)
         return user_email
+    
+    def get_information(self, username: str):
+        return self.db.get_information(username)
+    
+    def update_user(self, changes: dict, username: str):
+        if "email" in changes:
+            if not self.validation.validate_email(changes["email"]):
+                self.ui.le_email.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid email format. Only gmail.com or yahoo.com domains are allowed.")
+                self.ui.le_email.textChanged.connect(self.change_styles_email)
+                del changes["email"]
+        
+        if "phone" in changes:
+            if not self.validation.validate_phone(changes["phone"]):
+                self.ui.le_phone.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid phone number. It should start with 09 and be 11 digits long.")
+                self.ui.le_phone.textChanged.connect(self.change_styles_phone)
+                del changes["phone"]
+        
+        if "first_name" in changes:
+            if not self.validation.validate_name(changes["first_name"]):
+                self.ui.le_fname.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid firstname. Only English letters are allowed.")
+                self.ui.le_fname.textChanged.connect(self.change_styles_fname)
+                
+                del changes["first_name"]
+        
+        if "last_name" in changes:
+            if not self.validation.validate_name(changes["last_name"]):
+                self.ui.le_lname.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid firstname. Only English letters are allowed.")
+                self.ui.le_lname.textChanged.connect(self.change_styles_lname)
+                del changes["last_name"]
+        
+        if "password" in changes:
+            if not self.validation.validate_password(changes["password"]):
+                self.ui.le_password.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid password. It must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.")
+                self.ui.le_password.textChanged.connect(self.change_styles_password)
+                del changes["password"]
+       
+        if "city" in changes:
+            if not self.validation.validate_city(changes["city"]):
+                self.ui.le_city.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid city.")
+                self.ui.le_city.textChanged.connect(self.change_styles_city)
+                del changes["city"]
+        
+        if "birthday" in changes:
+            if not self.validation.validate_birthday(changes["birthday"]):
+                self.ui.dateTimeEdit.setStyleSheet("border: 1px solid red")
+                self.ui.show_error("Invalid date of birth. Year must be between 1920 and 2005.")
+                self.ui.le_birthday.textChanged.connect(self.change_styles_birthday)
+                
+                del changes["birthday"]
+        
+        if changes:
+            self.db.update_user(changes, username)
+    
+    def delete_user(self, username: str) -> None:
+        self.db.delete_user(username)
+    
+    def export_to_csv(self, username: str) -> None:
+        self.db.export_to_csv(username)
+        
 
     # ---------change style ---------------
 
