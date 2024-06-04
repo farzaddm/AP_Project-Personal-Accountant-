@@ -190,7 +190,7 @@ class Ui_Setting(object):
 
         self.verticalLayout_4.addWidget(self.del_user_btn)
         self.export_btn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.export_btn.clicked.connect(self.export_to_csv)
+        self.export_btn.clicked.connect(self.get_backup)
 
         self.verticalLayout_4.addWidget(self.export_btn)
         self.pushButton_3 = QtWidgets.QPushButton(parent=self.centralwidget)
@@ -252,7 +252,7 @@ class Ui_Setting(object):
             _translate("MainWindow", "yyyy-MM-dd"))
         self.save_info_btn.setText(_translate("MainWindow", "Save Changes"))
         self.del_user_btn.setText(_translate("MainWindow", "Delete User"))
-        self.export_btn.setText(_translate("MainWindow", "Export to CSV"))
+        self.export_btn.setText(_translate("MainWindow", "Get BackUp"))
         self.pushButton_3.setText(_translate(
             "MainWindow", "Clear Transactions"))
 
@@ -312,8 +312,8 @@ class Ui_Setting(object):
         self.controller.delete_user(self.username)
         #? what to do after???
     
-    def export_to_csv(self) -> None:
-        self.controller.export_to_csv(self.username)
+    def get_backup(self) -> None:
+        self.controller.export_to_json(self.username)
         
     def show_error(self, message: str) -> None:
         """make a messagebox to show errors to user.

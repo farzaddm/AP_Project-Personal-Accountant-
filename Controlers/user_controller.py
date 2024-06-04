@@ -212,8 +212,8 @@ class UserController():
     def delete_user(self, username: str) -> None:
         self.db.delete_user(username)
     
-    def export_to_csv(self, username: str) -> None:
-        self.db.export_to_csv(username)
+    def export_to_json(self, username: str) -> None:
+        self.db.export_to_json(username)
         
 
     # ---------change style ---------------

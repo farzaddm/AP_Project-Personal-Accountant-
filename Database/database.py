@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         self.cur.execute(f"DELETE FROM user WHERE username='{username}';")
         self.conn.commit()
     
-    def export_to_csv(self, username: str) -> None:
+    def export_to_json(self, username: str) -> None:
         result = {}
         self.cur.execute(f"SELECT * FROM user WHERE username='{username}';")
         temp = self.cur.fetchone()
@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
             }
             result["transaction"].append(data)
         
-        with open("backup.json", "w") as file:
+        with open(f"Backups/backup_{username}.json", "w") as file:
             json.dump(result, file)
         
         
