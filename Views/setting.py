@@ -26,17 +26,24 @@ class Ui_Setting(object):
 
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.centralwidget)
 
+
         self.verticalLayout_8 = QtWidgets.QVBoxLayout()
+
 
         self.horizontalLayout_19 = QtWidgets.QHBoxLayout()
 
+
         self.verticalLayout_7 = QtWidgets.QVBoxLayout()
+
 
         self.verticalLayout = QtWidgets.QVBoxLayout()
 
+
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
 
+
         self.username_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.verticalLayout_3.addWidget(self.username_lbl)
         self.pic_lbl = QtWidgets.QLabel(parent=self.centralwidget)
@@ -55,10 +62,13 @@ class Ui_Setting(object):
         self.line_4.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
 
+
         self.verticalLayout_7.addWidget(self.line_4)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
 
+
         self.theme_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout.addWidget(self.theme_lbl)
         self.theme_combo = QtWidgets.QComboBox(parent=self.centralwidget)
@@ -68,10 +78,13 @@ class Ui_Setting(object):
         self.verticalLayout_7.addLayout(self.horizontalLayout)
         self.horizontalLayout_18 = QtWidgets.QHBoxLayout()
 
+
         self.menu_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout_18.addWidget(self.menu_lbl)
         self.menu_combo = QtWidgets.QComboBox(parent=self.centralwidget)
+
 
         self.horizontalLayout_18.addWidget(self.menu_combo)
         self.verticalLayout_7.addLayout(self.horizontalLayout_18)
@@ -80,8 +93,22 @@ class Ui_Setting(object):
         self.line_3.setFrameShape(QtWidgets.QFrame.Shape.VLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
 
+
         self.horizontalLayout_19.addWidget(self.line_3)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+
+        # self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+
+        # self.username_lbl_4 = QtWidgets.QLabel(parent=self.centralwidget)
+
+        # self.horizontalLayout_6.addWidget(self.username_lbl_4)
+        # self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+        # self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+
+        # self.id_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
+        # self.horizontalLayout_2.addWidget(self.id_lbl)
+        # self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         # self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
 
@@ -99,49 +126,69 @@ class Ui_Setting(object):
         self.line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
 
+
         self.verticalLayout_2.addWidget(self.line)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
 
+
         self.email_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout_3.addWidget(self.email_lbl)
         self.le_email = QtWidgets.QLineEdit(parent=self.centralwidget)
+
 
         self.horizontalLayout_3.addWidget(self.le_email)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
 
+
         self.phone_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout_4.addWidget(self.phone_lbl)
         self.le_phone = QtWidgets.QLineEdit(parent=self.centralwidget)
+
 
         self.horizontalLayout_4.addWidget(self.le_phone)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
 
+
         self.firstname_lbl = QtWidgets.QLabel(parent=self.centralwidget)
 
+
         self.horizontalLayout_7.addWidget(self.firstname_lbl)
+        self.le_fname = QtWidgets.QLineEdit(parent=self.centralwidget)
+
+        self.horizontalLayout_7.addWidget(self.le_fname)
         self.le_fname = QtWidgets.QLineEdit(parent=self.centralwidget)
 
         self.horizontalLayout_7.addWidget(self.le_fname)
         self.verticalLayout_2.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
 
+
         self.lastname_lbl = QtWidgets.QLabel(parent=self.centralwidget)
 
+
         self.horizontalLayout_9.addWidget(self.lastname_lbl)
+        self.le_lname = QtWidgets.QLineEdit(parent=self.centralwidget)
+
+        self.horizontalLayout_9.addWidget(self.le_lname)
         self.le_lname = QtWidgets.QLineEdit(parent=self.centralwidget)
 
         self.horizontalLayout_9.addWidget(self.le_lname)
         self.verticalLayout_2.addLayout(self.horizontalLayout_9)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
 
+
         self.password_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout_10.addWidget(self.password_lbl)
         self.le_password = QtWidgets.QLineEdit(parent=self.centralwidget)
+
 
         self.horizontalLayout_10.addWidget(self.le_password)
         self.verticalLayout_2.addLayout(self.horizontalLayout_10)
@@ -149,13 +196,23 @@ class Ui_Setting(object):
         self.line_2.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line_2.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
 
+
         self.verticalLayout_2.addWidget(self.line_2)
         self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
 
+
         self.city_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout_11.addWidget(self.city_lbl)
         self.le_city = QtWidgets.QLineEdit(parent=self.centralwidget)
+
+    # -------
+        cities = ["Tehran", "Mashhad", "Isfahan", "Tabriz", "Shiraz", "Karaj",
+                  "Qom", "Ahvaz", "Kermanshah", "Urmia", "Yazd", "Bushehr", "Semnan"]
+        completer = QtWidgets.QCompleter(cities)
+        self.le_city.setCompleter(completer)
+
 
     # -------
         cities = ["Tehran", "Mashhad", "Isfahan", "Tabriz", "Shiraz", "Karaj",
@@ -167,18 +224,30 @@ class Ui_Setting(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_11)
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
 
+
         self.sequrity_q_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+
 
         self.horizontalLayout_12.addWidget(self.sequrity_q_lbl)
         self.le_security_q = QtWidgets.QLineEdit(parent=self.centralwidget)
+
 
         self.horizontalLayout_12.addWidget(self.le_security_q)
         self.verticalLayout_2.addLayout(self.horizontalLayout_12)
         self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
 
+
         self.birthday_lbl = QtWidgets.QLabel(parent=self.centralwidget)
 
+
         self.horizontalLayout_13.addWidget(self.birthday_lbl)
+        self.le_birthday = QtWidgets.QDateTimeEdit(parent=self.centralwidget)
+        self.le_birthday.setMaximumDate(QtCore.QDate(2005, 12, 31))
+        self.le_birthday.setMinimumDate(QtCore.QDate(1920, 9, 14))
+        self.le_birthday.setCalendarPopup(True)
+        self.le_birthday.dateTimeChanged.connect(self.date_change)
+
+        self.horizontalLayout_13.addWidget(self.le_birthday)
         self.le_birthday = QtWidgets.QDateTimeEdit(parent=self.centralwidget)
         self.le_birthday.setMaximumDate(QtCore.QDate(2005, 12, 31))
         self.le_birthday.setMinimumDate(QtCore.QDate(1920, 9, 14))
@@ -193,18 +262,26 @@ class Ui_Setting(object):
         self.line_5.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line_5.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
 
+
         self.verticalLayout_8.addWidget(self.line_5)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
 
+
         self.save_info_btn = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.save_info_btn.clicked.connect(self.update_user)
+
         self.save_info_btn.clicked.connect(self.update_user)
 
         self.verticalLayout_4.addWidget(self.save_info_btn)
         self.del_user_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.del_user_btn.clicked.connect(self.delete_user)
 
+        self.del_user_btn.clicked.connect(self.delete_user)
+
         self.verticalLayout_4.addWidget(self.del_user_btn)
         self.export_btn = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.export_btn.clicked.connect(self.get_backup)
+
         self.export_btn.clicked.connect(self.get_backup)
 
         self.verticalLayout_4.addWidget(self.export_btn)
@@ -246,19 +323,31 @@ class Ui_Setting(object):
         self.menu_lbl.setText(_translate("MainWindow", "Menu Position:"))
         # self.username_lbl_4.setText(_translate("MainWindow", "username"))
         # self.id_lbl.setText(_translate("MainWindow", "id"))
+        # self.username_lbl_4.setText(_translate("MainWindow", "username"))
+        # self.id_lbl.setText(_translate("MainWindow", "id"))
         self.email_lbl.setText(_translate("MainWindow", "Email"))
+        self.le_email.setPlaceholderText(
+            _translate("MainWindow", "New email..."))
         self.le_email.setPlaceholderText(
             _translate("MainWindow", "New email..."))
         self.phone_lbl.setText(_translate("MainWindow", "Phone"))
         self.le_phone.setPlaceholderText(
             _translate("MainWindow", "New phone number..."))
+        self.le_phone.setPlaceholderText(
+            _translate("MainWindow", "New phone number..."))
         self.firstname_lbl.setText(_translate("MainWindow", "First name"))
+        self.le_fname.setPlaceholderText(
+            _translate("MainWindow", "New first name..."))
         self.le_fname.setPlaceholderText(
             _translate("MainWindow", "New first name..."))
         self.lastname_lbl.setText(_translate("MainWindow", "Last name"))
         self.le_lname.setPlaceholderText(
             _translate("MainWindow", "New last name..."))
+        self.le_lname.setPlaceholderText(
+            _translate("MainWindow", "New last name..."))
         self.password_lbl.setText(_translate("MainWindow", "Password"))
+        self.le_password.setPlaceholderText(
+            _translate("MainWindow", "New password..."))
         self.le_password.setPlaceholderText(
             _translate("MainWindow", "New password..."))
         self.city_lbl.setText(_translate("MainWindow", "City"))
@@ -268,7 +357,15 @@ class Ui_Setting(object):
             "MainWindow", "Security question"))
         self.le_security_q.setPlaceholderText(_translate(
             "MainWindow", "What\'s your favorite color?..."))
+        self.le_city.setPlaceholderText(
+            _translate("MainWindow", "New city..."))
+        self.sequrity_q_lbl.setText(_translate(
+            "MainWindow", "Security question"))
+        self.le_security_q.setPlaceholderText(_translate(
+            "MainWindow", "What\'s your favorite color?..."))
         self.birthday_lbl.setText(_translate("MainWindow", "Birthday"))
+        self.le_birthday.setDisplayFormat(
+            _translate("MainWindow", "yyyy-MM-dd"))
         self.le_birthday.setDisplayFormat(
             _translate("MainWindow", "yyyy-MM-dd"))
         self.save_info_btn.setText(_translate("MainWindow", "Save Changes"))

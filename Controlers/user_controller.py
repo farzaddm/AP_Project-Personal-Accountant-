@@ -56,6 +56,8 @@ class UserController():
         self.validation = Validation()
         self.db = database()
         
+        self.db = database()
+        
 
     def sign_up(self) -> None:
         """ Check the validations of inputs and if every thing is ok save it to database. """
@@ -138,6 +140,7 @@ class UserController():
         return self.validation.validate_forget_password(username, security_q)
 
     def get_password(self, username):
+        password = self.db.find_user_password(username)
         password = self.db.find_user_password(username)
         return password
 

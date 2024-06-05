@@ -123,6 +123,7 @@ class Ui_Firstpage(object):
 
         self.setting_btn = Buttons(parent=self.centralwidget, text="Setting")
         self.setting_btn.clicked.connect(self.btn_setting_clicked)
+        self.setting_btn.clicked.connect(self.btn_setting_clicked)
         self.verticalLayout_6.addWidget(self.setting_btn)
 
         self.gridLayout_3.addLayout(self.verticalLayout_6, 1, 2, 1, 2)
@@ -161,6 +162,7 @@ class Ui_Firstpage(object):
     
     def btn_search_clicked(self) -> None:
         self.open_window_searchpage(self.username)
+        
         
     def btn_reporting_clicked(self) -> None:
         self.open_window_reportingpage(self.username)
