@@ -4,33 +4,15 @@ from Controlers.transaction_controllet import TransactionController
 class Ui_RecordIncome(object):
     def __init__(self):
         self.username = "name"
-        
+        self.style="style"
 
     def setupUi(self, MainWindow):
-        MainWindow.resize(310, 448)
-        MainWindow.setMinimumSize(QtCore.QSize(300, 448))
-        MainWindow.setMaximumSize(QtCore.QSize(300, 448))
-
+        self.MainWindow=MainWindow
+        self.MainWindow.resize(310, 448)
+        self.MainWindow.setMinimumSize(QtCore.QSize(300, 448))
+        self.MainWindow.setMaximumSize(QtCore.QSize(300, 448))
         self.controller = TransactionController(self)
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setStyleSheet("""
-        QLineEdit{
-            border:none;
-            border-radius: 8px;
-        }
-        QPushButton{
-            border=none;
-            border-radius:8px;
-            background-color: #0763e5;
-            color:white;
-        }
-        QPushButton:hover {
-                        background-color:#1AA7EC ;
-                    }
-        QPushButton:pressed {
-            background-color: #1AA7EC;
-        }
-        """)
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
 
         self.le_Income = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.le_Income.setGeometry(QtCore.QRect(10, 30, 271, 31))
@@ -76,18 +58,18 @@ class Ui_RecordIncome(object):
         self.combo_incom_type.addItem("")
         self.combo_incom_type.setCurrentIndex(-1)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 300, 22))
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
 
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        self.MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
 
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionexit = QtGui.QAction(parent=MainWindow)
-        self.actionhelp = QtGui.QAction(parent=MainWindow)
+        self.MainWindow.setStatusBar(self.statusbar)
+        self.actionexit = QtGui.QAction(parent=self.MainWindow)
+        self.actionhelp = QtGui.QAction(parent=self.MainWindow)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionexit)
         self.menuHelp.addAction(self.actionhelp)
@@ -95,8 +77,8 @@ class Ui_RecordIncome(object):
         self.menubar.addAction(self.menuHelp.menuAction())
 
         
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -136,8 +118,11 @@ class Ui_RecordIncome(object):
         msg.setWindowTitle("Error")
         msg.exec()
     def source_of_income_update(self):
-        source_of_income=self.controller.get_source_of_price(self.username)
-        for sources in source_of_income:
-            self.combo_source.addItem(sources[0])
+        try:
+            source_of_income=self.controller.get_source_of_price(self.username)
+            for sources in source_of_income:
+                self.combo_source.addItem(sources[0])
+        except:
+            self.show_error("Category Not Exist")
 
         

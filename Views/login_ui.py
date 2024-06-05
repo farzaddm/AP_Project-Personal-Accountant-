@@ -2,7 +2,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from Views.forget_password import *
 from Views.first_page import *
 from Controlers.user_controller import UserController
-
+from Views.mode import SetSetyling
 
 class Ui_Login(object):
     def open_window_forgetpage(self):
@@ -10,6 +10,7 @@ class Ui_Login(object):
             def __init__(self):
                 super().__init__()
                 self.setupUi(self)
+                self.style=SetSetyling(self)
 
         self.ui = MainWindow()
         self.ui.show()
@@ -17,19 +18,21 @@ class Ui_Login(object):
         self.close()
 
     def open_window_firstpage(self, username):
-        class MainWindow(QtWidgets.QMainWindow, Ui_Firstpage):
+        class Ui_Firstpage_Login(QtWidgets.QMainWindow, Ui_Firstpage):
             def __init__(self):
                 super().__init__()
                 self.username = username
                 self.setupUi(self)
-
-        self.ui = MainWindow()
+                self.style=SetSetyling(self)
+  
+        self.ui = Ui_Firstpage_Login()
         self.ui.show()
         self.ui.setWindowTitle("Welcome to my app")
         self.close()
 
     def setupUi(self, MainWindow):
-        MainWindow.resize(1000, 600)
+        self.MainWindow=MainWindow
+        self.MainWindow.resize(1000, 600)
         self.check_count = 0
         self.ban = False
 
@@ -37,7 +40,7 @@ class Ui_Login(object):
         font.setFamily("Lalezar")
         font.setPointSize(30)
 
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
         self.centralwidget.setStyleSheet("""
                     QPushButton {
                         background-color: #0763e5;
@@ -100,26 +103,26 @@ class Ui_Login(object):
         self.forget_btn.setGeometry(QtCore.QRect(590, 470, 361, 31))
         self.forget_btn.clicked.connect(self.forget_password_clicked)
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.MainWindow.setCentralWidget(self.centralwidget)
 
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 25))
 
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
 
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        self.MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
 
-        MainWindow.setStatusBar(self.statusbar)
+        self.MainWindow.setStatusBar(self.statusbar)
 
-        self.actionExit = QtGui.QAction(parent=MainWindow)
+        self.actionExit = QtGui.QAction(parent=self.MainWindow)
         self.menuFile.addAction(self.actionExit)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

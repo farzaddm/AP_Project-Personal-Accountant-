@@ -4,30 +4,16 @@ from Controlers.transaction_controllet import TransactionController
 
 
 class Ui_Search(object):
-    # def __init__(self):
-    #     self.username="name"
-    def setupUi(self, MainWindow):
-        MainWindow.resize(650, 571)
+    def __init__(self):
+        self.username="name"
+        self.style="style"
 
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setStyleSheet("""
-        QLineEdit{
-            border:none;
-            border-radius: 8px;
-        }
-        QPushButton{
-            border=none;
-            border-radius:8px;
-            background-color: #0763e5;
-            color:white;
-        }
-        QPushButton:hover {
-                        background-color:#1AA7EC ;
-        }
-        QPushButton:pressed {
-            background-color: #1AA7EC;
-        }
-        """)
+    def setupUi(self, MainWindow):
+
+        self.MainWindow=MainWindow
+        self.MainWindow.resize(650, 571)
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
+        
 
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
 
@@ -138,21 +124,21 @@ class Ui_Search(object):
         self.table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout.addWidget(self.table)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 644, 22))
 
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
 
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
 
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        self.MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
 
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionexit = QtGui.QAction(parent=MainWindow)
+        self.MainWindow.setStatusBar(self.statusbar)
+        self.actionexit = QtGui.QAction(parent=self.MainWindow)
 
-        self.actionhelp = QtGui.QAction(parent=MainWindow)
+        self.actionhelp = QtGui.QAction(parent=self.MainWindow)
 
         self.menuFile.addAction(self.actionexit)
         self.menuHelp.addAction(self.actionhelp)
@@ -161,8 +147,8 @@ class Ui_Search(object):
 
         self.btn_search.clicked.connect(self.btn_search_clicked)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
 
         self.time_group = QtWidgets.QButtonGroup()
         self.time_group.addButton(self.chb_daily)

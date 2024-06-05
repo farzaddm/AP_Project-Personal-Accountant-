@@ -2,6 +2,7 @@ import sqlite3
 import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
+import json
 
 
 class database:
@@ -14,7 +15,7 @@ class database:
     def save_new_user(self, user_data: list[str], ui) -> None:
         """ Save user information in db file. """
         # create table if it's not already created.
-        self.cur.execute("CREATE TABLE IF NOT EXISTS user(username TEXT NOT NULL, first_name TEXT NOT NULL,last_name TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,phone TEXT NOT NULL,city TEXT NOT NULL,birthday TEXT NOT NULL,security_q TEXT NOT NULL,PRIMARY KEY(username));")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS user(username TEXT NOT NULL, first_name TEXT NOT NULL,last_name TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,phone TEXT NOT NULL,city TEXT NOT NULL,birthday TEXT NOT NULL,security_q TEXT NOT NULL,pic TEXT,PRIMARY KEY(username));")
         try:
             self.cur.execute(
                 "INSERT INTO user(first_name, last_name, username, phone, password, email, city, birthday, security_q) VALUES (?,?,?,?,?,?,?,?,?);", user_data,)
@@ -307,7 +308,76 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
                             else:
                                 limitation["cost_price"][row[4]]+=row[2]
             return limitation
-            
+    
+    def get_information(self, username: str) -> tuple:
+        self.cur.execute(f"SELECT * FROM user WHERE username='{username}';")
+        result = self.cur.fetchone()
+        return result
+
+    def update_user(self, changes: dict, username: str) -> None:
+        query = "UPDATE user SET "
+        for item in changes:
+            query += f"{item}='{changes[item]}', "
+        query = query[:-2]
+        query += f" WHERE username='{username}';"
+        
+        self.cur.execute(query)
+        self.conn.commit()
+    
+    def delete_user(self, username: str) -> None:
+        self.cur.execute(f"DELETE FROM user WHERE username='{username}';")
+        self.conn.commit()
+    
+    def update_user_pic(self,username,file_name):
+        result=self.cur.execute(f"UPDATE user SET pic='{file_name}' WHERE username='{username}';")
+        self.conn.commit()
+
+    def get_pic(self,username):
+        result=self.cur.execute(f"SELECT pic FROM user WHERE username='{username}';")
+        self.conn.commit
+        return result.fetchone()
+
+    def export_to_json(self, username: str) -> None:
+        result = {}
+        self.cur.execute(f"SELECT * FROM user WHERE username='{username}';")
+        temp = self.cur.fetchone()
+        result["info"] = {
+            "username": temp[0],
+            "first_name": temp[1],
+            "last_name": temp[2],
+            "email": temp[3],
+            "password": temp[4],
+            "phone": temp[5],
+            "city": temp[6],
+            "birthday": temp[7],
+            "security_question": temp[7],
+        }
+        
+        self.cur.execute(f"SELECT * FROM category WHERE username='{username}';")
+        temp = self.cur.fetchall()
+        result["category"] = []
+        for i in temp:
+            result["category"].append(i[1])
+        
+        self.cur.execute(f"SELECT * FROM 'transaction' WHERE username='{username}';")
+        temp = self.cur.fetchall()
+        result["transaction"] = []
+        for row in temp:
+            data = {
+                "type": row[1],
+                "price": row[2],
+                "date": row[3],
+                "source_of_price": row[4],
+                "description": row[5],
+                "type-of_price": row[6],
+            }
+            result["transaction"].append(data)
+        
+        with open(f"Backups/backup_{username}.json", "w") as file:
+            json.dump(result, file)
+        
+        
+        
 
  
                             

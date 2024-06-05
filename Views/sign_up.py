@@ -7,11 +7,12 @@ class Ui_SignUp(object):
     """ It's a class for seting up the signup. """
     def setupUi(self, MainWindow) -> None:
         """ set up signup page elements. """
-        MainWindow.resize(1000, 600)
-        MainWindow.setMinimumSize(QtCore.QSize(1000, 600))
-        MainWindow.setMaximumSize(QtCore.QSize(1000, 600))
+        self.MainWindow=MainWindow
+        self.MainWindow.resize(1000, 600)
+        self.MainWindow.setMinimumSize(QtCore.QSize(1000, 600))
+        self.MainWindow.setMaximumSize(QtCore.QSize(1000, 600))
 
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
         self.centralwidget.setStyleSheet("""
         QLineEdit{
             border:none;
@@ -107,20 +108,20 @@ class Ui_SignUp(object):
         self.btn_signup.clicked.connect(self.submit_btn_clicked)
         self.verticalLayout.addWidget(self.btn_signup)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 22))
 
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
 
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
 
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        self.MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
 
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionExit = QtGui.QAction(parent=MainWindow)
-        self.actionHelp = QtGui.QAction(parent=MainWindow)
+        self.MainWindow.setStatusBar(self.statusbar)
+        self.actionExit = QtGui.QAction(parent=self.MainWindow)
+        self.actionHelp = QtGui.QAction(parent=self.MainWindow)
 
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
@@ -129,8 +130,8 @@ class Ui_SignUp(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
         
         # for connecting ui to controller.
         self.controller = UserController(self)

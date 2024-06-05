@@ -1,0 +1,59 @@
+{
+    "info": {
+        "username": "mhp",
+        "first_name": "mohamad hosein",
+        "last_name": "pakdaman",
+        "email": "djgkf@gmail.com",
+        "password": "Mhp%1384",
+        "phone": "09457854565",
+        "city": "Shiraz",
+        "birthday": "2002-01-01",
+        "security_question": "2002-01-01"
+    },
+    "category": [
+        "Father",
+        "store"
+    ],
+    "transaction": [
+        {
+            "type": "income",
+            "price": 1200,
+            "date": "2024-03-06",
+            "source_of_price": "Father",
+            "description": "I got lot of money from my dad today",
+            "type-of_price": "Cash"
+        },
+        {
+            "type": "cost",
+            "price": 1000,
+            "date": "2024-03-06",
+            "source_of_price": "store",
+            "description": "I bought some deliciuos things today",
+            "type-of_price": "Cash"
+        },
+        {
+            "type": "cost",
+            "price": 1500,
+            "date": "2024-06-03",
+            "source_of_price": "store",
+            "description": "",
+            "type-of_price": "Cheque"
+        },
+        {
+            "type": "income",
+            "price": 1000,
+            "date": "2024-01-01",
+            "source_of_price": "store",
+            "description": "",
+            "type-of_price": "Cheque"
+        },
+        {
+            "type": "income",
+            "price": 12000,
+            "date": "2000-01-13",
+            "source_of_price": "store",
+            "description": "",
+            "type-of_price": "Cash"
+        }
+    ]
+}

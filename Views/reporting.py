@@ -26,24 +26,28 @@ class Enable:
 
 class MplCanvas(FigureCanvas):
     def __init__(self, parent=None, width=10, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.ax1 = fig.add_subplot(131)
-        self.ax2 = fig.add_subplot(132)
-        self.ax3 = fig.add_subplot(133)
-        super().__init__(fig)
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.ax1 = self.fig.add_subplot(131)
+        self.ax2 = self.fig.add_subplot(132)
+        self.ax3 = self.fig.add_subplot(133)
+        super().__init__(self.fig)
 
 
 class Ui_Reporting(object):
+    
     def __init__(self):
         self.username="name"
+        self.style="style"
+
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(900, 700)
+        self.MainWindow=MainWindow
+        self.MainWindow.setObjectName("MainWindow")
+        self.MainWindow.resize(900, 700)
         font = QtGui.QFont()
         font.setPointSize(8)
 
         self.controller = TransactionController(self)
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
 
         self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
 
@@ -67,6 +71,7 @@ class Ui_Reporting(object):
         self.time.addWidget(self.daily_chb, 3, 1, 1, 1)
 
         self.nochoice_chb = QtWidgets.QCheckBox(parent=self.layoutWidget)
+
         self.time.addWidget(self.nochoice_chb, 4, 1, 1, 1)
 
         self.timefilter_lbl = QtWidgets.QLabel(parent=self.layoutWidget)
@@ -169,28 +174,27 @@ class Ui_Reporting(object):
 
         self.sc = MplCanvas(self.centralwidget, width=10, height=4, dpi=100)
         self.main_layout.addWidget(self.sc)
-
         self.sc.ax1.pie([100])
         self.sc.ax1.set_title("Income")
         self.sc.ax2.pie([100])
         self.sc.ax2.set_title("Cost")
         self.sc.ax3.pie([100])
         self.sc.ax3.set_title("Combination")
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.MainWindow.setCentralWidget(self.centralwidget)
 
         self.monthly_chb.toggled.connect(lambda :Enable(3, self).update())
         self.yearly_chb.toggled.connect(lambda :Enable(2, self).update())
         self.daily_chb.toggled.connect(lambda :Enable(1, self).update())
         self.nochoice_chb.toggled.connect(lambda :Enable((4, 5), self).update())
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 720, 25))
-        MainWindow.setMenuBar(self.menubar)
+        self.MainWindow.setMenuBar(self.menubar)
 
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
-        MainWindow.setStatusBar(self.statusbar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
+        self.MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
 
         self.price_group = QtWidgets.QButtonGroup()
         self.price_group.addButton(self.daily_chb)
@@ -318,7 +322,7 @@ class Ui_Reporting(object):
                 self.sc.ax3.pie([0])
                 
                 self.sc.ax3.set_title("Combination")
-        
+
 
 
     def show_error(self, message: str) -> None:

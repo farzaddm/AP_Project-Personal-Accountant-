@@ -5,8 +5,8 @@ from Views.category import  Ui_Category
 from Views.search import Ui_Search
 from Views.reporting import Ui_Reporting
 from Views.setting import Ui_Setting
-
-
+from Views.setting import Ui_Setting
+from Views.mode import SetSetyling
 class Buttons(QtWidgets.QPushButton):
     def __init__(self, parent, text):
         super().__init__(parent=parent)
@@ -32,28 +32,16 @@ class OpeningWindow:
 class Ui_Firstpage(object):
     def __init__(self) -> None:
         self.username="name"
+        self.style="style"
         
+
     def setupUi(self, MainWindow) -> None:
-        MainWindow.resize(1000, 600)
-        MainWindow.setStyleSheet("background-color:white;")
+        self.MainWindow=MainWindow
+        self.MainWindow.resize(1000, 600)
         pics=[r"pictures/recordincome.PNG",r"pictures/costregistration.PNG",r"pictures/category.PNG",r"pictures/search.PNG",
               r"pictures/reporting.PNG",r"pictures/setting.PNG",r"pictures/exit.PNG"]
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setStyleSheet("""
-            QPushButton {
-                border: 2px solid #FFFFFF;
-                border-radius: 15px;
-                color: white;
-                padding: 10px 20px;
-                background-color: #0763e5;
-            }
-            QPushButton:hover {
-                background-color: #ffffff;
-                color: #0763e5;
-                border: 2px solid #0763e5;
-            }
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
 
-        """)
 
         font = QtGui.QFont()
         font.setFamily("Lalezar")
@@ -154,14 +142,13 @@ class Ui_Firstpage(object):
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 25))
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
-        MainWindow.setStatusBar(self.statusbar)
-
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
+        self.MainWindow.setStatusBar(self.statusbar)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
         
     def btn_recordincome_clicked(self) -> None:
         self.open_window_incomepage(self.username)
@@ -174,66 +161,87 @@ class Ui_Firstpage(object):
     
     def btn_search_clicked(self) -> None:
         self.open_window_searchpage(self.username)
+        
     def btn_reporting_clicked(self) -> None:
         self.open_window_reportingpage(self.username)
     def btn_setting_clicked(self) -> None:
         self.open_window_setting(self.username)
     
+    def btn_setting_clicked(self) -> None:
+        self.open_window_setting(self.username)
+    
     def open_window_searchpage(self,username) -> None:
-        class MainWindow(QtWidgets.QMainWindow,Ui_Search):
+        class Ui_Search_FirstPage(QtWidgets.QMainWindow,Ui_Search):
             def __init__(self):
                 super().__init__()
+                
                 self.username=username
                 self.setupUi(self)
-        self.ui=MainWindow()
+                self.style=SetSetyling(self)
+        self.ui=Ui_Search_FirstPage()
         self.ui.show()
         self.ui.setWindowTitle("Search Page")
 
     def open_window_incomepage(self,username) -> None:
-        class MainWindow(QtWidgets.QMainWindow,Ui_RecordIncome):
+        class Ui_Income_FirstPage(QtWidgets.QMainWindow,Ui_RecordIncome):
             def __init__(self):
                 super().__init__()
+                
                 self.username=username
                 self.setupUi(self)
-        self.ui=MainWindow()
+                self.style=SetSetyling(self)
+        self.ui=Ui_Income_FirstPage()
         self.ui.show()
         self.ui.setWindowTitle("Income Page")
 
     def open_window_costpage(self, username) -> None:
-        class MainWindow(QtWidgets.QMainWindow,Ui_RecordCost):
+        class Ui_Cost_FirstPage(QtWidgets.QMainWindow,Ui_RecordCost):
             def __init__(self):
                 super().__init__()
+                
                 self.username=username
                 self.setupUi(self)
-        self.ui=MainWindow()
+                self.style=SetSetyling(self)
+        self.ui=Ui_Cost_FirstPage()
         self.ui.show()
         self.ui.setWindowTitle("Cost Page")
     
     def open_window_categorypage(self, username) -> None:
-        class MainWindow(QtWidgets.QMainWindow,Ui_Category):
+        class Ui_Category_Login(QtWidgets.QMainWindow,Ui_Category):
             def __init__(self):
                 super().__init__()
+                
                 self.username=username
                 self.setupUi(self)
-        self.ui=MainWindow()
+                self.style=SetSetyling(self)
+        self.ui=Ui_Category_Login()
         self.ui.show()
         self.ui.setWindowTitle("Category Page")
     def open_window_reportingpage(self, username) -> None:
-        class MainWindow(QtWidgets.QMainWindow,Ui_Reporting):
+        class Ui_Report_Login(QtWidgets.QMainWindow,Ui_Reporting):
             def __init__(self):
                 super().__init__()
+                
                 self.username=username
                 self.setupUi(self)
-        self.ui=MainWindow()
+                self.style=SetSetyling(self)
+        self.ui=Ui_Report_Login()
         self.ui.show()
         self.ui.setWindowTitle("Reporting Page")
+    
     def open_window_setting(self, username) -> None:
-        class MainWindow(QtWidgets.QMainWindow,Ui_Setting):
+        class Ui_Setting_Login(QtWidgets.QMainWindow,Ui_Setting):
             def __init__(self):
                 super().__init__()
                 self.username=username
                 self.setupUi(self)
-        self.ui=MainWindow()
+                self.style=SetSetyling(self)
+        self.ui=Ui_Setting_Login()
         self.ui.show()
-        self.ui.setWindowTitle("Setting Page")
+        self.ui.setWindowTitle("Setting")
+    
+
+    
+    
+
 

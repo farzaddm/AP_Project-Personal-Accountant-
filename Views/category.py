@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
+
 class Show:
     def __init__(self,type1,message,title):
         self.type=type1
@@ -15,32 +16,19 @@ class Show:
 
 
 class Ui_Category(object):
+    def __init__(self):
+        self.username="username"
+        self.style="style"
+
     def setupUi(self, MainWindow):
-        MainWindow.resize(316, 146)
+        self.MainWindow=MainWindow
+        self.MainWindow.resize(316, 146)
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
         font.setItalic(True)
+        self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
 
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setStyleSheet("""
-        QLineEdit{
-            border:none;
-            border-radius: 8px;
-        }
-        QPushButton{
-            border=none;
-            border-radius:8px;
-            background-color: #0763e5;
-            color:white;
-        }
-        QPushButton:hover {
-                        background-color:#1AA7EC ;
-        }
-        QPushButton:pressed {
-            background-color: #1AA7EC;
-        }
-        """)
 
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -73,19 +61,19 @@ class Ui_Category(object):
         
         self.verticalLayout_2.addLayout(self.verticalLayout)
         
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
+        self.MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(parent=self.MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 316, 22))
 
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
 
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        self.MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
 
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionexit = QtGui.QAction(parent=MainWindow)
-        self.actionhelp = QtGui.QAction(parent=MainWindow)
+        self.MainWindow.setStatusBar(self.statusbar)
+        self.actionexit = QtGui.QAction(parent=self.MainWindow)
+        self.actionhelp = QtGui.QAction(parent=self.MainWindow)
 
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionexit)
@@ -94,8 +82,8 @@ class Ui_Category(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
         
         self.controller = TransactionController(self)
 

@@ -1,7 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Views.login_ui import *
 from Views import sign_up
-
+from Views.mode import SetSetyling
 
 class Signupandlogin(object):
     def open_window_login(self):
@@ -9,6 +9,7 @@ class Signupandlogin(object):
             def __init__(self):
                 super().__init__()
                 self.setupUi(self)
+                self.style=SetSetyling(self)
 
         self.ui = LoginPage()
         self.ui.setWindowTitle("Login Page")
@@ -20,6 +21,7 @@ class Signupandlogin(object):
             def __init__(self):
                 super().__init__()
                 self.setupUi(self)
+                self.style=SetSetyling(self)
 
         self.ui = SignupPage()
         self.ui.setWindowTitle("SignUp Page")

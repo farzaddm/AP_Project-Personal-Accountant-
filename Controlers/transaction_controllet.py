@@ -42,6 +42,7 @@ class Record:
         record = Transacation(username, self.type,price, date,
                               source_of_price, description, type_of_price)
         record.save(self.ui)
+        return True
 
     def change_styles_price(self, le_price):
         le_price.setStyleSheet("")
@@ -54,14 +55,20 @@ class TransactionController:
         self.db = database()
 
     def record_income(self) -> None:
-        Record("income", self.ui).record(self.ui.username, self.ui.dateEdit, self.ui.le_Income,
+        result=Record("income", self.ui).record(self.ui.username, self.ui.dateEdit, self.ui.le_Income,
                                          self.ui.le_discription, self.ui.combo_incom_type, self.ui.combo_source)
-        return True
+        if result == True:
+            return result
+        else:
+            return None
 
     def record_cost(self) -> None:
-        Record("cost", self.ui).record(self.ui.username, self.ui.dateEdit, self.ui.le_cost,
+        result=Record("cost", self.ui).record(self.ui.username, self.ui.dateEdit, self.ui.le_cost,
                                        self.ui.le_discription, self.ui.combo_cost_type, self.ui.combo_source)
-        return True
+        if result == True:
+            return result
+        else:
+            return None
     
     def add_category(self, category: str):
         if self.validation.validate_category(category):
