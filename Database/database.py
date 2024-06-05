@@ -3,6 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 import json
+from Utils.show import Show
 
 
 
@@ -22,7 +23,7 @@ class database:
                 "INSERT INTO user(first_name, last_name, username, phone, password, email, city, birthday, security_q) VALUES (?,?,?,?,?,?,?,?,?);", user_data,)
         except sqlite3.IntegrityError:
             # show error message because username is our PRIMARY KEY and should be unique.
-            ui.show_error("This username is already chosen.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"This username is already chosen.","invalid username")
         self.conn.commit()
 
     def save_new_transaction(self, transaction_data: list) -> None:
@@ -132,7 +133,6 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
             query += ' AND ' + ' AND '.join(conditions)
         query += ";"
         
-        print(query)
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -376,6 +376,10 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         
         with open(f"Backups/backup_{username}.json", "w") as file:
             json.dump(result, file)
+    
+    def delete_transacation(self,username):
+        self.cur.execute(f"DELETE FROM 'transaction' WHERE username='{username}'")
+        self.conn.commit()
         
         
         

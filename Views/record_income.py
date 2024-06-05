@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
+from Utils.show import Show
 
 class Ui_RecordIncome(object):
     def __init__(self):
@@ -103,26 +104,15 @@ class Ui_RecordIncome(object):
     def btn_submit_clicked(self):
         result=self.controller.record_income()
         if result != None:
-            self.show_error("Your Income Has Added",QtWidgets.QMessageBox.Icon.Information)
+            Show(QtWidgets.QMessageBox.Icon.Information,"Your Income Has Added","Income Added")
             QtCore.QTimer.singleShot(1000,self.hide)
 
-    def show_error(self, message: str,type1=QtWidgets.QMessageBox.Icon.Critical) -> None:
-        """make a messagebox to show errors to user.
-
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(type1)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()
     def source_of_income_update(self):
         try:
             source_of_income=self.controller.get_source_of_price(self.username)
             for sources in source_of_income:
                 self.combo_source.addItem(sources[0])
         except:
-            self.show_error("Category Not Exist")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Category Not Exists","category error")
 
         

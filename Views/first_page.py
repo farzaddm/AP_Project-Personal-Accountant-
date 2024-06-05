@@ -7,6 +7,7 @@ from Views.reporting import Ui_Reporting
 from Views.setting import Ui_Setting
 from Views.setting import Ui_Setting
 from Views.mode import SetSetyling
+from Utils.show import Show
 class Buttons(QtWidgets.QPushButton):
     def __init__(self, parent, text):
         super().__init__(parent=parent)
@@ -33,6 +34,7 @@ class Ui_Firstpage(object):
     def __init__(self) -> None:
         self.username="name"
         self.style="style"
+        self.login_page="loginpage"
         
 
     def setupUi(self, MainWindow) -> None:
@@ -123,7 +125,6 @@ class Ui_Firstpage(object):
 
         self.setting_btn = Buttons(parent=self.centralwidget, text="Setting")
         self.setting_btn.clicked.connect(self.btn_setting_clicked)
-        self.setting_btn.clicked.connect(self.btn_setting_clicked)
         self.verticalLayout_6.addWidget(self.setting_btn)
 
         self.gridLayout_3.addLayout(self.verticalLayout_6, 1, 2, 1, 2)
@@ -134,6 +135,7 @@ class Ui_Firstpage(object):
         self.verticalLayout_7.addWidget(self.exit_lbl)
 
         self.exit_btn = Buttons(parent=self.centralwidget, text="Exit")
+        self.exit_btn.clicked.connect(self.close_window_by_exit)
         self.verticalLayout_7.addWidget(self.exit_btn)
 
         self.gridLayout_3.addLayout(self.verticalLayout_7, 1, 4, 1, 2)
@@ -150,6 +152,7 @@ class Ui_Firstpage(object):
         self.statusbar = QtWidgets.QStatusBar(parent=self.MainWindow)
         self.MainWindow.setStatusBar(self.statusbar)
         QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
+
         
     def btn_recordincome_clicked(self) -> None:
         self.open_window_incomepage(self.username)
@@ -166,8 +169,7 @@ class Ui_Firstpage(object):
         
     def btn_reporting_clicked(self) -> None:
         self.open_window_reportingpage(self.username)
-    def btn_setting_clicked(self) -> None:
-        self.open_window_setting(self.username)
+
     
     def btn_setting_clicked(self) -> None:
         self.open_window_setting(self.username)
@@ -239,9 +241,15 @@ class Ui_Firstpage(object):
                 self.setupUi(self)
                 self.style=SetSetyling(self)
         self.ui=Ui_Setting_Login()
+        self.ui.firstpage=self
+        self.ui.loginpage=self.login_page
         self.ui.show()
         self.ui.setWindowTitle("Setting")
-    
+    def close_window_by_exit(self):
+        Show(QtWidgets.QMessageBox.Icon.Information,"The App Will Close Soon ...","Exist")
+        self.close()
+        
+
 
     
     

@@ -166,18 +166,7 @@ class Ui_SignUp(object):
         """ Check the validation of inputs and save it to database. """
         self.controller.sign_up()
 
-    def show_error(self, message: str) -> None:
-        """make a messagebox to show errors to user.
-
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()
-        
+    
     def open_login(self) -> None:
         class Login(QtWidgets.QMainWindow, Ui_Login):
             def __init__(self):

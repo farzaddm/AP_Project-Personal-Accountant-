@@ -1,6 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QHeaderView, QSizePolicy
 from Controlers.transaction_controllet import TransactionController
+from Utils.show import Show
 
 
 class Ui_Search(object):
@@ -266,20 +267,20 @@ class Ui_Search(object):
             if self.le_max_amount.text().isnumeric():
                 filter_search["max_amount"] = self.le_max_amount.text()
             else:
-                self.show_error("The max has to be integer")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"The max has to be integer","invalid number")
                 return
         if self.le_min_amount.text():
             if self.le_min_amount.text().isnumeric():
                 filter_search["min_amount"] = self.le_min_amount.text()
             else:
-                self.show_error("The min has to be integer")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"The min has to be integer","invalid number")
                 return
 
         data = self.controller.search(search_text, filter_search, self.username)
         if data:
             self.add_row_to_table(data)
         else:
-            self.show_error("There was not any result.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"There was not any result.","no result")
 
     def add_row_to_table(self, data: list) -> None:
         self.table.setRowCount(len(data))
@@ -288,15 +289,3 @@ class Ui_Search(object):
             for item_id, item in enumerate(row_data[1:]):
                 self.table.setItem(
                     row_id, item_id, QtWidgets.QTableWidgetItem(str(item)))
-
-    def show_error(self, message: str) -> None:
-        """make a messagebox to show errors to user.
-
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()

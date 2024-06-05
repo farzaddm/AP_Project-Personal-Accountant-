@@ -1,52 +1,9 @@
 from Utils.validation import Validation
+from PyQt6 import QtCore, QtGui, QtWidgets
 from Models.user import User
 from Utils.email_sender import email_sender
 from Database.database import database
-
-
-class Record:
-    def __init__(self, type: str, ui):
-        self.type: str = type
-        self.ui = ui
-
-    def record(self, username, le_price, le_description, combo_price_type, combo_price_source):
-        username: str = username
-        record_v = Validation()
-        price: str = le_price.text()
-        description: str = le_description.text()
-        type_of_price: str = combo_price_type.currentText()
-        source_of_price: str = combo_price_source.currentText()
-
-        if not record_v.validate_price(price):
-            le_price.setStyleSheet("border: 1px solid red")
-            le_price.textChanged.connect(
-                lambda: self.change_styles_price(le_price))
-            self.ui.show_error("Invalid cost . It should be Postive Number.")
-            return
-
-        if not record_v.validate_description(description):
-            self.ui.le_discription.setStyleSheet("border: 1px solid red")
-            self.ui.le_discription.textChanged.connect(
-                self.change_styles_description)
-            self.ui.show_error(
-                "Invalid income . It should be lesser than 100.")
-            return
-        
-        if not record_v.validate_type_of_price(type_of_price):
-            self.ui.show_error(
-                "Invalid income . Choose one of the type of income")
-            return
-        
-        if not record_v.validate_source_of_price(source_of_price):
-            self.ui.show_error(
-                "Invalid income . Choose one of the source of income")
-            return
-
-        return True
-
-    def change_styles_price(self, le_price):
-        le_price.setStyleSheet("")
-
+from Utils.show import Show
 
 class UserController():
     """ It's to connect ui to program logic. """
@@ -74,58 +31,52 @@ class UserController():
         if not self.validation.validate_name(fname):
             self.ui.le_fname.setStyleSheet("border: 1px solid red")
             self.ui.le_fname.textChanged.connect(self.change_styles_fname)
-            self.ui.show_error(
-                "Invalid firstname. Only English letters are allowed.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid firstname. Only English letters are allowed.","invalid firstname")
             return
 
         if not self.validation.validate_name(lname):
             self.ui.le_lname.setStyleSheet("border: 1px solid red")
             self.ui.le_lname.textChanged.connect(self.change_styles_lname)
-            self.ui.show_error(
-                "Invalid lastname. Only English letters are allowed.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid lastname. Only English letters are allowed.","invalid lastname")
             return
 
         if not self.validation.validate_phone(phone):
             self.ui.le_phone.setStyleSheet("border: 1px solid red")
             self.ui.le_phone.textChanged.connect(self.change_styles_phone)
-            self.ui.show_error(
-                "Invalid phone number. It should start with 09 and be 11 digits long.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid phone number. It should start with 09 and be 11 digits long.","invalid phone number")
             return
 
         if not self.validation.validate_password(password):
             self.ui.le_password.setStyleSheet("border: 1px solid red")
             self.ui.le_password.textChanged.connect(
                 self.change_styles_password)
-            self.ui.show_error(
-                "Invalid password. It must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid password. It must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.","invalid password")
             return
 
         if self.ui.le_password.text() != self.ui.le_repeat_password.text():
             self.ui.le_repeat_password.setStyleSheet("border: 1px solid red")
             self.ui.le_repeat_password.textChanged.connect(
                 self.change_styles_repeat_password)
-            self.ui.show_error("Passwords do not match.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Passwords do not match.","invalid password")
             return
 
         if not self.validation.validate_email(email):
             self.ui.le_email.setStyleSheet("border: 1px solid red")
             self.ui.le_email.textChanged.connect(self.change_styles_email)
-            self.ui.show_error(
-                "Invalid email format. Only gmail.com or yahoo.com domains are allowed.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid email format. Only gmail.com or yahoo.com domains are allowed.","invalid email")
             return
 
         if not self.validation.validate_birthday(birthday):
             self.ui.le_birthday.setStyleSheet("border: 1px solid red")
             self.ui.le_birthday.textChanged.connect(
                 self.change_styles_birthday)
-            self.ui.show_error(
-                "Invalid date of birth. Year must be between 1920 and 2005.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid date of birth. Year must be between 1920 and 2005.","invalid date")
             return
 
         if not self.validation.validate_city(city):
             self.ui.le_city.setStyleSheet("border: 1px solid red")
             self.ui.le_city.textChanged.connect(self.change_styles_city)
-            self.ui.show_error("Invalid city.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid city.","invalid city")
             return
 
         user = User(fname, lname, username, phone, password,
@@ -161,21 +112,21 @@ class UserController():
         if "email" in changes:
             if not self.validation.validate_email(changes["email"]):
                 self.ui.le_email.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid email format. Only gmail.com or yahoo.com domains are allowed.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid email format. Only gmail.com or yahoo.com domains are allowed.","invalid email")
                 self.ui.le_email.textChanged.connect(self.change_styles_email)
                 del changes["email"]
         
         if "phone" in changes:
             if not self.validation.validate_phone(changes["phone"]):
                 self.ui.le_phone.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid phone number. It should start with 09 and be 11 digits long.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid phone number. It should start with 09 and be 11 digits long.","invalid phone number")
                 self.ui.le_phone.textChanged.connect(self.change_styles_phone)
                 del changes["phone"]
         
         if "first_name" in changes:
             if not self.validation.validate_name(changes["first_name"]):
                 self.ui.le_fname.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid firstname. Only English letters are allowed.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid firstname. Only English letters are allowed.","invalid firstname")
                 self.ui.le_fname.textChanged.connect(self.change_styles_fname)
                 
                 del changes["first_name"]
@@ -183,28 +134,28 @@ class UserController():
         if "last_name" in changes:
             if not self.validation.validate_name(changes["last_name"]):
                 self.ui.le_lname.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid firstname. Only English letters are allowed.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid lastname. Only English letters are allowed.","invalid lastname")
                 self.ui.le_lname.textChanged.connect(self.change_styles_lname)
                 del changes["last_name"]
         
         if "password" in changes:
             if not self.validation.validate_password(changes["password"]):
                 self.ui.le_password.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid password. It must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid password. It must be at least 6 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.","invalid password")
                 self.ui.le_password.textChanged.connect(self.change_styles_password)
                 del changes["password"]
        
         if "city" in changes:
             if not self.validation.validate_city(changes["city"]):
                 self.ui.le_city.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid city.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid City.","invalid city")
                 self.ui.le_city.textChanged.connect(self.change_styles_city)
                 del changes["city"]
         
         if "birthday" in changes:
             if not self.validation.validate_birthday(changes["birthday"]):
                 self.ui.dateTimeEdit.setStyleSheet("border: 1px solid red")
-                self.ui.show_error("Invalid date of birth. Year must be between 1920 and 2005.")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid date of birth. Year must be between 1920 and 2005.","invalid date")
                 self.ui.le_birthday.textChanged.connect(self.change_styles_birthday)
                 
                 del changes["birthday"]
@@ -223,6 +174,12 @@ class UserController():
 
     def export_to_json(self, username: str) -> None:
         self.db.export_to_json(username)
+
+    def delete_transacation_from_db(self,username):
+        self.db.delete_transacation(username)
+
+    def close_window(self):
+        Ui_Firstpage.close()
         
 
     # ---------change style ---------------

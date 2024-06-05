@@ -3,6 +3,7 @@ import sys
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from Controlers.transaction_controllet import TransactionController
+from Utils.show import Show
 
 class Enable:
     def __init__(self, number, ui):
@@ -245,23 +246,23 @@ class Ui_Reporting(object):
                 filter_search["time"].append("daily")
                 filter_search["time"].append(self.day_le.text())
             else:
-                self.show_error("Choose the Year,It Has To Be Integer")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Choose the Year,It Has To Be Integer","invalid year")
         elif self.monthly_chb.isChecked():
             try:
                 if self.month_le.text().isalpha() and self.month_le.text() != "":
                     filter_search["time"].append("monthly")
                     filter_search["time"].append(months_in_year.index(self.month_le.text().title())+1)
                 else:
-                    self.show_error("It Has To Be String And The Name Of The Month")
+                    Show(QtWidgets.QMessageBox.Icon.Critical,"It Has To Be String And The Name Of The Month","invalid month")
             except:
-                self.show_error("Choose the Month,It Has To Be String")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Choose the Month,It Has To Be String","invalid month")
         elif self.yearly_chb.isChecked():
             try:
                 if self.year_le.text().isnumeric() and self.year_le.text() != "":
                     filter_search["time"].append("yearly")
                     filter_search["time"].append(self.year_le.text())
             except:
-                self.show_error("Choose the Day,It Has To Be Integer")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"Choose the Day,It Has To Be Integer","invalid day")
         elif self.nochoice_chb.isChecked():
             filter_search["first_time"]=self.firstdate_dt.text()
             filter_search["end_time"]=self.enddate_dt.text()
@@ -281,17 +282,17 @@ class Ui_Reporting(object):
             if self.maxamount.text().isnumeric():
                 filter_search["max_amount"] = self.maxamount.text()
             else:
-                self.show_error("The max has to be integer")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"The max has to be integer","invalid number")
                 return
         if self.minamount.text():
             if self.minamount.text().isnumeric():
                 filter_search["min_amount"] = self.minamount.text()
             else:
-                self.show_error("The min has to be integer")
+                Show(QtWidgets.QMessageBox.Icon.Critical,"The min has to be integer","invalid number")
                 return
         result=self.controller.reporting(filter_search,self.username)
         if result == False:
-            self.show_error("You have to username some filters")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"You have to use some filters","invalid input")
         else:
             income=[x for x in result["income_price"].values()]
             cost=[x for x in result["cost_price"].values()]
@@ -324,18 +325,6 @@ class Ui_Reporting(object):
                 self.sc.ax3.set_title("Combination")
 
 
-
-    def show_error(self, message: str) -> None:
-        """make a messagebox to show errors to user.
-
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()
     def sources_update(self):
         sources=self.controller.get_source_of_price(self.username)
         for source in sources:

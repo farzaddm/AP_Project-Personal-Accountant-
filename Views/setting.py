@@ -1,6 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.user_controller import UserController
 from Views.mode import SetSetyling
+
+
 class Pics(QtWidgets.QLabel):
     def __init__(self, parent, type, pic, width, height):
         super().__init__(parent=parent)
@@ -10,8 +12,10 @@ class Pics(QtWidgets.QLabel):
         self.setPixmap(pixmap)
 
 class Ui_Setting(object):
-    def __init__(self):
 
+    def __init__(self):
+        self.firstpage="firstpage"
+        self.loginpage="loginpage"
         self.username="name"
         self.style="style"
 
@@ -285,8 +289,9 @@ class Ui_Setting(object):
         self.export_btn.clicked.connect(self.get_backup)
 
         self.verticalLayout_4.addWidget(self.export_btn)
-        self.pushButton_3 = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.verticalLayout_4.addWidget(self.pushButton_3)
+        self.delete_transacation = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.delete_transacation.clicked.connect(self.clear_user_transacation)
+        self.verticalLayout_4.addWidget(self.delete_transacation)
         self.save_mode=QtWidgets.QPushButton(parent=self.centralwidget)
         self.save_mode.setText("Save Mode")
         self.save_mode.clicked.connect(self.update_dark_and_light_mode)
@@ -371,7 +376,7 @@ class Ui_Setting(object):
         self.save_info_btn.setText(_translate("MainWindow", "Save Changes"))
         self.del_user_btn.setText(_translate("MainWindow", "Delete User"))
         self.export_btn.setText(_translate("MainWindow", "Get BackUp"))
-        self.pushButton_3.setText(_translate(
+        self.delete_transacation.setText(_translate(
             "MainWindow", "Clear Transactions"))
 
     def get_information(self) -> None:
@@ -421,10 +426,13 @@ class Ui_Setting(object):
             
         if self.is_date_change:
             changes["birthday"] = self.le_birthday.text()
-            
 
         self.controller.update_user(changes, self.username)
         self.get_information()
+    
+    def clear_user_transacation(self):
+        self.controller.delete_transacation_from_db(self.username)
+            
 
     def delete_user(self) -> None:
         self.controller.delete_user(self.username)
@@ -433,18 +441,6 @@ class Ui_Setting(object):
     def get_backup(self) -> None:
         self.controller.export_to_json(self.username)
         
-    def show_error(self, message: str) -> None:
-        """make a messagebox to show errors to user.
-
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()
-
     def choosing_pic(self):
         options=QtWidgets.QFileDialog.Option.ReadOnly
         file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select a File", "",
@@ -472,3 +468,10 @@ class Ui_Setting(object):
         else:
             self.style.update("#282828","#d7d7d7","#202020","#1A1110","#202020")
             SetSetyling.light_mode=False
+        self.firstpage.close()
+        self.loginpage.show()
+        self.close()
+
+
+
+

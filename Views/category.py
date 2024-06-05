@@ -1,19 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
-
-class Show:
-    def __init__(self,type1,message,title):
-        self.type=type1
-        self.message=message
-        self.title=title
-        self.show()
-    def show(self):
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(self.type)
-        msg.setText(self.message)
-        msg.setWindowTitle(self.title)
-        msg.exec()
-
+from Utils.show import Show
 
 class Ui_Category(object):
     def __init__(self):

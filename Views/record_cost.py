@@ -104,24 +104,14 @@ class Ui_RecordCost(object):
     def btn_submit_clicked(self):
         result=self.controller.record_cost()
         if result != None:
-            self.show_error("Your Cost Has Added",QtWidgets.QMessageBox.Icon.Information)
+            Show(QtWidgets.QMessageBox.Icon.Information,"Your Cost Has Added","Cost Added")
             QtCore.QTimer.singleShot(1000,self.hide)
-    def show_error(self, message: str,type1=QtWidgets.QMessageBox.Icon.Critical) -> None:
-        """make a messagebox to show errors to user.
 
-        Args:
-            message (str): It's an error message that when inputs are invalid throw.
-        """
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(type1)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec()
     def source_of_cost_update(self):
         try:
             source_of_cost=self.controller.get_source_of_price(self.username)
             for sources in source_of_cost:
                 self.combo_source.addItem(sources[0])
         except:
-            self.show_error("Category Not Exist")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Category Not Exists","category error")
     

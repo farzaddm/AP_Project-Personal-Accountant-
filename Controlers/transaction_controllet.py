@@ -1,6 +1,8 @@
 from Models.transacation import Transacation
 from Utils.validation import Validation
 from Database.database import database
+from PyQt6 import QtCore, QtGui, QtWidgets
+from Utils.show import Show
 
 
 class Record:
@@ -22,22 +24,19 @@ class Record:
             le_price.setStyleSheet("border: 1px solid red")
             le_price.textChanged.connect(
                 lambda: self.change_styles_price(le_price))
-            self.ui.show_error("Invalid cost . It should be Postive Number.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid cost . It should be Postive Number.","invalid cost")
             return
 
         if not record_validation.validate_description(description):
             le_description.setStyleSheet("border: 1px solid red")
             le_description.textChanged.connect(self.change_styles_description)
-            self.ui.show_error(
-                "Invalid income . It should be lesser than 100.")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid income . It should be lesser than 100.","invalid income")
             return
         if not record_validation.validate_type_of_price(type_of_price):
-            self.ui.show_error(
-                "Invalid income . Choose one of the type of income")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid income . Choose one of the type of income","invalid income")
             return
         if not record_validation.validate_source_of_price(source_of_price):
-            self.ui.show_error(
-                "Invalid income . Choose one of the source of income")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid income . Choose one of the source of income","invalid income")
             return
         record = Transacation(username, self.type,price, date,
                               source_of_price, description, type_of_price)

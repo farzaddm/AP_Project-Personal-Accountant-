@@ -26,9 +26,10 @@ class Ui_Login(object):
                 self.style=SetSetyling(self)
   
         self.ui = Ui_Firstpage_Login()
+        self.ui.login_page=self
         self.ui.show()
         self.ui.setWindowTitle("Welcome to my app")
-        self.close()
+        self.hide()
 
     def setupUi(self, MainWindow):
         self.MainWindow=MainWindow
