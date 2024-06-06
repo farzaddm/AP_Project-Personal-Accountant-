@@ -3,7 +3,7 @@ from Utils.save import ISave
 
 
 class Transacation(ISave):
-    def __init__(self, username, type, price, date, source_of_price, description, type_of_price):
+    def __init__(self, username: str, type: str, price: str, date: str, source_of_price: str, description: str, type_of_price: str) -> None:
         super().__init__()
         self.username: str = username
         self.type: str = type
@@ -15,7 +15,7 @@ class Transacation(ISave):
 
         self.db = database()
 
-    def save(self, ui):
+    def save(self, ui) -> None:
         super().save(ui)
         """ Save user informations to database. """
         new_transaction = [self.username, self.type, int(self.price), self.date,

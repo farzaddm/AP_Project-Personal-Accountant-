@@ -2,13 +2,14 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
 from Utils.show import Show
 
+
 class Ui_RecordIncome(object):
     def __init__(self):
         self.username = "name"
-        self.style="style"
+        self.style = "style"
 
     def setupUi(self, MainWindow):
-        self.MainWindow=MainWindow
+        self.MainWindow = MainWindow
         self.MainWindow.resize(310, 448)
         self.MainWindow.setMinimumSize(QtCore.QSize(300, 448))
         self.MainWindow.setMaximumSize(QtCore.QSize(300, 448))
@@ -77,7 +78,6 @@ class Ui_RecordIncome(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
-        
         self.retranslateUi(self.MainWindow)
         QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
 
@@ -102,17 +102,18 @@ class Ui_RecordIncome(object):
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
     def btn_submit_clicked(self):
-        result=self.controller.record_income()
+        result = self.controller.record_income()
         if result != None:
-            Show(QtWidgets.QMessageBox.Icon.Information,"Your Income Has Added","Income Added")
-            QtCore.QTimer.singleShot(1000,self.hide)
+            Show(QtWidgets.QMessageBox.Icon.Information,
+                 "Your Income Has Added", "Income Added")
+            QtCore.QTimer.singleShot(1000, self.hide)
 
     def source_of_income_update(self):
         try:
-            source_of_income=self.controller.get_source_of_price(self.username)
+            source_of_income = self.controller.get_source_of_price(
+                self.username)
             for sources in source_of_income:
                 self.combo_source.addItem(sources[0])
         except:
-            Show(QtWidgets.QMessageBox.Icon.Critical,"Category Not Exists","category error")
-
-        
+            Show(QtWidgets.QMessageBox.Icon.Critical,
+                 "Category Not Exists", "category error")

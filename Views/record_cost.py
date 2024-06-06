@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
+from Utils.show import Show
 
 class Ui_RecordCost(object):
     def __init__(self):
@@ -113,5 +114,5 @@ class Ui_RecordCost(object):
             for sources in source_of_cost:
                 self.combo_source.addItem(sources[0])
         except:
-            Show(QtWidgets.QMessageBox.Icon.Critical,"Category Not Exists","category error")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Category not exists","category error")
     

@@ -4,14 +4,19 @@ import random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from Database.database import database
-# from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv, dotenv_values
 from Database.database import database
 import os
 
 
 class email_sender:
-    #? should pass the ui to it.....
+    """This class is for forget password it send a temprary password to user email and then show him his password."""
     def __init__(self, ui) -> None:
+        """Make the prerequisite for sending email.
+
+        Args:
+            ui (QMainWindow): it's forget password ui
+        """
         load_dotenv()
         
         self.my_email = os.getenv("MY_EMAIL")
@@ -24,12 +29,25 @@ class email_sender:
         self.connection.login(user=self.my_email, password=self.password)
 
     def random_password_generator(self) -> str:
+        """generate a temprary password.
+
+        Returns:
+            str: password
+        """
         password = random.choices(string.ascii_lowercase, k=2)+random.choices(
             string.ascii_uppercase, k=2)+random.choices(string.digits, k=3)
         random.shuffle(password)
         return "".join(str(i) for i in password)
 
     def send_password(self, email: str):
+        """Send password to user email.
+
+        Args:
+            email (str): user email.
+
+        Returns:
+            str: temrary password to check with user input
+        """
         #! we put our email instead of user email for debug
         self.random_password=self.random_password_generator()
         try:

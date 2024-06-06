@@ -13,9 +13,10 @@ class Ui_Login(object):
                 self.style=SetSetyling(self)
 
         self.ui = MainWindow()
+        self.ui.login = self
         self.ui.show()
         self.ui.setWindowTitle("Forget Passwords")
-        self.close()
+        self.hide()
 
     def open_window_firstpage(self, username):
         class Ui_Firstpage_Login(QtWidgets.QMainWindow, Ui_Firstpage):
