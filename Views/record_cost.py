@@ -1,6 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
-
+from Utils.show import Show
 class Ui_RecordCost(object):
     def __init__(self):
         self.username="name"

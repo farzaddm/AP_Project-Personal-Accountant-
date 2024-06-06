@@ -1,5 +1,6 @@
 import sqlite3
 import datetime
+from PyQt6 import QtWidgets, uic
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 import json
@@ -46,6 +47,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         self.conn.commit()
 
     def check_user(self, username: str, password: str) -> bool:
+
         self.cur.execute(
             "SELECT * From user WHERE username=? AND password=?;", (username, password))
         result = self.cur.fetchone()

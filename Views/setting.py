@@ -217,13 +217,6 @@ class Ui_Setting(object):
         completer = QtWidgets.QCompleter(cities)
         self.le_city.setCompleter(completer)
 
-
-    # -------
-        cities = ["Tehran", "Mashhad", "Isfahan", "Tabriz", "Shiraz", "Karaj",
-                  "Qom", "Ahvaz", "Kermanshah", "Urmia", "Yazd", "Bushehr", "Semnan"]
-        completer = QtWidgets.QCompleter(cities)
-        self.le_city.setCompleter(completer)
-
         self.horizontalLayout_11.addWidget(self.le_city)
         self.verticalLayout_2.addLayout(self.horizontalLayout_11)
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
@@ -245,13 +238,6 @@ class Ui_Setting(object):
 
 
         self.horizontalLayout_13.addWidget(self.birthday_lbl)
-        self.le_birthday = QtWidgets.QDateTimeEdit(parent=self.centralwidget)
-        self.le_birthday.setMaximumDate(QtCore.QDate(2005, 12, 31))
-        self.le_birthday.setMinimumDate(QtCore.QDate(1920, 9, 14))
-        self.le_birthday.setCalendarPopup(True)
-        self.le_birthday.dateTimeChanged.connect(self.date_change)
-
-        self.horizontalLayout_13.addWidget(self.le_birthday)
         self.le_birthday = QtWidgets.QDateTimeEdit(parent=self.centralwidget)
         self.le_birthday.setMaximumDate(QtCore.QDate(2005, 12, 31))
         self.le_birthday.setMinimumDate(QtCore.QDate(1920, 9, 14))

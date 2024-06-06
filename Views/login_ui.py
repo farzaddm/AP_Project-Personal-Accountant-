@@ -140,6 +140,7 @@ class Ui_Login(object):
         self.actionExit.setText(_translate("MainWindow", "Exit"))
 
     def pressed_login_btn(self):
+        
         if self.ban:
             self.check_count = 0
             self.error_lbl.show()
@@ -155,6 +156,7 @@ class Ui_Login(object):
 
             if controller.login(self.username_lbl.text(), self.password_le.text()):
                 username = self.username_lbl.text()
+                self.check_count=0
                 self.open_window_firstpage(username)
             else:
                 self.username_lbl.setStyleSheet("border: 1px solid red")
