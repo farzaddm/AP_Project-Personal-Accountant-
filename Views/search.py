@@ -5,11 +5,11 @@ from Utils.show import Show
 
 
 class Ui_Search(object):
-    def __init__(self):
+    def __init__(self) -> None:
         self.username="name"
         self.style="style"
 
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow) -> None:
 
         self.MainWindow=MainWindow
         self.MainWindow.resize(650, 571)
@@ -176,7 +176,7 @@ class Ui_Search(object):
         self.price_group.addButton(self.chb_no_choice_price_type)
         
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, MainWindow) -> None:
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.le_search.setPlaceholderText(
@@ -225,7 +225,7 @@ class Ui_Search(object):
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
 
-    def btn_search_clicked(self):
+    def btn_search_clicked(self) -> None:
         self.table.setRowCount(0)
         self.controller = TransactionController(self)
         search_text = self.le_search.text().capitalize()

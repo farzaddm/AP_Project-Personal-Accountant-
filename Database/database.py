@@ -5,8 +5,7 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 import json
 from Utils.show import Show
-
-
+from PyQt6 import QtWidgets
 
 class database:
     """ This class is for coonecting to database.db. """

@@ -9,12 +9,14 @@ class UserController():
     """ It's to connect ui to program logic. """
 
     def __init__(self, ui) -> None:
+        """Make prerequisites like database and validation.
+
+        Args:
+            ui (QMainWindow): The ui that's calling controller.
+        """
         self.ui = ui
         self.validation = Validation()
-        self.db = database()
-        
-        self.db = database()
-        
+        self.db = database()        
 
     def sign_up(self) -> None:
         """ Check the validations of inputs and if every thing is ok save it to database. """
@@ -79,36 +81,92 @@ class UserController():
             Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid city.","invalid city")
             return
 
+        # When it comes here all validations are checked so it save the user.
         user = User(fname, lname, username, phone, password,
                     email, city, birthday, security_q)
         user.save(self.ui)
         self.ui.open_login()
 
-    def login(self, username, password):
+    def login(self, username: str, password: str) -> bool:
+        """Check if username and password match or not.
+
+        Args:
+            username (str): username
+            password (str): password
+
+        Returns:
+            bool: True if it match and false if not.
+        """
         return self.validation.validate_login(username, password)
 
-    def forget_password(self, username, security_q):
+    def forget_password(self, username: str, security_q: str) -> bool:
+        """Check if username and security question match.  
+
+        Args:
+            username (str): username
+            security_q (str): security question (what is your favorit color?)
+
+        Returns:
+            bool: True if it match and false if not.
+        """
         return self.validation.validate_forget_password(username, security_q)
 
-    def get_password(self, username):
-        password = self.db.find_user_password(username)
+    def get_password(self, username: str) -> str:
+        """Get user password from database.
+
+        Args:
+            username (str): username
+
+        Returns:
+            str: pasword
+        """
         password = self.db.find_user_password(username)
         return password
 
-    def send_email(self, email):
+    def send_email(self, email: str) -> str:
+        """Send temprary password to user email.
+
+        Args:
+            email (str): User email
+
+        Returns:
+            str: temprary password
+        """
         email_send = email_sender(self.ui)
         password = email_send.send_password(email)
         return password
 
-    def get_email(self, username):
+    def get_email(self, username: str) -> str:
+        """Get user email from database
+
+        Args:
+            username (str): username
+
+        Returns:
+            str: email
+        """
         email_database = database()
         user_email = email_database.find_user_email(username)
         return user_email
     
     def get_information(self, username: str):
+        """Get all user info.
+
+        Args:
+            username (str): username
+
+        Returns:
+            List: user info
+        """
         return self.db.get_information(username)
     
-    def update_user(self, changes: dict, username: str):
+    def update_user(self, changes: dict, username: str) -> None:
+        """Update user info in database.
+
+        Args:
+            changes (dict): parts that need to be update
+            username (str): username
+        """
         if "email" in changes:
             if not self.validation.validate_email(changes["email"]):
                 self.ui.le_email.setStyleSheet("border: 1px solid red")
@@ -164,22 +222,34 @@ class UserController():
             self.db.update_user(changes, username)
     
     def delete_user(self, username: str) -> None:
+        """Delete all user info in database
+
+        Args:
+            username (str): usrname
+        """
         self.db.delete_user(username)
     
-    def update_user_pic(self,username,file_name):
+    def update_user_pic(self,username: str,file_name: str):
         self.db.update_user_pic(username,file_name)
     
     def get_pic(self,username):
         return self.db.get_pic(username)
 
     def export_to_json(self, username: str) -> None:
+        """Save all user info to json file.
+
+        Args:
+            username (str): username
+        """
         self.db.export_to_json(username)
 
-    def delete_transacation_from_db(self,username):
-        self.db.delete_transacation(username)
+    def delete_transacation_from_db(self,username: str) -> None:
+        """Delete all user transcation from database.
 
-    def close_window(self):
-        Ui_Firstpage.close()
+        Args:
+            username (str): username
+        """
+        self.db.delete_transacation(username)
         
 
     # ---------change style ---------------

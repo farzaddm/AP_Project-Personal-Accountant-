@@ -3,13 +3,14 @@ from Views.login_ui import *
 from Views import sign_up
 from Views.mode import SetSetyling
 
+
 class Signupandlogin(object):
     def open_window_login(self):
         class LoginPage(QtWidgets.QMainWindow, Ui_Login):
-            def __init__(self):
+            def __init__(self) -> None:
                 super().__init__()
                 self.setupUi(self)
-                self.style=SetSetyling(self)
+                self.style = SetSetyling(self)
 
         self.ui = LoginPage()
         self.ui.setWindowTitle("Login Page")
@@ -18,17 +19,17 @@ class Signupandlogin(object):
 
     def open_window_signup(self):
         class SignupPage(QtWidgets.QMainWindow, sign_up.Ui_SignUp):
-            def __init__(self):
+            def __init__(self) -> None:
                 super().__init__()
                 self.setupUi(self)
-                self.style=SetSetyling(self)
+                self.style = SetSetyling(self)
 
         self.ui = SignupPage()
         self.ui.setWindowTitle("SignUp Page")
         self.ui.show()
         self.hide()
 
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow) -> None:
         MainWindow.resize(480, 800)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setStyleSheet("""
@@ -72,11 +73,9 @@ class Signupandlogin(object):
         self.signup_btn.setGeometry(QtCore.QRect(80, 550, 341, 31))
         self.signup_btn.clicked.connect(self.signup_btn_clicked)
 
-
         self.login_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.login_btn.setGeometry(QtCore.QRect(80, 600, 341, 31))
         self.login_btn.clicked.connect(self.login_btn_clicked)
-
 
         self.Pic_lbl.raise_()
         self.Welcome_lbl.raise_()
@@ -96,7 +95,7 @@ class Signupandlogin(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, MainWindow) -> None:
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.Welcome_lbl.setText(_translate("MainWindow", "Welcome"))
@@ -104,8 +103,8 @@ class Signupandlogin(object):
         self.signup_btn.setText(_translate("MainWindow", "Sign Up"))
         self.login_btn.setText(_translate("MainWindow", "Login"))
 
-    def login_btn_clicked(self):
+    def login_btn_clicked(self) -> None:
         self.open_window_login()
 
-    def signup_btn_clicked(self):
+    def signup_btn_clicked(self) -> None:
         self.open_window_signup()

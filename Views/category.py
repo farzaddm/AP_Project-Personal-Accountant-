@@ -31,20 +31,6 @@ class Ui_Category(object):
         self.add_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.add_btn.clicked.connect(self.add_btn_clicked)
         self.verticalLayout.addWidget(self.add_btn)
-        # self.add_btn.setStyleSheet("""
-        #     QPushButton {
-        #         background-color: #0763e5;
-        #         color: #ffffff;
-        #         font-size: 12px;
-        #     }
-        #     QPushButton:hover {
-        #         background-color:#1AA7EC ;
-        #     }
-        #     QPushButton:pressed {
-        #         background-color: #1AA7EC;
-        #     }
-        # """)
-
         
         self.verticalLayout_2.addLayout(self.verticalLayout)
         

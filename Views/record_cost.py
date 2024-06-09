@@ -1,6 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
 from Utils.show import Show
+
 class Ui_RecordCost(object):
     def __init__(self):
         self.username="name"
@@ -101,17 +102,18 @@ class Ui_RecordCost(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionexit.setText(_translate("MainWindow", "exit"))
         self.actionhelp.setText(_translate("MainWindow", "help"))
+        
     def btn_submit_clicked(self):
         result=self.controller.record_cost()
         if result != None:
             Show(QtWidgets.QMessageBox.Icon.Information,"Your Cost Has Added","Cost Added")
             QtCore.QTimer.singleShot(1000,self.hide)
 
-    def source_of_cost_update(self):
+    def source_of_cost_update(self) -> None:
         try:
             source_of_cost=self.controller.get_source_of_price(self.username)
             for sources in source_of_cost:
                 self.combo_source.addItem(sources[0])
         except:
-            Show(QtWidgets.QMessageBox.Icon.Critical,"Category Not Exists","category error")
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Category not exists","category error")
     
