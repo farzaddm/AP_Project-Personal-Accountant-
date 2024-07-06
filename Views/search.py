@@ -228,7 +228,7 @@ class Ui_Search(object):
     def btn_search_clicked(self) -> None:
         self.table.setRowCount(0)
         self.controller = TransactionController(self)
-        search_text = self.le_search.text().capitalize()
+        search_text = self.le_search.text().lower()
 
         filter_search = {
             "type": "",

@@ -119,8 +119,10 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         query = f"SELECT * FROM 'transaction' WHERE username='{username}' AND price BETWEEN {min1} AND {max1}"
         conditions = []
         
-        if "group" in filter_search:
-            conditions.append(f'{filter_search["group"]}="{search_text}"')
+        if "group" in filter_search and filter_search["group"] == "description":
+            conditions.append(f'description LIKE "%{search_text}%"')
+        elif "group" in filter_search and filter_search["group"] == "source_of_price":
+            conditions.append(f'source_of_price="{search_text}"')
         elif search_text:
             conditions.append(f'(description LIKE "%{search_text}%" OR source_of_price="{search_text}")')
 
@@ -133,6 +135,8 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         if conditions:
             query += ' AND ' + ' AND '.join(conditions)
         query += ";"
+        
+        print(query)
         
 
         self.cur.execute(query)
