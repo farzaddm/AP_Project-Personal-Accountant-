@@ -1,10 +1,12 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
 from Utils.show import Show
+from Views.font import Font_detail
 
 class Ui_RecordCost(object):
     def __init__(self):
         self.username="name"
+        self.font=Font_detail()
         self.style="style"
 
     def setupUi(self, MainWindow):

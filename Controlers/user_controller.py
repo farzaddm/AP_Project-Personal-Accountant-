@@ -86,6 +86,38 @@ class UserController():
                     email, city, birthday, security_q)
         user.save(self.ui)
         self.ui.open_login()
+    def contact_us(self) -> None:
+        fname = self.ui.firstname_le.text()
+        lname = self.ui.lastname_le.text()
+        phone = self.ui.phonenumber_le.text()
+        email = self.ui.email_le.text()
+
+        if not self.validation.validate_name(fname):
+            self.ui.firstname_le.setStyleSheet("border: 1px solid red")
+            self.ui.firstname_le.textChanged.connect(lambda : self.ui.firstname_le.setStyleSheet(""))
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid firstname. Only English letters are allowed.","invalid firstname")
+            return False
+
+        if not self.validation.validate_name(lname):
+            self.ui.lastname_le.setStyleSheet("border: 1px solid red")
+            self.ui.lastname_le.textChanged.connect(lambda : self.ui.lastname_le.setStyleSheet(""))
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid lastname. Only English letters are allowed.","invalid lastname")
+            return False
+
+        if not self.validation.validate_phone(phone):
+            self.ui.phonenumber_le.setStyleSheet("border: 1px solid red")
+            self.ui.phonenumber_le.textChanged.connect(lambda : self.ui.phonenumber_le.setStyleSheet(""))
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid phone number. It should start with 09 and be 11 digits long.","invalid phone number")
+            return False
+        
+        if not self.validation.validate_email(email):
+            self.ui.email_le.setStyleSheet("border: 1px solid red")
+            self.ui.email_le.textChanged.connect(lambda : self.ui.email_le.setStyleSheet(""))
+            Show(QtWidgets.QMessageBox.Icon.Critical,"Invalid email format. Only gmail.com or yahoo.com domains are allowed.","invalid email")
+            return False
+
+        return True
+
 
     def login(self, username: str, password: str) -> bool:
         """Check if username and password match or not.
@@ -123,7 +155,7 @@ class UserController():
         password = self.db.find_user_password(username)
         return password
 
-    def send_email(self, email: str) -> str:
+    def send_email(self, email: str="naghinjadali@gmail.com",message:str=None) -> str:
         """Send temprary password to user email.
 
         Args:
@@ -133,7 +165,7 @@ class UserController():
             str: temprary password
         """
         email_send = email_sender(self.ui)
-        password = email_send.send_password(email)
+        password = email_send.send_message(email,message)
         return password
 
     def get_email(self, username: str) -> str:

@@ -3,34 +3,12 @@ from Views.forget_password import *
 from Views.first_page import *
 from Controlers.user_controller import UserController
 from Views.mode import SetSetyling
+from Views.font import Font_detail
 
 class Ui_Login(object):
-    def open_window_forgetpage(self):
-        class MainWindow(QtWidgets.QMainWindow, ForgetPassword):
-            def __init__(self):
-                super().__init__()
-                self.setupUi(self)
-                self.style=SetSetyling(self)
-
-        self.ui = MainWindow()
-        self.ui.login = self
-        self.ui.show()
-        self.ui.setWindowTitle("Forget Passwords")
-        self.hide()
-
-    def open_window_firstpage(self, username):
-        class Ui_Firstpage_Login(QtWidgets.QMainWindow, Ui_Firstpage):
-            def __init__(self):
-                super().__init__()
-                self.username = username
-                self.setupUi(self)
-                self.style=SetSetyling(self)
-  
-        self.ui = Ui_Firstpage_Login()
-        self.ui.login_page=self
-        self.ui.show()
-        self.ui.setWindowTitle("Welcome to my app")
-        self.hide()
+    def __init__(self):
+        self.font=Font_detail()
+        
 
     def setupUi(self, MainWindow):
         self.MainWindow=MainWindow
@@ -43,28 +21,13 @@ class Ui_Login(object):
         font.setPointSize(30)
 
         self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)
-        self.centralwidget.setStyleSheet("""
-                    QPushButton {
-                        background-color: #0763e5;
-                        color: #ffffff;
-                        border-radius: 15px;
-                        border: 2px #1AA7EC;
-                        font-size: 12px;
-                    }
-                    QPushButton:hover {
-                        background-color:#1AA7EC ;
-                    }
-                    QPushButton:pressed {
-                        background-color: #1AA7EC;
-                    }""")
-
         self.picture_lbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.picture_lbl.setGeometry(QtCore.QRect(30, 0, 501, 561))
         self.picture_lbl.setText("")
         self.picture_lbl.setPixmap(QtGui.QPixmap("pictures/logon.jpg"))
 
         self.loginpage_lbl = QtWidgets.QLabel(parent=self.centralwidget)
-        self.loginpage_lbl.setGeometry(QtCore.QRect(680, 40, 231, 81))
+        self.loginpage_lbl.setGeometry(QtCore.QRect(740, 40, 231, 81))
         self.loginpage_lbl.setFont(font)
 
         self.username_lbl = QtWidgets.QLineEdit(parent=self.centralwidget)
@@ -172,6 +135,33 @@ class Ui_Login(object):
             self.time_change = QtCore.QTime(0, 1, 0)
             self.ban = False
             self.error_lbl.hide()
+    
+    def open_window_forgetpage(self):
+        class MainWindow(QtWidgets.QMainWindow, ForgetPassword):
+            def __init__(self):
+                super().__init__()
+                self.setupUi(self)
+                self.style=SetSetyling(self)
+
+        self.ui = MainWindow()
+        self.ui.login = self
+        self.ui.show()
+        self.ui.setWindowTitle("Forget Passwords")
+        self.hide()
+
+    def open_window_firstpage(self, username):
+        class Ui_Firstpage_Login(QtWidgets.QMainWindow, Ui_Firstpage):
+            def __init__(self):
+                super().__init__()
+                self.username = username
+                self.setupUi(self)
+                self.style=SetSetyling(self)
+  
+        self.ui = Ui_Firstpage_Login()
+        self.ui.login_page=self
+        self.ui.show()
+        self.ui.setWindowTitle("Welcome to my app")
+        self.hide()
 
     def forget_password_clicked(self):
         self.open_window_forgetpage()

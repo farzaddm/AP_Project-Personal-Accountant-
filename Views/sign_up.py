@@ -1,10 +1,13 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.user_controller import UserController
 from Views.login_ui import Ui_Login
+from Views.font import Font_detail
 
 
 class Ui_SignUp(object):
     """ It's a class for seting up the signup. """
+    def __init__(self):
+        self.font=Font_detail()
     def setupUi(self, MainWindow) -> None:
         """ set up signup page elements. """
         self.MainWindow=MainWindow
@@ -30,7 +33,7 @@ class Ui_SignUp(object):
         self.lbl_signup.setGeometry(QtCore.QRect(10, 10, 281, 41))
 
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setPointSize(20 * self.font.font_size)
         font.setBold(True)
 
         self.lbl_signup.setFont(font)
@@ -87,7 +90,7 @@ class Ui_SignUp(object):
 
         self.btn_signup = QtWidgets.QPushButton(parent=self.widget)
         font = QtGui.QFont()
-        font.setPointSize(14)
+        font.setPointSize(14 * self.font.font_size)
         font.setBold(False)
         font.setItalic(True)
         

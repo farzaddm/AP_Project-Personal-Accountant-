@@ -6,17 +6,25 @@ class SetSetyling:
     background_color = "#282828"
     widget_background_color = "#202020"
     button_background_color = "#1A1110"
+    font_size="15px"
+    font_type="Lalezar"
     button_hover = "#202020"
     light_mode = False
 
     def __init__(self, ui):
         self.ui = ui
+        self.font_size=SetSetyling.font_size
+        self.font_type=SetSetyling.font_type
         self.text_color = SetSetyling.text_color
         self.background_color = SetSetyling.background_color
         self.widget_background_color = SetSetyling.widget_background_color
         self.button_background_color = SetSetyling.button_background_color
         self.button_hover = SetSetyling.button_hover
         self.ui.centralwidget.setStyleSheet(f"""
+        QLabel{{
+            font:{self.font_size};
+            font-family:{self.font_type}
+        }}
         QTableWidget{{
             border:none;
             color:{self.text_color};
@@ -55,6 +63,8 @@ class SetSetyling:
             border-radius:8px;
             background-color: {self.button_background_color};
             color:white;
+            font:{self.font_size};
+            font-family:{self.font_type}
         }}
         QPushButton:hover {{
             background-color:{self.button_hover};
@@ -62,6 +72,7 @@ class SetSetyling:
         QPushButton:pressed {{
             background-color:{self.button_hover};
         }}
+        
         """)
 
         self.ui.MainWindow.setStyleSheet(

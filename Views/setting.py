@@ -1,6 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.user_controller import UserController
 from Views.mode import SetSetyling
+from Views.contactus import Ui_ContactUs
+from Views.font import Font_detail
 
 
 class Pics(QtWidgets.QLabel):
@@ -19,6 +21,7 @@ class Ui_Setting(object):
         self.firstpage = "firstpage"
         self.loginpage = "loginpage"
         self.username = "name"
+        self.font=Font_detail()
         self.style = "style"
 
     def setupUi(self, MainWindow) -> None:
@@ -66,7 +69,29 @@ class Ui_Setting(object):
         self.theme_combo.addItem("")
         self.theme_combo.addItem("")
         self.horizontalLayout.addWidget(self.theme_combo)
+        
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.font_size_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.horizontalLayout_2.addWidget(self.font_size_lbl)
+
+        self.font_combo = QtWidgets.QComboBox(parent=self.centralwidget)
+        self.font_combo.addItem("")
+        self.font_combo.addItem("")
+        self.font_combo.addItem("")
+        self.horizontalLayout_2.addWidget(self.font_combo)
+
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.font_type_lbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.horizontalLayout_3.addWidget(self.font_type_lbl)
+
+        self.font_type_combo = QtWidgets.QComboBox(parent=self.centralwidget)
+        self.font_type_combo.addItem("")
+        self.font_type_combo.addItem("")
+        self.font_type_combo.addItem("")
+        self.horizontalLayout_3.addWidget(self.font_type_combo)
         self.verticalLayout_7.addLayout(self.horizontalLayout)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_18 = QtWidgets.QHBoxLayout()
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_18)
@@ -181,29 +206,33 @@ class Ui_Setting(object):
         self.save_info_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.save_info_btn.clicked.connect(self.update_user)
 
-        self.save_info_btn.clicked.connect(self.update_user)
-
         self.verticalLayout_4.addWidget(self.save_info_btn)
         self.del_user_btn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.del_user_btn.clicked.connect(self.delete_user)
-
         self.del_user_btn.clicked.connect(self.delete_user)
 
         self.verticalLayout_4.addWidget(self.del_user_btn)
         self.export_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.export_btn.clicked.connect(self.get_backup)
 
-        self.export_btn.clicked.connect(self.get_backup)
 
         self.verticalLayout_4.addWidget(self.export_btn)
+
         self.delete_transacation = QtWidgets.QPushButton(
             parent=self.centralwidget)
         self.delete_transacation.clicked.connect(self.clear_user_transacation)
         self.verticalLayout_4.addWidget(self.delete_transacation)
         self.save_mode = QtWidgets.QPushButton(parent=self.centralwidget)
         self.save_mode.setText("Save Mode")
+        self.save_mode.clicked.connect(self.update_font_size)
+        self.save_mode.clicked.connect(self.update_font_type)
         self.save_mode.clicked.connect(self.update_dark_and_light_mode)
+        
         self.verticalLayout_4.addWidget(self.save_mode)
+
+        self.contactus_btn=QtWidgets.QPushButton(parent=self.centralwidget)
+        self.contactus_btn.clicked.connect(self.clicked_contact_btn)
+        self.verticalLayout_4.addWidget(self.contactus_btn)
+        
         self.verticalLayout_8.addLayout(self.verticalLayout_4)
         self.verticalLayout_9.addLayout(self.verticalLayout_8)
         self.MainWindow.setCentralWidget(self.centralwidget)
@@ -231,6 +260,14 @@ class Ui_Setting(object):
         self.theme_lbl.setText(_translate("MainWindow", "Theme:"))
         self.theme_combo.setItemText(0, _translate("MainWindow", "Dark"))
         self.theme_combo.setItemText(1, _translate("MainWindow", "Light"))
+        self.font_combo.setItemText(0, _translate("MainWindow", "Normal"))
+        self.font_combo.setItemText(1, _translate("MainWindow", "Small"))
+        self.font_combo.setItemText(2, _translate("MainWindow", "Huge"))
+        self.font_type_combo.setItemText(0, _translate("MainWindow", "Lalezar"))
+        self.font_type_combo.setItemText(1, _translate("MainWindow", "Arial"))
+        self.font_type_combo.setItemText(2, _translate("MainWindow", "Cambria"))
+        self.font_type_lbl.setText(_translate("MainWindow", "Font_Type:"))
+        self.font_size_lbl.setText(_translate("MainWindow", "Font_Size:"))
         self.email_lbl.setText(_translate("MainWindow", "Email"))
         self.le_email.setPlaceholderText(
             _translate("MainWindow", "New email..."))
@@ -265,6 +302,7 @@ class Ui_Setting(object):
         self.le_birthday.setDisplayFormat(
             _translate("MainWindow", "yyyy-MM-dd"))
         self.save_info_btn.setText(_translate("MainWindow", "Save Changes"))
+        self.contactus_btn.setText(_translate("MainWindow", "Contact Us"))
         self.del_user_btn.setText(_translate("MainWindow", "Delete User"))
         self.export_btn.setText(_translate("MainWindow", "Get BackUp"))
         self.delete_transacation.setText(_translate(
@@ -365,3 +403,34 @@ class Ui_Setting(object):
         self.firstpage.close()
         self.loginpage.show()
         self.close()
+    def update_font_size(self) -> None:
+        if self.font_combo.currentText().lower() == "small":
+            SetSetyling.font_size="10px"
+        elif self.font_combo.currentText().lower() == "normal":
+            SetSetyling.font_size="15px"
+        elif self.font_combo.currentText().lower() == "huge":
+            SetSetyling.font_size="20px"
+    def update_font_type(self) -> None:
+        print(self.font_type_combo.currentText())
+        if self.font_type_combo.currentText().lower() == "lalezar":
+            SetSetyling.font_type="Lalezar"
+        elif self.font_type_combo.currentText().lower() == "arial":
+            SetSetyling.font_type="Arial"
+        elif self.font_type_combo.currentText().lower() == "cambria":
+            SetSetyling.font_type="Cambria"
+        print(SetSetyling.font_type)
+
+    def clicked_contact_btn(self):
+        username=self.username
+        class Ui_ContactUs_Open(QtWidgets.QMainWindow, Ui_ContactUs):
+            def __init__(self):
+                super().__init__()
+                self.username = username
+                self.setupUi(self)
+                self.style=SetSetyling(self)
+  
+        self.ui = Ui_ContactUs_Open()
+        self.ui.login_page=self
+        self.ui.show()
+        self.ui.setWindowTitle("ContactUs")
+        self.hide()

@@ -39,7 +39,7 @@ class email_sender:
         random.shuffle(password)
         return "".join(str(i) for i in password)
 
-    def send_password(self, email: str):
+    def send_message(self, email: str,message:str):
         """Send password to user email.
 
         Args:
@@ -48,16 +48,26 @@ class email_sender:
         Returns:
             str: temrary password to check with user input
         """
+        if message == None:
         #! we put our email instead of user email for debug
-        self.random_password=self.random_password_generator()
-        try:
-            self.connection.sendmail(from_addr=self.my_email, to_addrs="farzad.d.m84@gmail.com",
-                                 msg=f"Subject: Personal Accountant App\n\nHello,\nYour temporary password: {self.random_password}")
-            return self.random_password
-        except smtplib.SMTPRecipientsRefused:
-            self.ui.show_error("The recipient email adress is invalid.")
-        finally:
-            self.connection.close()
+            self.random_password=self.random_password_generator()
+            try:
+                self.connection.sendmail(from_addr=self.my_email, to_addrs=email,
+                                    msg=f"Subject: Personal Accountant App\n\nHello,\nYour temporary password: {self.random_password}")
+                return self.random_password
+            except smtplib.SMTPRecipientsRefused:
+                self.ui.show_error("The recipient email adress is invalid.")
+            finally:
+                self.connection.close()
+        else:
+            self.random_password=self.random_password_generator()
+            try:
+                self.connection.sendmail(from_addr=self.my_email, to_addrs=email,
+                                    msg=message)
+            except smtplib.SMTPRecipientsRefused:
+                self.ui.show_error("The recipient email adress is invalid.")
+            finally:
+                self.connection.close()
 
             
 

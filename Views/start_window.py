@@ -2,32 +2,13 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from Views.login_ui import *
 from Views import sign_up
 from Views.mode import SetSetyling
+from Views.font import Font_detail
 
 
 class Signupandlogin(object):
-    def open_window_login(self):
-        class LoginPage(QtWidgets.QMainWindow, Ui_Login):
-            def __init__(self) -> None:
-                super().__init__()
-                self.setupUi(self)
-                self.style = SetSetyling(self)
-
-        self.ui = LoginPage()
-        self.ui.setWindowTitle("Login Page")
-        self.ui.show()
-        self.hide()
-
-    def open_window_signup(self):
-        class SignupPage(QtWidgets.QMainWindow, sign_up.Ui_SignUp):
-            def __init__(self) -> None:
-                super().__init__()
-                self.setupUi(self)
-                self.style = SetSetyling(self)
-
-        self.ui = SignupPage()
-        self.ui.setWindowTitle("SignUp Page")
-        self.ui.show()
-        self.hide()
+    
+    def __init__(self):
+        self.font=Font_detail()
 
     def setupUi(self, MainWindow) -> None:
         MainWindow.resize(480, 800)
@@ -49,7 +30,7 @@ class Signupandlogin(object):
                 """)
         font = QtGui.QFont()
         font.setFamily("Lalezar")
-        font.setPointSize(38)
+        font.setPointSize(38 * self.font.font_size)
 
         self.Welcome_lbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.Welcome_lbl.setGeometry(QtCore.QRect(150, 350, 251, 111))
@@ -57,7 +38,7 @@ class Signupandlogin(object):
         self.Welcome_lbl.setScaledContents(False)
         self.Welcome_lbl.setStyleSheet("color:white")
 
-        font.setPointSize(29)
+        font.setPointSize(29 * self.font.font_size)
         self.wellcome2_lbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.wellcome2_lbl.setGeometry(QtCore.QRect(165, 440, 211, 71))
         self.wellcome2_lbl.setStyleSheet("color:white")
@@ -108,3 +89,27 @@ class Signupandlogin(object):
 
     def signup_btn_clicked(self) -> None:
         self.open_window_signup()
+    
+    def open_window_login(self):
+        class LoginPage(QtWidgets.QMainWindow, Ui_Login):
+            def __init__(self) -> None:
+                super().__init__()
+                self.setupUi(self)
+                self.style = SetSetyling(self)
+
+        self.ui = LoginPage()
+        self.ui.setWindowTitle("Login Page")
+        self.ui.show()
+        self.hide()
+
+    def open_window_signup(self):
+        class SignupPage(QtWidgets.QMainWindow, sign_up.Ui_SignUp):
+            def __init__(self) -> None:
+                super().__init__()
+                self.setupUi(self)
+                self.style = SetSetyling(self)
+
+        self.ui = SignupPage()
+        self.ui.setWindowTitle("SignUp Page")
+        self.ui.show()
+        self.hide()

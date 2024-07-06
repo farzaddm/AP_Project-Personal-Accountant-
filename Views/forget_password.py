@@ -1,12 +1,14 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.user_controller import UserController
 from Views.first_page import Ui_Firstpage
+from Views.font import Font_detail
 
 class ForgetPassword(object):
     def __init__(self):
         self.user_password=""
         self.username_save=""
         self.style="style"
+        self.font=Font_detail()
         self.login = "login"
         
     def setupUi(self, MainWindow):
@@ -19,7 +21,7 @@ class ForgetPassword(object):
         self.forget_l = QtWidgets.QLabel(parent=self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Lalezar")
-        font.setPointSize(25)
+        font.setPointSize(25 * self.font.font_size)
         self.forget_l.setFont(font)
         self.forget_l.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout_2.addWidget(self.forget_l)
@@ -68,7 +70,7 @@ class ForgetPassword(object):
         if self.controller.forget_password(self.username_le.text(),self.question_le.text().lower()):
             self.username_save=self.username_le.text()
             user_email=self.controller.get_email(self.username_le.text())
-            self.user_password=self.controller.send_email(user_email)
+            self.user_password=self.controller.send_email(email=user_email)
             self.question_le.hide()
             self.username_le.setText("")
             self.username_le.setObjectName("password")

@@ -1,17 +1,18 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Controlers.transaction_controllet import TransactionController
 from Utils.show import Show
-
+from Views.font import Font_detail
 class Ui_Category(object):
     def __init__(self):
         self.username="username"
         self.style="style"
+        self.font=Font_detail()
 
     def setupUi(self, MainWindow):
         self.MainWindow=MainWindow
         self.MainWindow.resize(316, 146)
         font = QtGui.QFont()
-        font.setPointSize(14)
+        font.setPointSize(14 * self.font.font_size)
         font.setBold(True)
         font.setItalic(True)
         self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)

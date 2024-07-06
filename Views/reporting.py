@@ -4,6 +4,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from Controlers.transaction_controllet import TransactionController
 from Utils.show import Show
+from Views.font import Font_detail
 
 
 class Enable:
@@ -41,13 +42,14 @@ class Ui_Reporting(object):
     def __init__(self):
         self.username = "name"
         self.style = "style"
+        self.font=Font_detail()
 
     def setupUi(self, MainWindow):
         self.MainWindow = MainWindow
         self.MainWindow.setObjectName("MainWindow")
         self.MainWindow.resize(900, 700)
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setPointSize(8 * self.font.font_size)
 
         self.controller = TransactionController(self)
         self.centralwidget = QtWidgets.QWidget(parent=self.MainWindow)

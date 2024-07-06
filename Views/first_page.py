@@ -5,8 +5,8 @@ from Views.category import Ui_Category
 from Views.search import Ui_Search
 from Views.reporting import Ui_Reporting
 from Views.setting import Ui_Setting
-from Views.setting import Ui_Setting
 from Views.mode import SetSetyling
+from Views.font import Font_detail
 from Utils.show import Show
 
 
@@ -27,6 +27,7 @@ class Ui_Firstpage(object):
         self.username = "name"
         self.style = "style"
         self.login_page = "loginpage"
+        self.font=Font_detail()
 
     def setupUi(self, MainWindow) -> None:
         self.MainWindow = MainWindow
@@ -37,7 +38,7 @@ class Ui_Firstpage(object):
 
         font = QtGui.QFont()
         font.setFamily("Lalezar")
-        font.setPointSize(27)
+        font.setPointSize(27 * self.font.font_size)
 
         self.layoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
         self.layoutWidget.setGeometry(QtCore.QRect(140, 100, 691, 428))
@@ -50,7 +51,7 @@ class Ui_Firstpage(object):
         self.usernmae_lbl.setText(f"Username:{self.username}😊")
         self.usernmae_lbl.setGeometry(20, 5, 200+len(self.username)*5, 50)
         username_font = QtGui.QFont()
-        username_font.setPointSize(12)
+        username_font.setPointSize(12* self.font.font_size)
         self.usernmae_lbl.setFont(username_font)
 
         self.costregistration_lbl = Pics(
