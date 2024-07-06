@@ -409,7 +409,7 @@ class Ui_Setting(object):
         elif self.font_combo.currentText().lower() == "normal":
             SetSetyling.font_size="15px"
         elif self.font_combo.currentText().lower() == "huge":
-            SetSetyling.font_size="20px"
+            SetSetyling.font_size="18px"
     def update_font_type(self) -> None:
         print(self.font_type_combo.currentText())
         if self.font_type_combo.currentText().lower() == "lalezar":
