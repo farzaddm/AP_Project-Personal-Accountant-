@@ -7,6 +7,7 @@ import json
 from Utils.show import Show
 from PyQt6 import QtWidgets
 
+
 class database:
     """ This class is for coonecting to database.db. """
 
@@ -23,7 +24,8 @@ class database:
                 "INSERT INTO user(first_name, last_name, username, phone, password, email, city, birthday, security_q) VALUES (?,?,?,?,?,?,?,?,?);", user_data,)
         except sqlite3.IntegrityError:
             # show error message because username is our PRIMARY KEY and should be unique.
-            Show(QtWidgets.QMessageBox.Icon.Critical,"This username is already chosen.","invalid username")
+            Show(QtWidgets.QMessageBox.Icon.Critical,
+                 "This username is already chosen.", "invalid username")
         self.conn.commit()
 
     def save_new_transaction(self, transaction_data: list) -> None:
@@ -118,13 +120,14 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
 
         query = f"SELECT * FROM 'transaction' WHERE username='{username}' AND price BETWEEN {min1} AND {max1}"
         conditions = []
-        
+
         if "group" in filter_search and filter_search["group"] == "description":
             conditions.append(f'description LIKE "%{search_text}%"')
         elif "group" in filter_search and filter_search["group"] == "source_of_price":
             conditions.append(f'source_of_price="{search_text}"')
         elif search_text:
-            conditions.append(f'(description LIKE "%{search_text}%" OR source_of_price="{search_text}")')
+            conditions.append(
+                f'(description LIKE "%{search_text}%" OR source_of_price="{search_text}")')
 
         if "type" in filter_search:
             conditions.append(f'type="{filter_search["type"]}"')
@@ -135,9 +138,6 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         if conditions:
             query += ' AND ' + ' AND '.join(conditions)
         query += ";"
-        
-        print(query)
-        
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
         filtered_result = []
         if "time" in filter_search:
             today = datetime.datetime.today()
-            
+
             for row in result:
                 date = row[3]
                 year, month, day = date.split("-")
@@ -156,19 +156,18 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
                         filtered_result.append(row)
                 if filter_search["time"] == "monthly":
                     date2 = today - relativedelta(months=1)
-                    
+
                     if date2.strftime("%Y-%m-%d") <= date.strftime("%Y-%m-%d") <= today.strftime("%Y-%m-%d"):
                         filtered_result.append(row)
                 if filter_search["time"] == "daily":
                     date2 = today - relativedelta(days=1)
                     if date2.strftime("%Y-%m-%d") <= date.strftime("%Y-%m-%d") <= today.strftime("%Y-%m-%d"):
                         filtered_result.append(row)
-                        
-        
+
         return filtered_result if "time" in filter_search else result
 
-    def reporting(self,filter_search: dict,username: str):
-        parameters=[]
+    def reporting(self, filter_search: dict, username: str):
+        parameters = []
         empty_part = []
         for i in filter_search:
             if filter_search[i] == "" or filter_search[i] == []:
@@ -188,133 +187,138 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
             del filter_search["max_amount"]
         else:
             max1 = 9999999999
-                            
+
         query = f"SELECT * FROM 'transaction' WHERE username=? AND price BETWEEN ? AND ?"
         parameters.append(username)
         parameters.append(min1)
         parameters.append(max1)
 
         if "source-of-price" in filter_search:
-            query+=f" AND source_of_price=?"
+            query += f" AND source_of_price=?"
             parameters.append(filter_search["source-of-price"])
 
         if "type_price" in filter_search:
-            query+=" AND (" + " OR ".join(["type_of_price = ?" for item in filter_search["type_price"]])+")"
+            query += " AND (" + " OR ".join(
+                ["type_of_price = ?" for item in filter_search["type_price"]])+")"
             parameters.extend(filter_search["type_price"])
-        
-        result = self.cur.execute(query,parameters)
-        filtered_result=[]
+
+        result = self.cur.execute(query, parameters)
+        filtered_result = []
         if not "time" in filter_search:
             if "first_time" in filter_search:
-                first_year,first_month,first_day=filter_search["first_time"].split("-")
-                first_date=datetime.datetime(int(first_year), int(first_month), int(first_day))
-                end_year,end_month,end_day=filter_search["end_time"].split("-")
-                end_date=datetime.datetime(int(end_year), int(end_month), int(end_day))
+                first_year, first_month, first_day = filter_search["first_time"].split(
+                    "-")
+                first_date = datetime.datetime(
+                    int(first_year), int(first_month), int(first_day))
+                end_year, end_month, end_day = filter_search["end_time"].split(
+                    "-")
+                end_date = datetime.datetime(
+                    int(end_year), int(end_month), int(end_day))
                 for row in result:
-                    date=row[3]
+                    date = row[3]
                     year, month, day = date.split("-")
                     date = datetime.datetime(int(year), int(month), int(day))
                     if first_date.strftime("%Y-%m-%d") <= date.strftime("%Y-%m-%d") <= end_date.strftime("%Y-%m-%d"):
                         filtered_result.append(row)
-                limitation={
-                    "source_of_income":[],
-                    "source_of_cost":[],
-                    "income_price":{},
-                    "cost_price":{}
-                    }
+                limitation = {
+                    "source_of_income": [],
+                    "source_of_cost": [],
+                    "income_price": {},
+                    "cost_price": {}
+                }
                 for row in filtered_result:
                     if row[1] == "income":
                         if row[4] not in limitation["source_of_income"]:
                             limitation["source_of_income"].append(row[4])
-                            limitation["income_price"][row[4]]=row[2]
+                            limitation["income_price"][row[4]] = row[2]
                         else:
-                            limitation["income_price"][row[4]]+=row[2]
+                            limitation["income_price"][row[4]] += row[2]
                     else:
                         if row[4] not in limitation["source_of_cost"]:
                             limitation["source_of_cost"].append(row[4])
-                            limitation["cost_price"][row[4]]=row[2]
+                            limitation["cost_price"][row[4]] = row[2]
                         else:
-                            limitation["cost_price"][row[4]]+=row[2]
+                            limitation["cost_price"][row[4]] += row[2]
                 return limitation
             else:
                 return False
         else:
-            filtered_result=result.fetchall()
+            filtered_result = result.fetchall()
 
             if filter_search["time"][0] == "yearly":
-                limitation={
-                "source_of_income":[],
-                "source_of_cost":[],
-                "income_price":{},
-                "cost_price":{}
+                limitation = {
+                    "source_of_income": [],
+                    "source_of_cost": [],
+                    "income_price": {},
+                    "cost_price": {}
                 }
-                
+
                 for row in filtered_result:
-                    date=row[3]
+                    date = row[3]
                     if int(date.split("-")[0]) == int(filter_search["time"][1]):
                         if row[1] == "income":
                             if row[4] not in limitation["source_of_income"]:
                                 limitation["source_of_income"].append(row[4])
-                                limitation["income_price"][row[4]]=row[2]
+                                limitation["income_price"][row[4]] = row[2]
                             else:
-                                limitation["income_price"][row[4]]+=row[2]
+                                limitation["income_price"][row[4]] += row[2]
                         else:
                             if row[4] not in limitation["source_of_cost"]:
                                 limitation["source_of_cost"].append(row[4])
-                                limitation["cost_price"][row[4]]=row[2]
+                                limitation["cost_price"][row[4]] = row[2]
                             else:
-                                limitation["cost_price"][row[4]]+=row[2]
+                                limitation["cost_price"][row[4]] += row[2]
             if filter_search["time"][0] == "monthly":
-                limitation={
-                "source_of_income":[],
-                "source_of_cost":[],
-                "income_price":{},
-                "cost_price":{}
+                limitation = {
+                    "source_of_income": [],
+                    "source_of_cost": [],
+                    "income_price": {},
+                    "cost_price": {}
                 }
                 for row in filtered_result:
-                    date=row[3]
-                    now=datetime.datetime.now()
+                    date = row[3]
+                    now = datetime.datetime.now()
                     if int(date.split("-")[1]) == int(filter_search["time"][1]) and int(date.split("-")[0]) == now.year:
                         if row[1] == "income":
                             if row[4] not in limitation["source_of_income"]:
                                 limitation["source_of_income"].append(row[4])
-                                limitation["income_price"][row[4]]=row[2]
+                                limitation["income_price"][row[4]] = row[2]
                             else:
-                                limitation["income_price"][row[4]]+=row[2]
+                                limitation["income_price"][row[4]] += row[2]
                         else:
                             if row[4] not in limitation["source_of_cost"]:
                                 limitation["source_of_cost"].append(row[4])
-                                limitation["cost_price"][row[4]]=row[2]
+                                limitation["cost_price"][row[4]] = row[2]
                             else:
-                                limitation["cost_price"][row[4]]+=row[2]
+                                limitation["cost_price"][row[4]] += row[2]
             if filter_search["time"][0] == "daily":
-                limitation={
-                "source_of_income":[],
-                "source_of_cost":[],
-                "income_price":{},
-                "cost_price":{}
+                limitation = {
+                    "source_of_income": [],
+                    "source_of_cost": [],
+                    "income_price": {},
+                    "cost_price": {}
                 }
                 for row in filtered_result:
-                    date=row[3].split("-")
-                    year=date[0]
-                    month=date[1]
-                    day=date[2]
-                    now=datetime.datetime.now()
-                    if int(year)==now.year and int(month) == now.month and int(day) == int(filter_search["time"][1]):
+                    date = row[3].split("-")
+                    year = date[0]
+                    month = date[1]
+                    day = date[2]
+                    now = datetime.datetime.now()
+                    if int(year) == now.year and int(month) == now.month and int(day) == int(filter_search["time"][1]):
                         if row[1] == "income":
                             if row[4] not in limitation["source_of_income"]:
                                 limitation["source_of_income"].append(row[4])
-                                limitation["income_price"][row[4]]=row[2]
+                                limitation["income_price"][row[4]] = row[2]
                             else:
-                                limitation["income_price"][row[4]]+=row[2]
+                                limitation["income_price"][row[4]] += row[2]
                         else:
                             if row[4] not in limitation["source_of_cost"]:
                                 limitation["source_of_cost"].append(row[4])
-                                limitation["cost_price"][row[4]]=row[2]
+                                limitation["cost_price"][row[4]] = row[2]
                             else:
-                                limitation["cost_price"][row[4]]+=row[2]
+                                limitation["cost_price"][row[4]] += row[2]
             return limitation
-    
+
     def get_information(self, username: str) -> tuple:
         self.cur.execute(f"SELECT * FROM user WHERE username='{username}';")
         result = self.cur.fetchone()
@@ -326,20 +330,22 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
             query += f"{item}='{changes[item]}', "
         query = query[:-2]
         query += f" WHERE username='{username}';"
-        
+
         self.cur.execute(query)
         self.conn.commit()
-    
+
     def delete_user(self, username: str) -> None:
         self.cur.execute(f"DELETE FROM user WHERE username='{username}';")
         self.conn.commit()
-    
-    def update_user_pic(self,username,file_name):
-        result=self.cur.execute(f"UPDATE user SET pic='{file_name}' WHERE username='{username}';")
+
+    def update_user_pic(self, username, file_name):
+        result = self.cur.execute(
+            f"UPDATE user SET pic='{file_name}' WHERE username='{username}';")
         self.conn.commit()
 
-    def get_pic(self,username):
-        result=self.cur.execute(f"SELECT pic FROM user WHERE username='{username}';")
+    def get_pic(self, username):
+        result = self.cur.execute(
+            f"SELECT pic FROM user WHERE username='{username}';")
         self.conn.commit
         return result.fetchone()
 
@@ -358,14 +364,16 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
             "birthday": temp[7],
             "security_question": temp[7],
         }
-        
-        self.cur.execute(f"SELECT * FROM category WHERE username='{username}';")
+
+        self.cur.execute(
+            f"SELECT * FROM category WHERE username='{username}';")
         temp = self.cur.fetchall()
         result["category"] = []
         for i in temp:
             result["category"].append(i[1])
-        
-        self.cur.execute(f"SELECT * FROM 'transaction' WHERE username='{username}';")
+
+        self.cur.execute(
+            f"SELECT * FROM 'transaction' WHERE username='{username}';")
         temp = self.cur.fetchall()
         result["transaction"] = []
         for row in temp:
@@ -378,34 +386,11 @@ CREATE TABLE IF NOT EXISTS 'transaction'(
                 "type-of_price": row[6],
             }
             result["transaction"].append(data)
-        
+
         with open(f"Backups/backup_{username}.json", "w") as file:
             json.dump(result, file)
-    
-    def delete_transacation(self,username):
-        self.cur.execute(f"DELETE FROM 'transaction' WHERE username='{username}'")
+
+    def delete_transacation(self, username):
+        self.cur.execute(
+            f"DELETE FROM 'transaction' WHERE username='{username}'")
         self.conn.commit()
-        
-        
-        
-
- 
-                            
-                            
-                    
-
-            
-
-
-
-        
-            
-       
-                
-
-
-        
-
-
-
-

@@ -17,7 +17,7 @@ class email_sender:
         Args:
             ui (QMainWindow): it's forget password ui
         """
-        load_dotenv()
+        # load_dotenv()
         
         self.my_email = os.getenv("MY_EMAIL")
         self.password = os.getenv("MY_PASSWORD")
